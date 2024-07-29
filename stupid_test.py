@@ -10,7 +10,7 @@ while True:
             if len(lines) > current_num:
                 infos = lines[-1].split("\t")
                 if float(infos[11]) > 50:   # peak saturation
-                    print(f"x: {infos[-4]} y: {infos[-3]}") # x and y seem to range from ~-5000 to ~5000
+                    print(f"x: {infos[-4]} y: {infos[-3]}") # x and y seem to range from ~-5500 to ~5500
                 else:
                     print("Off")
                 current_num = len(lines)
@@ -19,6 +19,6 @@ while True:
     
     if current_num % 100 == 0:
         with open(r"C:\Users\Proprio\Documents\Mathieu\bisbille_des_galaxies\test_measurements.txt", "w") as f:
-            f.write("NOTHING")
+            f.write("NOTHING\n")
             print("wrote")
             current_num = 1
