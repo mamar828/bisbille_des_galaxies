@@ -1,5 +1,5 @@
 //#include <CFile.h>
-#include "stdafx.h"
+#include <stdafx.h>
 #include <iostream>
 
 using namespace std;
