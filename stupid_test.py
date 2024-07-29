@@ -10,7 +10,7 @@ while True:
             if len(lines) > current_num:
                 infos = lines[-1].split("\t")
                 if float(infos[11]) > 50:   # peak saturation
-                    print(f"x: {infos[-4]} y: {infos[-3]}")
+                    print(f"x: {infos[-4]} y: {infos[-3]}") # x and y seem to range from ~-5000 to ~5000
                 else:
                     print("Off")
                 current_num = len(lines)
