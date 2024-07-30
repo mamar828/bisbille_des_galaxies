@@ -1,1 +1,3 @@
 test_measurements.txt
+.*
+!.gitignore
