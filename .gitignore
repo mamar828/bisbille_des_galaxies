@@ -1,3 +1,5 @@
 test_measurements.txt
 .*
 !.gitignore
+src/engine/objects/
+*.pyc
