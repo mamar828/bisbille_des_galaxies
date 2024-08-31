@@ -31,9 +31,21 @@ class Yavin(World):
         )
 
         self.corvette = Object(
-            texture="yellow",
+            texture="corvette",
             position=vec3(0,0,-10),
             rotation=vec3(0,0,0),
             scale=vec3(1,1,1),
             model=Corvette,
+            instance=None#CorvetteAI(vec3(0,0,-10))
         )
+
+
+class CorvetteAI:
+    def __init__(self, position):
+        self.position = position
+
+    def update(self, delta_time):
+        self.position += vec3(1,0,0) * delta_time
+    
+    def get_position(self):
+        return self.position

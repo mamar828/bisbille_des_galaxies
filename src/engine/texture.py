@@ -1,5 +1,6 @@
 import pygame as pg
 from moderngl import NEAREST as mglNEAREST
+from pywavefront import Wavefront
 
 from src.engine.relative_paths import get_path
 
@@ -13,8 +14,16 @@ class Texture:
             "skybox" :        self.get_texture_cube(get_path("textures/skybox")),
             "depth_texture" : self.get_depth_texture(),
             "cat" :           self.get_texture(get_path("objects/cat/20430_cat_diff_v1.jpg")),
-            "corvette" :      self.get_texture(get_path("objects/corvette/tex.jpg")),
         }
+        corvette_tex = get_path("objects/corvette")
+        for material in Wavefront(f"{corvette_tex}/Star Wars CORVETTE.obj", collect_faces=True).materials.values():
+            self.textures[f"corvette_{material.name}"] = self.get_texture(f"{corvette_tex}/{material.name}.jpg")
+
+        # for material in Wavefront(get_path("objects/corvette/Star Wars CORVETTE.obj"), collect_faces=True).materials.values():
+        #     self.textures["corvette"][material.texture.image_name] = (
+        #         self.get_texture(get_path(f"objects/corvette/{material.texture.image_name}"))
+        #     )
+
         for color in ["green", "red", "blue", "yellow", "orange", "cyan", "magenta", "white", "black", "purple",
                       "brown", "grey"]:
             self.textures[color] = self.get_color(color)

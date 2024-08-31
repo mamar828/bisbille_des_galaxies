@@ -1,8 +1,8 @@
-# import moderngl
-# import moderngl_window as mglw
-# import numpy as np
-# import json
-# from pyrr import Matrix44
+import moderngl
+import moderngl_window as mglw
+import numpy as np
+import json
+from pyrr import Matrix44
 
 
 # class ModelViewer(mglw.WindowConfig):
@@ -101,12 +101,14 @@
 
 
 
-import pywavefront
-from pywavefront import visualization
+# import pywavefront
+# from pywavefront import visualization
 
-# [create a window and set up your OpenGl context]
-obj = pywavefront.Wavefront('src/engine/objects/corvette/Star wars CORVETTE.obj')
+# # [create a window and set up your OpenGl context]
+# obj = pywavefront.Wavefront('src/engine/objects/corvette/Star wars CORVETTE.obj')
 
-# [inside your drawing loop]
-visualization.draw(obj)
+# # [inside your drawing loop]
+# visualization.draw(obj)
 
+
+print(np.array([16.51+16.62+16.65])/3)

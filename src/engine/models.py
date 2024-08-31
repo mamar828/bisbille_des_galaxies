@@ -1,6 +1,9 @@
 from numpy import array as nparray
 from random import choice
 import glm
+from pywavefront import Wavefront
+
+from src.engine.relative_paths import get_path
 
 
 class BaseModel:
@@ -32,8 +35,7 @@ class BaseModel:
         self.on_init()
 
     def update(self):
-        if not self.__class__.__name__ == "Corvette":
-            self.texture.use(location=0)
+        self.texture.use(location=0)
         if not self.saturated: self.program["camPos"].write(self.app.camera.position)
         self.program["m_view"].write(self.app.camera.m_view)
         self.program["m_model"].write(self.m_model)
@@ -70,10 +72,12 @@ class BaseModel:
         self.depth_texture = self.app.mesh.texture.textures["depth_texture"]
         self.depth_texture.use(location=1)
         # texture
-        if not self.__class__.__name__ == "Corvette":
-            self.texture = self.app.mesh.texture.textures[self.texture_id]
-            self.program["u_texture_0"] = 0
-            self.texture.use(location=0)
+        # if self.texture_id == "olderchrome0":
+        #     self.texture = self.app.mesh.texture.textures["corvette"][self.texture_id]
+        # else:
+        self.texture = self.app.mesh.texture.textures[self.texture_id]
+        self.program["u_texture_0"] = 0
+        self.texture.use(location=0)
         # mvp matrices
         self.program["m_proj"].write(self.app.camera.m_proj)
         self.program["m_view"].write(self.app.camera.m_view)
@@ -134,10 +138,9 @@ class Skybox(BaseModel):
 
 
 class AnimatedModel(BaseModel):
-    pass
-    # def update(self):
-    #     self.m_model = self.get_model_matrix()
-    #     super().update()
+    def update(self):
+        self.m_model = self.get_model_matrix()
+        super().update()
 
 
 class Cube(AnimatedModel):
@@ -200,7 +203,22 @@ class Cat(BaseModel):
         super().__init__(app, "cat", texture_id, position, rotation, scale, instance, saturated)
 
 
-class Corvette(AnimatedModel):
+class MaterialModel(AnimatedModel):
+    def __init__(
+            self,
+            app,
+            vertex_array_object_name : str,
+            position=glm.vec3(0,0,0),
+            rotation=glm.vec3(0,0,0),
+            scale=glm.vec3(1,1,1),
+            instance=None,
+            saturated=False,
+            texture_id=None,
+    ):
+        super().__init__(app, vertex_array_object_name, texture_id, position, rotation, scale, instance, saturated)
+
+
+class Corvette:
     def __init__(
             self,
             app,
@@ -211,10 +229,49 @@ class Corvette(AnimatedModel):
             saturated=False,
             texture_id="corvette"
     ):
-        super().__init__(app, "corvette", texture_id, position, rotation, scale, instance, saturated)
-        self.vbo = self.app.mesh.vertex_array_object.vertex_buffer_object.vertex_buffer_objects["corvette"]
+        self.app = app
+        self.position = position
+        self.rotation = glm.vec3([glm.radians(angle) for angle in rotation])  # Convert angles from degrees to radians
+        # self.rotation += glm.vec3(glm.pi()/4,4,0)
+        self.scale = scale
+        # self.vertex_array_object = app.mesh.vertex_array_object.vertex_array_objects[vertex_array_object_name]
+        # self.vertex_array_object_name = vertex_array_object_name
+        # self.program = self.vertex_array_object.program
+        self.instance = instance
+        self.saturated = saturated
+        self.models = []
+        for data in self.app.mesh.vertex_array_object.vertex_buffer_object.object_materials["corvette"]:
+            material_name = f"corvette_{data[0]}"
+            self.models.append(MaterialModel(
+                app, material_name, position, self.rotation, scale, instance, saturated, material_name
+            ))
 
-    # def render(self):
-    #     for material_name in self.vbo.textures.keys():
-    #         self.vbo.bind_texture(material_name)
-    #         super().render()
+        # corvette_tex = get_path("objects/corvette")
+        # for material in Wavefront(f"{corvette_tex}/Star Wars CORVETTE.obj", collect_faces=True).materials.values():
+        #     self.models.append(MaterialModel(
+        #         app, position, rotation, scale, instance, saturated, material.name
+        #     ))
+
+    def update(self):
+        for model in self.models:
+            model.update()
+
+    def update_shadow(self):
+        for model in self.models:
+            model.update_shadow()
+
+    def render_shadow(self):
+        for model in self.models:
+            model.render_shadow()
+
+    def render(self):
+        for model in self.models:
+            model.render()
+
+    def move(self, position: tuple[float,float,float]):
+        self.position = position
+        for model in self.models:
+            model.move(position)
+
+    def destroy(self):
+        del self

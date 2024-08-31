@@ -34,7 +34,7 @@ class Scene:
 
         for element in self.elements:
             if element.instance:
-                element.move(element.instance.position)
+                element.move(element.instance.get_position())
     
     def destroy(self):
         del self

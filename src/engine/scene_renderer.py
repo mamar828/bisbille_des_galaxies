@@ -12,7 +12,7 @@ class SceneRenderer:
         self.depth_frame_buffer_object.clear()
         self.depth_frame_buffer_object.use()
         for element in self.scene.elements:
-            if element.shadow_program:
+            if not hasattr(element, "models") and element.shadow_program:
                 element.render_shadow()
 
     def main_render(self):

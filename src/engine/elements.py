@@ -36,8 +36,6 @@ class Object:
         self.texture = texture
         self.rotation = rotation
         self.scale = scale
-        self.position = position
+        self.position = instance.get_position() if instance else position
         self.instance = instance
         self.model = model
-        if self.instance:
-            self.position = self.instance.get_position()

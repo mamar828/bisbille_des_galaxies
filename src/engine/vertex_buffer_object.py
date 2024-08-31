@@ -7,6 +7,7 @@ from pygame import transform, image
 import json
 import pygame as pg
 from moderngl import NEAREST as mglNEAREST
+from pywavefront import Wavefront
 
 from src.engine.relative_paths import get_path
 
@@ -20,8 +21,19 @@ class VertexBufferObject:
             "sphere" : SphereVBO(self.context),
             "skybox" : SkyboxVBO(self.context),
             "cat" : CatVBO(self.context),
-            "corvette" : CorvetteVBO(self.context),
         }
+
+        self.object_materials = {}
+        for obj in ["corvette"]:
+            path = get_path(f"objects/{obj}")
+            materials = []
+            for material in Wavefront(f"{path}/Star Wars CORVETTE.obj", collect_faces=True).materials.values():
+                materials.append((material.name, material.vertices))
+            self.object_materials[obj] = materials
+
+        for obj, data in self.object_materials.items():
+            for material, vertices in data:
+                self.vertex_buffer_objects[f"{obj}_{material}"] = MaterialVBO(self.context, vertices)
 
     def destroy(self):
         [vbo.destroy() for vbo in self.vertex_buffer_objects.values()]
@@ -126,9 +138,8 @@ class External_VBO(BaseVertexBufferObject):
         self.attribs = ["in_texcoord_0", "in_normal", "in_position"]
 
     def get_vertex_data(self, object_path):
-        objects = Wavefront(object_path, cache=True, parse=True, create_materials=True)
-        # objects = Wavefront('something.obj', strict=True, encoding="iso-8859-1", parse=False)
-        obj = objects.materials.popitem()[1]
+        object_ = Wavefront(object_path, cache=True, parse=True, create_materials=True)
+        obj = object_.materials.popitem()[1]
         return np.array(obj.vertices, dtype="f4")
 
 
@@ -142,9 +153,43 @@ class CatVBO(External_VBO):
         return super().get_vertex_data(get_path("objects/cat/20430_Cat_v1_NEW.obj"))
 
 
+class MaterialVBO(External_VBO):
+    def __init__(self, context, vertices):
+        self.vertices = vertices
+        super().__init__(context)
+        
+    def get_vertex_data(self):
+        return np.array(self.vertices, dtype="f4")
+
+
 class CorvetteVBO(External_VBO):
     def get_vertex_data(self):
-        return super().get_vertex_data(get_path("objects/corvette/Star wars CORVETTE.obj"))
+        object_ = Wavefront(
+            get_path("objects/corvette/Star wars CORVETTE.obj"),
+            strict=True,
+            encoding="iso-8859-1",
+            parse=True
+        )
+        vertex_data = {}
+        for material in object_.materials.values():
+            vertex_data[material.name] = np.array(material.vertices, dtype="f4")
+        return vertex_data
+            # if material.texture.image_name == "olderchrome0.jpg":
+            #     return np.array(material.vertices, dtype="f4")
+            #     vertices += material.vertices
+            # else:
+            #     continue
+            # print(type(material.texture))
+            # raise
+            # print(material.__dict__.keys())
+            # raise
+            # tex_coords += material.texcoords
+        # return np.hstack([np.array(tex_coords, dtype="f4"), np.array(vertices, dtype="f4")])
+        # return np.array(np.vertices, dtype="f4")
+
+    # def get_vertex_data2(self):
+    #     return super().get_vertex_data(get_path("objects/corvette/TantiveIV.obj"))
+    #     return super().get_vertex_data(get_path("objects/corvette/Star wars CORVETTE.obj"))
 
 
 

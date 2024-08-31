@@ -6,6 +6,7 @@ from src.worlds.yavin import Yavin
 
 engine = Engine(
     world=Yavin(),
+    # window_size=(1920, 1080),
     window_size=(1440, 900),
     framerate=60,
     fullscreen=True,
