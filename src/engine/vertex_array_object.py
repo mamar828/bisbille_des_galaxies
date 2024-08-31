@@ -31,15 +31,7 @@ class VertexArrayObject:
                 )
             })
 
-        # self.vertex_array_objects_materials = {}
-        # for obj in ["corvette"]:
-        #     path = get_path(f"objects/{obj}")
-        #     materials = []
-        #     for material in Wavefront(f"{path}/Star Wars CORVETTE.obj", collect_faces=True).materials.values():
-        #         materials.append((material.name, material.vertices))
-        #     self.vertex_array_objects_materials[obj] = materials
-
-        for obj, data in self.vertex_buffer_object.object_materials.items():
+        for obj, data in app.loader.object_materials.items():
             for material, vertices in data:
                 self.vertex_array_objects.update({
                     f"{obj}_{material}" : self.get_vertex_array_object(

@@ -15,35 +15,14 @@ class Texture:
             "depth_texture" : self.get_depth_texture(),
             "cat" :           self.get_texture(get_path("objects/cat/20430_cat_diff_v1.jpg")),
         }
-        corvette_tex = get_path("objects/corvette")
-        for material in Wavefront(f"{corvette_tex}/Star Wars CORVETTE.obj", collect_faces=True).materials.values():
-            self.textures[f"corvette_{material.name}"] = self.get_texture(f"{corvette_tex}/{material.name}.jpg")
 
-        # for material in Wavefront(get_path("objects/corvette/Star Wars CORVETTE.obj"), collect_faces=True).materials.values():
-        #     self.textures["corvette"][material.texture.image_name] = (
-        #         self.get_texture(get_path(f"objects/corvette/{material.texture.image_name}"))
-        #     )
+        for obj, data in self.app.loader.object_materials.items():
+            for material, vertices in data:
+                self.textures[f"{obj}_{material}"] = self.get_texture(f"{get_path(f"objects/{obj}")}/{material}.jpg")
 
         for color in ["green", "red", "blue", "yellow", "orange", "cyan", "magenta", "white", "black", "purple",
                       "brown", "grey"]:
             self.textures[color] = self.get_color(color)
-
-
-        # self.textures = {
-        #     0 : self.get_texture(path=get_path("textures/majora.png")),
-        #     1 : self.get_texture(path=get_path("textures/mesmer.jpg")),
-        #     2 : self.get_texture(path=get_path("textures/boxy.jpg"))
-        # }
-        # self.textures["floor"] = self.get_texture(get_path("textures/floor_test.png"))
-        # self.textures["filix"] = self.get_texture(get_path("textures/filix.png"))
-        # self.textures["spacetime"] = self.get_texture(get_path("textures/spacetime.png"))
-        # self.textures["bremss_1"] = self.get_texture(get_path("textures/bremss_1.png"))
-        # self.textures["bremss_2"] = self.get_texture(get_path("textures/bremss_2.png"))
-        # self.textures["kiki"] = self.get_texture(get_path("textures/kiki.JPG"))
-        
-        # for color in ["green", "red", "blue", "yellow", "orange", "cyan", "magenta", "white", "black", "purple",
-        #               "brown", "grey"]:
-        #     self.textures[color] = self.get_color(color)
 
     def get_depth_texture(self):
         depth_texture = self.context.depth_texture(self.app.window_size)
@@ -64,7 +43,6 @@ class Texture:
             textures.append(texture)
 
         texture_cube = self.context.texture_cube(size=textures[0].get_size(), components=3, data=None)
-        
         for i, texture in enumerate(textures):
             texture_cube.write(face=i, data=pg.image.tostring(texture, "RGB"))
         

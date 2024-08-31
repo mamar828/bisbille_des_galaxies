@@ -11,7 +11,6 @@ class Scene:
         if app.world:
             self.load(app.world)
         self.skybox = Skybox(app)
-        self.current_tick = 0
         self.total_ticks = 0
 
     def load(self, world: World):
@@ -29,7 +28,6 @@ class Scene:
             )
             
     def update(self):
-        self.current_tick += self.app.delta_time
         self.total_ticks += self.app.delta_time
 
         for element in self.elements:

@@ -31,12 +31,11 @@ class Yavin(World):
         )
 
         self.corvette = Object(
-            texture="corvette",
             position=vec3(0,0,-10),
             rotation=vec3(0,0,0),
             scale=vec3(1,1,1),
             model=Corvette,
-            instance=None#CorvetteAI(vec3(0,0,-10))
+            instance=CorvetteAI(vec3(0,0,-10))
         )
 
 

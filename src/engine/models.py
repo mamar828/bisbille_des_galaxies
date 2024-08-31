@@ -35,6 +35,7 @@ class BaseModel:
         self.on_init()
 
     def update(self):
+        self.m_model = self.get_model_matrix()
         self.texture.use(location=0)
         if not self.saturated: self.program["camPos"].write(self.app.camera.position)
         self.program["m_view"].write(self.app.camera.m_view)
@@ -72,9 +73,6 @@ class BaseModel:
         self.depth_texture = self.app.mesh.texture.textures["depth_texture"]
         self.depth_texture.use(location=1)
         # texture
-        # if self.texture_id == "olderchrome0":
-        #     self.texture = self.app.mesh.texture.textures["corvette"][self.texture_id]
-        # else:
         self.texture = self.app.mesh.texture.textures[self.texture_id]
         self.program["u_texture_0"] = 0
         self.texture.use(location=0)
@@ -134,13 +132,14 @@ class Skybox(BaseModel):
         self.program["m_view"].write(glm.mat4(glm.mat3(self.app.camera.m_view)))
 
     def update(self):
+        self.m_model = self.get_model_matrix()
         self.program["m_view"].write(glm.mat4(glm.mat3(self.app.camera.m_view)))
 
 
 class AnimatedModel(BaseModel):
-    def update(self):
-        self.m_model = self.get_model_matrix()
-        super().update()
+    pass
+    # def update(self):
+    #     super().update()
 
 
 class Cube(AnimatedModel):
@@ -203,54 +202,36 @@ class Cat(BaseModel):
         super().__init__(app, "cat", texture_id, position, rotation, scale, instance, saturated)
 
 
-class MaterialModel(AnimatedModel):
+class MaterialModel:
     def __init__(
             self,
             app,
-            vertex_array_object_name : str,
+            texture_id: str,
             position=glm.vec3(0,0,0),
             rotation=glm.vec3(0,0,0),
             scale=glm.vec3(1,1,1),
             instance=None,
             saturated=False,
-            texture_id=None,
-    ):
-        super().__init__(app, vertex_array_object_name, texture_id, position, rotation, scale, instance, saturated)
-
-
-class Corvette:
-    def __init__(
-            self,
-            app,
-            position=glm.vec3(0,0,0),
-            rotation=glm.vec3(0,0,0),
-            scale=glm.vec3(1,1,1),
-            instance=None,
-            saturated=False,
-            texture_id="corvette"
     ):
         self.app = app
         self.position = position
         self.rotation = glm.vec3([glm.radians(angle) for angle in rotation])  # Convert angles from degrees to radians
-        # self.rotation += glm.vec3(glm.pi()/4,4,0)
         self.scale = scale
-        # self.vertex_array_object = app.mesh.vertex_array_object.vertex_array_objects[vertex_array_object_name]
-        # self.vertex_array_object_name = vertex_array_object_name
-        # self.program = self.vertex_array_object.program
         self.instance = instance
         self.saturated = saturated
         self.models = []
-        for data in self.app.mesh.vertex_array_object.vertex_buffer_object.object_materials["corvette"]:
-            material_name = f"corvette_{data[0]}"
-            self.models.append(MaterialModel(
-                app, material_name, position, self.rotation, scale, instance, saturated, material_name
+        for data in self.app.loader.object_materials[texture_id]:
+            material_name = f"{texture_id}_{data[0]}"
+            self.models.append(AnimatedModel(
+                app,
+                material_name,
+                material_name,
+                position,
+                self.rotation,
+                scale,
+                instance,
+                saturated,
             ))
-
-        # corvette_tex = get_path("objects/corvette")
-        # for material in Wavefront(f"{corvette_tex}/Star Wars CORVETTE.obj", collect_faces=True).materials.values():
-        #     self.models.append(MaterialModel(
-        #         app, position, rotation, scale, instance, saturated, material.name
-        #     ))
 
     def update(self):
         for model in self.models:
@@ -275,3 +256,17 @@ class Corvette:
 
     def destroy(self):
         del self
+
+
+class Corvette(MaterialModel):
+    def __init__(
+            self,
+            app,
+            texture_id: str=None,
+            position=glm.vec3(0, 0, 0),
+            rotation=glm.vec3(0, 0, 0),
+            scale=glm.vec3(1, 1, 1),
+            instance=None,
+            saturated: bool=False
+    ):
+        super().__init__(app, "corvette", position, rotation, scale, instance, saturated)

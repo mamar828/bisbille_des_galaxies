@@ -8,6 +8,7 @@ from src.engine.light import Light
 from src.engine.mesh import Mesh
 from src.engine.scene import Scene
 from src.engine.scene_renderer import SceneRenderer
+from src.engine.material_loader import MaterialLoader
 from src.inputs.master_input import MasterInput
 from src.inputs.keyboard import Keyboard
 from src.inputs.controller import Controller
@@ -155,6 +156,7 @@ class Engine:
 
         self.world = world
 
+        self.loader = MaterialLoader()
         self.mesh = Mesh(self)
         self.scene = Scene(self)
         self.scene_renderer = SceneRenderer(self)
