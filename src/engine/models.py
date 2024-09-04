@@ -86,8 +86,8 @@ class BaseModel:
         # Account for the fact that usual coords are (x,y,z) but model ones should be (x,z,y)
         t_model = glm.translate(glm.mat4(), (self.position[0], self.position[2], -self.position[1]))
         # rotation
-        r_model = glm.rotate(t_model, self.rotation.x, glm.vec3(1,0,0))
-        r_model = glm.rotate(r_model, self.rotation.y, glm.vec3(0,0,1))
+        r_model = glm.rotate(t_model, self.rotation.y, glm.vec3(0,0,1))
+        r_model = glm.rotate(r_model, self.rotation.x, glm.vec3(1,0,0))
         r_model = glm.rotate(r_model, self.rotation.z, glm.vec3(0,1,0))
         # scale
         s_model = glm.scale(r_model, (self.scale.x, self.scale.z, self.scale.y))
@@ -270,3 +270,33 @@ class Corvette(MaterialModel):
             saturated: bool=False
     ):
         super().__init__(app, "corvette", position, rotation, scale, instance, saturated)
+
+
+class MilleniumFalcon(MaterialModel):
+    def __init__(
+            self,
+            app,
+            texture_id: str=None,
+            position=glm.vec3(0, 0, 0),
+            rotation=glm.vec3(0, 0, 0),
+            scale=glm.vec3(1, 1, 1),
+            instance=None,
+            saturated: bool=False
+    ):
+        aligned_rotation = rotation * 115 - glm.vec3(0,0,2250)
+        aligned_scaling = scale / 100
+        super().__init__(app, "millenium_falcon", position, aligned_rotation, aligned_scaling, instance, saturated)
+
+
+class XWing(MaterialModel):
+    def __init__(
+            self,
+            app,
+            texture_id: str=None,
+            position=glm.vec3(0, 0, 0),
+            rotation=glm.vec3(0, 0, 0),
+            scale=glm.vec3(1, 1, 1),
+            instance=None,
+            saturated: bool=False
+    ):
+        super().__init__(app, "x_wing", position, rotation, scale, instance, saturated)

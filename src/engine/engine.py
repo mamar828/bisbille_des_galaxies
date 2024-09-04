@@ -171,19 +171,18 @@ class Engine:
         for event in pg.event.get():
             if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
                 self.quit()
-            # else:
-            #     self.filter_event(event)
+            else:
+                self.filter_event(event)
 
-    # def check_keyboard_event(self, event):
-        # elif self.key_mode == "camera":
-        #     for i in range(1,10):
-        #         if event.key == getattr(pg, f"K_{i}"):
-        #             if i <= 5:
-        #                 self.camera.current_speed_modifier = 1 / 5**3 * i**3
-        #             else:
-        #                 self.camera.current_speed_modifier = 1 / 5**6 * i**6
-        #             self.camera.current_speed_modifier_i = i
-        #             break
+    def check_keyboard_event(self, event):
+        for i in range(1,10):
+            if event.key == getattr(pg, f"K_{i}"):
+                if i <= 5:
+                    self.camera.current_speed_modifier = 1 / 5**3 * i**3
+                else:
+                    self.camera.current_speed_modifier = 1 / 5**6 * i**6
+                self.camera.current_speed_modifier_i = i
+                break
 
     # def check_controller_event(self, event):
     #     if self.key_mode == "presets":
@@ -237,22 +236,22 @@ class Engine:
     #     if event.button == 6:
     #         self.quit()
             
-    # def filter_event(self, event):
-    #     if event.type == pg.KEYDOWN:
-    #         if event.key not in self.pressed_inputs:
-    #             self.check_keyboard_event(event)
-    #             self.pressed_inputs.add(event.key)
+    def filter_event(self, event):
+        if event.type == pg.KEYDOWN:
+            if event.key not in self.pressed_inputs:
+                self.check_keyboard_event(event)
+                self.pressed_inputs.add(event.key)
 
-    #     elif event.type == pg.KEYUP and event.key in self.pressed_inputs:
-    #         self.pressed_inputs.remove(event.key)
+        elif event.type == pg.KEYUP and event.key in self.pressed_inputs:
+            self.pressed_inputs.remove(event.key)
 
-    #     elif event.type == pg.JOYBUTTONDOWN:
-    #         if event.button not in self.pressed_inputs:
-    #             self.check_controller_event(event)
-    #             self.pressed_inputs.add(event.button)
+        # elif event.type == pg.JOYBUTTONDOWN:
+        #     if event.button not in self.pressed_inputs:
+        #         self.check_controller_event(event)
+        #         self.pressed_inputs.add(event.button)
         
-    #     elif event.type == pg.JOYBUTTONUP and event.button in self.pressed_inputs:
-    #         self.pressed_inputs.remove(event.button)
+        # elif event.type == pg.JOYBUTTONUP and event.button in self.pressed_inputs:
+        #     self.pressed_inputs.remove(event.button)
 
     # @staticmethod
     # def is_int(value):

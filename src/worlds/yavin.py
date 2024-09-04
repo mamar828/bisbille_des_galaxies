@@ -10,33 +10,65 @@ class Yavin(World):
     def __init__(self):
         self.master_catty_boi = Object(
             texture="cat",
-            position=vec3(0,0,0),
+            position=vec3(0,0,20),
             rotation=vec3(-90,0,0),
             scale=vec3(1,1,1),
             model=Cat,
         )
         self.sphere = Object(
             texture="white",
-            position=vec3(5,0,5),
+            position=vec3(5,0,25),
             rotation=vec3(0,0,0),
             scale=vec3(1,1,1),
             model=Sphere,
         )
         self.cube = Object(
             texture="red",
-            position=vec3(7,0,5),
+            position=vec3(7,0,25),
             rotation=vec3(0,0,0),
             scale=vec3(1,1,1),
             model=Cube,
         )
 
         self.corvette = Object(
-            position=vec3(0,0,-10),
-            rotation=vec3(0,0,0),
+            position=vec3(0,0,0),
+            rotation=vec3(-2900,2500,-3000),#-2900
             scale=vec3(1,1,1),
             model=Corvette,
-            instance=CorvetteAI(vec3(0,0,-10))
+            instance=None#CorvetteAI(vec3(0,0,-10))
         )
+
+        # self.millenium_falcon = Object(
+        #     position=vec3(-20,0,-10),
+        #     rotation=vec3(0,0,0),
+        #     scale=vec3(1,1,1),
+        #     model=MilleniumFalcon,
+        #     instance=None
+        # )
+
+        self.cube_1 = Object(
+            texture="blue",
+            position=vec3(0,0,2),
+            rotation=vec3(0,0,0),
+            scale=vec3(1,1,1),
+            model=Cube,
+        )
+
+        self.cube_2 = Object(
+            texture="blue",
+            position=vec3(-2,0,0),
+            rotation=vec3(0,0,0),
+            scale=vec3(1,1,1),
+            model=Cube,
+        )
+
+        # self.x_wing = Object(
+        #     position=vec3(-20,0,-10),
+        #     rotation=vec3(0,0,0),
+        #     scale=vec3(1,1,1),
+        #     model=XWing,
+        #     instance=None
+        # )
 
 
 class CorvetteAI:
