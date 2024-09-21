@@ -7,9 +7,10 @@ from src.worlds.yavin import Yavin
 engine = Engine(
     world=Yavin(),
     # window_size=(1920, 1080),
-    window_size=(1440, 900),
-    framerate=60,
-    fullscreen=True,
+    # window_size=(1440, 900),
+    window_size=(700, 700),
+    framerate=5,
+    fullscreen=False,
     light_position=vec3(0,0,100),
     light_color=vec3(1,1,1),
     light_ambient_intensity=0.1,

@@ -183,6 +183,9 @@ class Engine:
                     self.camera.current_speed_modifier = 1 / 5**6 * i**6
                 self.camera.current_speed_modifier_i = i
                 break
+        
+        if event.key == pg.K_p:
+            self.camera.mouse_mode = list({"camera", "pointer"}.difference({self.camera.mouse_mode}))[0]
 
     # def check_controller_event(self, event):
     #     if self.key_mode == "presets":

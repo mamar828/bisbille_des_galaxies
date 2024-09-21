@@ -40,6 +40,7 @@ class Camera:
         self.current_speed_modifier_i = 5
 
         self.position_mode = "free"
+        self.mouse_mode = "camera"
 
     def __str__(self):
         return f"Camera position: {self.position.x:.3f}, {-self.position.z:.3f}, {self.position.y:.3f}"
@@ -66,11 +67,12 @@ class Camera:
         self.m_view = self.get_view_matrix()
 
     def rotate_mouse(self):
-        # Mouse controls
-        rel_x, rel_y = pg.mouse.get_rel()
-        self.yaw += rel_x * self.sensitivity
-        self.pitch -= rel_y * self.sensitivity
-        self.pitch = max(-89, min(89, self.pitch))
+        if self.mouse_mode == "camera":
+            # Mouse controls
+            rel_x, rel_y = pg.mouse.get_rel()
+            self.yaw += rel_x * self.sensitivity
+            self.pitch -= rel_y * self.sensitivity
+            self.pitch = max(-89, min(89, self.pitch))
 
     def rotate_instantaneous(self):
         # Key controls
