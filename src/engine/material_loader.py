@@ -1,4 +1,5 @@
 import numpy as np
+import os
 from pywavefront import Wavefront
 
 from src.engine.relative_paths import get_path
@@ -8,13 +9,17 @@ class MaterialLoader:
     def __init__(self):
         self.object_materials = {}
         for obj, filename in [
-            ("corvette", "Star Wars CORVETTE centered.obj"),
-            # ("millenium_falcon", "Star Wars FALCON centered.obj"),
+            ("millenium_falcon", "Star Wars FALCON centered.obj"),
+            # ("imperial_shuttle", "processed_imperial_shuttle_ver1_centered.obj"),
+            # ("star_destroyer", "StarDestroyer.obj"),
+            # ("assault_frigate", "Assault_Frigate_Model.obj"),
+            # ("tie_fighter", "tie.obj")
+            # ("corvette", "Star Wars CORVETTE centered.obj"),
             # ("x_wing", "t-65.obj")
         ]:
             path = get_path(f"objects/{obj}")
             materials = []
-            for material in Wavefront(f"{path}/{filename}", collect_faces=True).materials.values():
+            for material in Wavefront(f"{path}/{filename}", collect_faces=True, strict=False).materials.values():
                 materials.append((material.name, material.vertices))
             self.object_materials[obj] = materials
 
@@ -42,3 +47,30 @@ class MaterialLoader:
                     file.write(f"v {centered_vertex[0]} {centered_vertex[1]} {centered_vertex[2]}\n")
                 else:
                     file.write(line)
+
+    @staticmethod
+    def preprocess_obj_file(filename):
+        with open(filename, 'r') as infile, open(f"{filename[:-4]}_pro.obj", 'w') as outfile:
+            for line in infile:
+                # Check if the line defines a vertex with texture coordinates (v/vt/vn format)
+                if line.startswith("f "):
+                    vertices = line.split()[1:]
+                    new_vertices = []
+                    for vertex in vertices:
+                        # Split vertex attributes (v/vt/vn) and check consistency
+                        parts = vertex.split("/")
+                        if len(parts) == 3:
+                            # This vertex has texture coordinates (T2F) and normal (N3F)
+                            new_vertices.append(vertex)
+                        elif len(parts) == 2:
+                            # This vertex lacks normal or texture coordinates
+                            # Add a dummy texture coordinate
+                            new_vertices.append(f"{parts[0]}/{parts[1]}/0")
+                        else:
+                            # Handle cases with missing fields
+                            new_vertices.append(f"{parts[0]}/0/0")  # Add dummy texture & normal
+
+                    outfile.write(f"f {' '.join(new_vertices)}\n")
+                else:
+                    # Write other lines (v, vn, etc.) unchanged
+                    outfile.write(line)

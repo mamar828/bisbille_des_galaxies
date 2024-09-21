@@ -202,6 +202,20 @@ class Cat(BaseModel):
         super().__init__(app, "cat", texture_id, position, rotation, scale, instance, saturated)
 
 
+class Cat(BaseModel):
+    def __init__(
+            self,
+            app,
+            position=glm.vec3(0,0,0),
+            rotation=glm.vec3(0,0,0),
+            scale=glm.vec3(1,1,1),
+            instance=None,
+            saturated=False,
+            texture_id="cat"
+    ):
+        super().__init__(app, "cat", texture_id, position, rotation, scale, instance, saturated)
+
+
 class MaterialModel:
     def __init__(
             self,
@@ -284,8 +298,69 @@ class MilleniumFalcon(MaterialModel):
             saturated: bool=False
     ):
         aligned_rotation = rotation * 115 - glm.vec3(0,0,2250)
-        aligned_scaling = scale / 100
-        super().__init__(app, "millenium_falcon", position, aligned_rotation, aligned_scaling, instance, saturated)
+        scaling = scale / 100
+        super().__init__(app, "millenium_falcon", position, aligned_rotation, scaling, instance, saturated)
+
+
+class ImperialShuttle(MaterialModel):
+    def __init__(
+            self,
+            app,
+            texture_id: str=None,
+            position=glm.vec3(0, 0, 0),
+            rotation=glm.vec3(0, 0, 0),
+            scale=glm.vec3(1, 1, 1),
+            instance=None,
+            saturated: bool=False
+    ):
+        scaling = scale / 350
+        super().__init__(app, "imperial_shuttle", position, rotation, scaling, instance, saturated)
+
+
+class StarDestroyer(MaterialModel):
+    def __init__(
+            self,
+            app,
+            texture_id: str=None,
+            position=glm.vec3(0, 0, 0),
+            rotation=glm.vec3(0, 0, 0),
+            scale=glm.vec3(1, 1, 1),
+            instance=None,
+            saturated: bool=False
+    ):
+        scaling = scale * 0.9
+        super().__init__(app, "star_destroyer", position, rotation, scaling, instance, saturated)
+
+
+class AssaultFrigate(MaterialModel):
+    def __init__(
+            self,
+            app,
+            texture_id: str=None,
+            position=glm.vec3(0, 0, 0),
+            rotation=glm.vec3(0, 0, 0),
+            scale=glm.vec3(1, 1, 1),
+            instance=None,
+            saturated: bool=False
+    ):
+        scaling = scale * 0.9
+        super().__init__(app, "assault_frigate", position, rotation, scaling, instance, saturated)
+
+
+class TieFighter(MaterialModel):
+    def __init__(
+            self,
+            app,
+            texture_id: str=None,
+            position=glm.vec3(0, 0, 0),
+            rotation=glm.vec3(0, 0, 0),
+            scale=glm.vec3(1, 1, 1),
+            instance=None,
+            saturated: bool=False
+    ):
+        # aligned_rotation = rotation * 115 - glm.vec3(0,0,2250)
+        # scaling = scale / 100
+        super().__init__(app, "tie_fighter", position, rotation, scale, instance, saturated)
 
 
 class XWing(MaterialModel):

@@ -30,19 +30,51 @@ class Yavin(World):
             model=Cube,
         )
 
-        self.corvette = Object(
-            position=vec3(0,0,0),
-            rotation=vec3(-2900,2500,-3000),#-2900
-            scale=vec3(1,1,1),
-            model=Corvette,
-            instance=None#CorvetteAI(vec3(0,0,-10))
+        # self.corvette = Object(
+        #     position=vec3(0,0,0),
+        #     rotation=vec3(0,0,0),#-2900
+        #     scale=vec3(1,1,1),
+        #     model=Corvette,
+        #     instance=None#CorvetteAI(vec3(0,0,-10))
+        # )
+
+        self.millenium_falcon = Object(
+            position=vec3(-20,0,-10),
+            rotation=vec3(0,0,0),
+            scale=vec3(100,100,100),
+            model=MilleniumFalcon,
+            instance=None
         )
 
-        # self.millenium_falcon = Object(
-        #     position=vec3(-20,0,-10),
+        # self.shuttle = Object(
+        #     position=vec3(0,0,0),
         #     rotation=vec3(0,0,0),
         #     scale=vec3(1,1,1),
-        #     model=MilleniumFalcon,
+        #     model=ImperialShuttle,
+        #     instance=None
+        # )
+
+        # self.star_destroyer = Object(
+        #     position=vec3(0,0,0),
+        #     rotation=vec3(0,0,0),
+        #     scale=vec3(1,1,1),
+        #     model=StarDestroyer,
+        #     instance=None
+        # )
+
+        # self.assault_frigate = Object(
+        #     position=vec3(0,0,0),
+        #     rotation=vec3(0,0,0),
+        #     scale=vec3(1,1,1),
+        #     model=AssaultFrigate,
+        #     instance=None
+        # )
+
+        # self.x_wing = Object(
+        #     position=vec3(0,0,0),
+        #     rotation=vec3(0,0,0),
+        #     scale=vec3(1,1,1),
+        #     model=XWing,
         #     instance=None
         # )
 

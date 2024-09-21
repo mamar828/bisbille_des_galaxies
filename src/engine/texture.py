@@ -17,8 +17,28 @@ class Texture:
         }
 
         for obj, data in self.app.loader.object_materials.items():
-            for material, vertices in data:
-                self.textures[f"{obj}_{material}"] = self.get_texture(f"{get_path(f"objects/{obj}")}/{material}.jpg")
+            if obj == "imperial_shuttle":
+                self.textures[f"{obj}_wire_088199225"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
+                self.textures[f"{obj}_wire_057008136"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
+                self.textures[f"{obj}_wire_115115115"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
+                self.textures[f"{obj}_wire_086086086"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
+                self.textures[f"{obj}_wire_154185229"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
+                self.textures[f"{obj}_wire_008110134"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
+                self.textures[f"{obj}_wire_006135006"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
+                self.textures[f"{obj}_wire_140088225"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
+                self.textures[f"{obj}_wire_087225198"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
+            elif obj == "star_destroyer":
+                self.textures[f"{obj}_EdgeBummp"] = self.get_texture(
+                                                        get_path(f"objects/{obj}/wallSegment_DisplacementMap.png"))
+                self.textures[f"{obj}_JetFire"] = self.get_texture(
+                                                        get_path(f"objects/{obj}/force_fields.png"))
+                self.textures[f"{obj}_None"] = self.get_texture(
+                                                        get_path(f"objects/{obj}/LightGraySteel_DisplacementMap.png"))
+                self.textures[f"{obj}_TopCover"] = self.get_texture(
+                                                        get_path(f"objects/{obj}/LightGraySteel_DisplacementMap.png"))
+            else:
+                for material, vertices in data:
+                    self.textures[f"{obj}_{material}"] = self.get_texture(f"{get_path(f"objects/{obj}")}/{material}.jpg")
 
         for color in ["green", "red", "blue", "yellow", "orange", "cyan", "magenta", "white", "black", "purple",
                       "brown", "grey"]:
