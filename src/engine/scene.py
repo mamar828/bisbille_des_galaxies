@@ -7,10 +7,10 @@ from src.worlds.world import World
 class Scene:
     def __init__(self, app):
         self.app = app
-        self.elements = []
+        self.elements = [HealthBar(app)]
         if app.world:
             self.load(app.world)
-        self.skybox = Skybox(app)
+        # self.skybox = Skybox(app)
         self.total_ticks = 0
 
     def load(self, world: World):

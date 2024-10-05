@@ -41,7 +41,7 @@ class Yavin(World):
         self.millenium_falcon = Object(
             position=vec3(-20,0,-10),
             rotation=vec3(0,0,0),
-            scale=vec3(100,100,100),
+            scale=vec3(1,1,1),
             model=MilleniumFalcon,
             instance=None
         )

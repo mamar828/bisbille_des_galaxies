@@ -21,7 +21,7 @@ class CollisionDetector:
         pixel_data = frombuffer(self.off_screen_frame_buffer_object.read(
             viewport=(mouse_x, mouse_y, 1, 1)), dtype=uint8
         )
-        if sum(pixel_data[:3]) > 0:  # Example color check (red)
+        if sum(pixel_data[:3]) > 0:
             self.collision = True
         else:
             self.collision = True

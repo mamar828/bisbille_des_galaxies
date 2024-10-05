@@ -2,6 +2,7 @@ from numpy import array as nparray
 from random import choice
 import glm
 from pywavefront import Wavefront
+import moderngl as mgl
 
 from src.engine.relative_paths import get_path
 
@@ -375,3 +376,113 @@ class XWing(MaterialModel):
             saturated: bool=False
     ):
         super().__init__(app, "x_wing", position, rotation, scale, instance, saturated)
+
+
+class HealthBar2:
+    def __init__(
+            self,
+            app
+    ):
+        self.app = app
+        self.instance = self.shadow_program = None
+        # Set up an orthographic projection matrix for rendering 2D elements
+        width, height = self.app.window_size
+        self.ortho_projection = nparray([
+            [2.0/width, 0.0, 0.0, -1.0],
+            [0.0, 2.0/height, 0.0, -1.0],
+            [0.0, 0.0, -1.0, 0.0],
+            [0.0, 0.0, 0.0, 1.0]
+        ], dtype='f4')
+
+        # Vertex positions for a full-screen quad (normalized coordinates)
+        vertices = nparray([
+            # Health bar (x, y) positions and corresponding texture coordinates
+            -1.0, 0.9, 0.0, 0.0,  # Bottom-left
+             1.0, 0.9, 1.0, 0.0,  # Bottom-right
+            -1.0, 0.8, 0.0, 1.0,  # Top-left
+             1.0, 0.8, 1.0, 1.0,  # Top-right
+        ], dtype='f4')
+
+
+        with open(get_path("shaders/health_bar.vert")) as file:
+            vertex_shader = file.read()
+
+        with open(get_path("shaders/health_bar.frag")) as file:
+            fragment_shader = file.read()
+
+        self.program = self.app.context.program(vertex_shader=vertex_shader, fragment_shader=fragment_shader)
+
+        # Create the VBO and VAO for rendering the health bar
+        vbo = self.app.context.buffer(vertices.tobytes())
+        self.vao = self.app.context.simple_vertex_array(self.program, vbo, 'in_vert', 'in_tex')
+
+    def render(self, health_percentage=1):
+        # Use the orthographic projection matrix
+        self.program['proj'].write(self.ortho_projection)
+
+        # Pass the health percentage to the shader (e.g., 0.75 for 75% health)
+        self.program['health_percentage'].value = health_percentage
+
+        self.program['u_texture'] = 0  # Set the texture unit
+
+        # Bind and render the health bar quad
+        self.vao.render(mgl.TRIANGLE_STRIP)
+
+
+
+class HealthBar:
+    def __init__(self, app):
+        self.app = app
+        self.instance = self.shadow_program = None
+        # Set up an orthographic projection matrix for rendering 2D elements
+        width, height = self.app.window_size
+        self.ortho_projection = nparray([
+            [2.0 / width, 0.0, 0.0, -1.0],
+            [0.0, 2.0 / height, 0.0, -1.0],
+            [0.0, 0.0, -1.0, 0.0],
+            [0.0, 0.0, 0.0, 1.0]
+        ], dtype='f4')
+
+        # Vertex positions for a red rectangle at the top of the screen (normalized coordinates)
+        vertices = nparray([
+            # Health bar rectangle vertices
+            -1.0, 0.9,  # Bottom-left
+             1.0, 0.9,  # Bottom-right
+            -1.0, 0.8,  # Top-left
+             1.0, 0.8,  # Top-right
+        ], dtype='f4')
+
+        with open(get_path("shaders/health_bar.vert")) as file:
+            vertex_shader = file.read()
+
+        with open(get_path("shaders/health_bar.frag")) as file:
+            fragment_shader = file.read()
+
+        self.program = self.app.context.program(vertex_shader=vertex_shader, fragment_shader=fragment_shader)
+
+        # Create the VBO and VAO for rendering the health bar
+        vbo = self.app.context.buffer(vertices)#.tobytes())
+
+        # self.vao = self.app.context.vertex_array(self.program, vbo, 'in_vert')
+        self.vao = self.app.context.vertex_array(
+            self.program, 
+            [(vbo, "2f", "in_vert")],#, "in_position")],
+            skip_errors=True
+        )
+
+    def render(self):
+        # Use the orthographic projection matrix
+        self.program['proj'].write(self.ortho_projection)
+
+        # Bind and render the rectangle quad (ignore health_percentage for now)
+        # self.vao.render(mgl.TRIANGLE_STRIP)
+
+        # self.update()
+        # self.m_model = self.get_model_matrix()
+        # self.texture.use(location=0)
+        # if not self.saturated: self.program["camPos"].write(self.app.camera.position)
+        # self.program["m_view"].write(self.app.camera.m_view)
+        # self.program["m_model"].write(self.m_model)
+
+        self.vao.render()
+

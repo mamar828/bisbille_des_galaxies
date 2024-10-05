@@ -111,4 +111,4 @@ from pyrr import Matrix44
 # visualization.draw(obj)
 
 
-print(np.array([16.51+16.62+16.65])/3)
+# print(np.array([16.51+16.62+16.65])/3)
