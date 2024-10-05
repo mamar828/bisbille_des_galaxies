@@ -112,3 +112,38 @@ from pyrr import Matrix44
 
 
 # print(np.array([16.51+16.62+16.65])/3)
+
+
+import numpy as np
+from PIL import Image
+
+Image()
+
+# Create a new image for the gradient
+gradient_img = Image.new("RGBA", img.size)
+
+# Create a gradient for the white spot
+width, height = gradient_img.size
+for y in range(height):
+    for x in range(width):
+        # Calculate the distance from the center
+        dx = x - width // 2
+        dy = y - height // 2
+        distance = np.sqrt(dx**2 + dy**2)
+        max_distance = min(width, height) // 4  # Adjust the size of the fading spot
+
+        # Determine the alpha based on distance
+        if distance < max_distance:
+            alpha = int(255 * (1 - (distance / max_distance)))  # Fade out
+            gradient_img.putpixel((x, y), (255, 255, 255, alpha))  # White with varying alpha
+        else:
+            gradient_img.putpixel((x, y), (0, 0, 0, 0))  # Transparent
+
+# Combine the green image and the gradient
+final_img = Image.alpha_composite(img.convert("RGBA"), gradient_img)
+
+# Save the final image
+output_path_with_gradient = "/mnt/data/green_dot_with_gradient.png"
+final_img.save(output_path_with_gradient)
+
+output_path_with_gradient

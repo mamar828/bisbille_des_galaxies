@@ -1,5 +1,3 @@
-from pygame.font import SysFont
-
 from src.engine.models import *
 from src.worlds.world import World
 
@@ -7,10 +5,10 @@ from src.worlds.world import World
 class Scene:
     def __init__(self, app):
         self.app = app
-        self.elements = [HealthBar(app)]
+        self.elements = []
         if app.world:
             self.load(app.world)
-        # self.skybox = Skybox(app)
+        self.skybox = Skybox(app)
         self.total_ticks = 0
 
     def load(self, world: World):
@@ -24,6 +22,7 @@ class Scene:
                     rotation=current_element.rotation,
                     position=current_element.position,
                     instance=current_element.instance,
+                    saturated=current_element.saturated,
                 )
             )
             
@@ -32,7 +31,11 @@ class Scene:
 
         for element in self.elements:
             if element.instance:
-                element.move(element.instance.get_position())
+                element.update_visual(
+                    position=element.instance.position,
+                    scale=element.instance.scale,
+                    rotation=element.instance.rotation,
+                )
     
     def destroy(self):
         del self

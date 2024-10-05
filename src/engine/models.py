@@ -91,15 +91,16 @@ class BaseModel:
         r_model = glm.rotate(r_model, self.rotation.x, glm.vec3(1,0,0))
         r_model = glm.rotate(r_model, self.rotation.z, glm.vec3(0,1,0))
         # scale
-        s_model = glm.scale(r_model, (self.scale.x, self.scale.z, self.scale.y))
+        s_model = glm.scale(r_model, glm.vec3(self.scale.x, self.scale.z, self.scale.y))
         return s_model
     
     def render(self):
         self.update()
         self.vertex_array_object.render()
 
-    def move(self, position: tuple[float,float,float]):
-        self.position = position
+    def update_visual(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
 
     def destroy(self):
         del self
@@ -137,13 +138,7 @@ class Skybox(BaseModel):
         self.program["m_view"].write(glm.mat4(glm.mat3(self.app.camera.m_view)))
 
 
-class AnimatedModel(BaseModel):
-    pass
-    # def update(self):
-    #     super().update()
-
-
-class Cube(AnimatedModel):
+class Cube(BaseModel):
     def __init__(
             self,
             app,
@@ -171,7 +166,7 @@ class Surface(BaseModel):
         super().__init__(app, vertex_array_object_name, texture_id, position, rotation, scale, instance, True)
 
 
-class Sphere(AnimatedModel):
+class Sphere(BaseModel):
     def __init__(
             self,
             app,
@@ -237,7 +232,7 @@ class MaterialModel:
         self.models = []
         for data in self.app.loader.object_materials[texture_id]:
             material_name = f"{texture_id}_{data[0]}"
-            self.models.append(AnimatedModel(
+            self.models.append(BaseModel(
                 app,
                 material_name,
                 material_name,
@@ -264,10 +259,11 @@ class MaterialModel:
         for model in self.models:
             model.render()
 
-    def move(self, position: tuple[float,float,float]):
-        self.position = position
+    def update_visual(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
         for model in self.models:
-            model.move(position)
+            model.update_visual(**kwargs)
 
     def destroy(self):
         del self
@@ -298,9 +294,14 @@ class MilleniumFalcon(MaterialModel):
             instance=None,
             saturated: bool=False
     ):
-        aligned_rotation = rotation * 115 - glm.vec3(0,0,2250)
+        aligned_rotation = rotation/2 * 115 - glm.vec3(0,0,2250)
         scaling = scale / 100
         super().__init__(app, "millenium_falcon", position, aligned_rotation, scaling, instance, saturated)
+
+    def update_visual(self, **kwargs):
+        kwargs["rotation"] = kwargs["rotation"]/2 * 115 - glm.vec3(0,0,2250)
+        kwargs["scale"] /= 100
+        super().update_visual(**kwargs)
 
 
 class ImperialShuttle(MaterialModel):
@@ -317,6 +318,10 @@ class ImperialShuttle(MaterialModel):
         scaling = scale / 350
         super().__init__(app, "imperial_shuttle", position, rotation, scaling, instance, saturated)
 
+    def update_visual(self, **kwargs):
+        kwargs["scale"] /= 350
+        super().update_visual(**kwargs)
+
 
 class StarDestroyer(MaterialModel):
     def __init__(
@@ -331,6 +336,10 @@ class StarDestroyer(MaterialModel):
     ):
         scaling = scale * 0.9
         super().__init__(app, "star_destroyer", position, rotation, scaling, instance, saturated)
+
+    def update_visual(self, **kwargs):
+        kwargs["scale"] *= 0.9
+        super().update_visual(**kwargs)
 
 
 class AssaultFrigate(MaterialModel):
@@ -376,113 +385,3 @@ class XWing(MaterialModel):
             saturated: bool=False
     ):
         super().__init__(app, "x_wing", position, rotation, scale, instance, saturated)
-
-
-class HealthBar2:
-    def __init__(
-            self,
-            app
-    ):
-        self.app = app
-        self.instance = self.shadow_program = None
-        # Set up an orthographic projection matrix for rendering 2D elements
-        width, height = self.app.window_size
-        self.ortho_projection = nparray([
-            [2.0/width, 0.0, 0.0, -1.0],
-            [0.0, 2.0/height, 0.0, -1.0],
-            [0.0, 0.0, -1.0, 0.0],
-            [0.0, 0.0, 0.0, 1.0]
-        ], dtype='f4')
-
-        # Vertex positions for a full-screen quad (normalized coordinates)
-        vertices = nparray([
-            # Health bar (x, y) positions and corresponding texture coordinates
-            -1.0, 0.9, 0.0, 0.0,  # Bottom-left
-             1.0, 0.9, 1.0, 0.0,  # Bottom-right
-            -1.0, 0.8, 0.0, 1.0,  # Top-left
-             1.0, 0.8, 1.0, 1.0,  # Top-right
-        ], dtype='f4')
-
-
-        with open(get_path("shaders/health_bar.vert")) as file:
-            vertex_shader = file.read()
-
-        with open(get_path("shaders/health_bar.frag")) as file:
-            fragment_shader = file.read()
-
-        self.program = self.app.context.program(vertex_shader=vertex_shader, fragment_shader=fragment_shader)
-
-        # Create the VBO and VAO for rendering the health bar
-        vbo = self.app.context.buffer(vertices.tobytes())
-        self.vao = self.app.context.simple_vertex_array(self.program, vbo, 'in_vert', 'in_tex')
-
-    def render(self, health_percentage=1):
-        # Use the orthographic projection matrix
-        self.program['proj'].write(self.ortho_projection)
-
-        # Pass the health percentage to the shader (e.g., 0.75 for 75% health)
-        self.program['health_percentage'].value = health_percentage
-
-        self.program['u_texture'] = 0  # Set the texture unit
-
-        # Bind and render the health bar quad
-        self.vao.render(mgl.TRIANGLE_STRIP)
-
-
-
-class HealthBar:
-    def __init__(self, app):
-        self.app = app
-        self.instance = self.shadow_program = None
-        # Set up an orthographic projection matrix for rendering 2D elements
-        width, height = self.app.window_size
-        self.ortho_projection = nparray([
-            [2.0 / width, 0.0, 0.0, -1.0],
-            [0.0, 2.0 / height, 0.0, -1.0],
-            [0.0, 0.0, -1.0, 0.0],
-            [0.0, 0.0, 0.0, 1.0]
-        ], dtype='f4')
-
-        # Vertex positions for a red rectangle at the top of the screen (normalized coordinates)
-        vertices = nparray([
-            # Health bar rectangle vertices
-            -1.0, 0.9,  # Bottom-left
-             1.0, 0.9,  # Bottom-right
-            -1.0, 0.8,  # Top-left
-             1.0, 0.8,  # Top-right
-        ], dtype='f4')
-
-        with open(get_path("shaders/health_bar.vert")) as file:
-            vertex_shader = file.read()
-
-        with open(get_path("shaders/health_bar.frag")) as file:
-            fragment_shader = file.read()
-
-        self.program = self.app.context.program(vertex_shader=vertex_shader, fragment_shader=fragment_shader)
-
-        # Create the VBO and VAO for rendering the health bar
-        vbo = self.app.context.buffer(vertices)#.tobytes())
-
-        # self.vao = self.app.context.vertex_array(self.program, vbo, 'in_vert')
-        self.vao = self.app.context.vertex_array(
-            self.program, 
-            [(vbo, "2f", "in_vert")],#, "in_position")],
-            skip_errors=True
-        )
-
-    def render(self):
-        # Use the orthographic projection matrix
-        self.program['proj'].write(self.ortho_projection)
-
-        # Bind and render the rectangle quad (ignore health_percentage for now)
-        # self.vao.render(mgl.TRIANGLE_STRIP)
-
-        # self.update()
-        # self.m_model = self.get_model_matrix()
-        # self.texture.use(location=0)
-        # if not self.saturated: self.program["camPos"].write(self.app.camera.position)
-        # self.program["m_view"].write(self.app.camera.m_view)
-        # self.program["m_model"].write(self.m_model)
-
-        self.vao.render()
-

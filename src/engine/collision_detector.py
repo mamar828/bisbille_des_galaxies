@@ -24,4 +24,4 @@ class CollisionDetector:
         if sum(pixel_data[:3]) > 0:
             self.collision = True
         else:
-            self.collision = True
+            self.collision = False

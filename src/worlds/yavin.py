@@ -39,11 +39,11 @@ class Yavin(World):
         # )
 
         self.millenium_falcon = Object(
-            position=vec3(-20,0,-10),
-            rotation=vec3(0,0,0),
+            position=vec3(5,10,0),
+            rotation=vec3(45,0,0),
             scale=vec3(1,1,1),
             model=MilleniumFalcon,
-            instance=None
+            # instance=CorvetteAI(vec3(-20,0,-10))
         )
 
         # self.shuttle = Object(
@@ -102,13 +102,65 @@ class Yavin(World):
         #     instance=None
         # )
 
+        # self.health = 100
+        self.health_bar = Object(
+            texture="red",
+            model=Cube,
+            instance=HealthBar(),#self.health),
+            saturated=True
+        )
+
+
+        # self.laser = Object(
+        #     texture="green",
+        #     model=Sphere,
+        #     instance=Laser(),
+        #     saturated=True
+        # )
+
 
 class CorvetteAI:
     def __init__(self, position):
         self.position = position
+        self.rotation = vec3(0,0,0)
+        self.scale = vec3(3,3,3)
 
-    def update(self, delta_time):
-        self.position += vec3(1,0,0) * delta_time
-    
-    def get_position(self):
-        return self.position
+    def update(self, app):
+        # self.position += vec3(1,0,0) * delta_time
+        # self.rotation += vec3(10,0,0) * delta_time
+        self.rotation = vec3(90,0,0)
+        self.scale = vec3(1,1,1)
+
+class HealthBar:
+    def __init__(self, health=100):
+        self.health = health
+        self.update_health_parameters()
+        # self.position_func = lambda health: vec3(0,0.1,0.04)
+        # self.position = vec3(0,0.1,0.04)
+        self.rotation = vec3(0,0,0)
+        self.count = 0
+
+    def update_health_parameters(self):
+        if self.health > 0:
+            self.position = vec3(0,0.1,0.04) - (100 - self.health)/100 * vec3(0.07,0,0)
+            self.scale = vec3(0.07,0.0001,0.001) - (100 - self.health)/100 * vec3(0.07,0,0)
+        else:
+            self.scale = vec3(0,0,0)
+
+    def update(self, app):
+        if app.collision_detector.collision:
+            self.health -= 10*app.delta_time
+            self.update_health_parameters()
+
+
+# class Laser:
+#     def __init__(self):
+#         self.scale = vec3(0.1,0.1,0.1)
+#         self.position = vec3(0,-1,0)
+#         self.rotation = vec3(0,0,0)
+
+#     def update(self, delta_time=None):
+#         mouse_x, mouse_y = get_pos()
+#         print(mouse_x,mouse_y)
+#         # mouse_y = self.app.window_size[1] - mouse_y  # Invert Y to match OpenGL's coordinate system
+#         # self.position = vec3(mouse_x, 100, mouse_y)

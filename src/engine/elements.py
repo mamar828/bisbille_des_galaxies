@@ -13,6 +13,7 @@ class Object:
             scale: vec3=vec3(1,1,1),
             instance=None,
             model: BaseModel=Sphere,
+            saturated: bool=False,
         ):
         """
         Initialize an Object3D object. All coordinates are given in tuples of x, y, z.
@@ -34,8 +35,9 @@ class Object:
             Specify the object's 3D model that should be used.
         """
         self.texture = texture
-        self.rotation = rotation
-        self.scale = scale
-        self.position = instance.get_position() if instance else position
+        self.rotation = instance.rotation if instance and hasattr(instance, "rotation") else rotation
+        self.scale = instance.scale if instance and hasattr(instance, "scale") else scale
+        self.position = instance.position if instance and hasattr(instance, "position") else position
         self.instance = instance
         self.model = model
+        self.saturated = saturated

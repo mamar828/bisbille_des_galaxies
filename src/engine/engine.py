@@ -13,6 +13,7 @@ from src.inputs.master_input import MasterInput
 from src.inputs.keyboard import Keyboard
 from src.inputs.controller import Controller
 from src.engine.display import Display
+from src.engine.collision_detector import CollisionDetector
 
 
 
@@ -157,6 +158,8 @@ class Engine:
         self.world = world
 
         self.loader = MaterialLoader()
+        self.collision_detector = CollisionDetector(self)
+
         self.mesh = Mesh(self)
         self.scene = Scene(self)
         self.scene_renderer = SceneRenderer(self)
@@ -303,4 +306,4 @@ class Engine:
                 self.render()
                 self.delta_time = self.clock.tick(self.framerate) / 1000
                 self.camera_delta_time = self.clock.tick(self.framerate)
-                self.world.update(self.delta_time)
+                self.world.update(self)

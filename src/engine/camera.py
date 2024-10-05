@@ -40,7 +40,7 @@ class Camera:
         self.current_speed_modifier_i = 5
 
         self.position_mode = "free"
-        self.mouse_mode = "camera"
+        self.mouse_mode = "pointer"
 
     def __str__(self):
         return f"Camera position: {self.position.x:.3f}, {-self.position.z:.3f}, {self.position.y:.3f}"

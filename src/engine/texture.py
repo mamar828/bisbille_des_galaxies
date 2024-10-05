@@ -10,6 +10,16 @@ class Texture:
         self.app = app
         self.context = app.context
 
+        # Set cursor image
+        img = pg.transform.scale_by(
+            surface=pg.image.load(get_path("textures/laser.png")).convert_alpha(),
+            factor=0.1
+        )
+        pg.mouse.set_cursor(
+            pg.cursors.Cursor((img.get_width()//2, img.get_height()//2), img)
+        )
+        pg.mouse.set_visible(True)
+
         self.textures = {
             "skybox" :        self.get_texture_cube(get_path("textures/skybox")),
             "depth_texture" : self.get_depth_texture(),
@@ -51,22 +61,30 @@ class Texture:
         return depth_texture
     
     def get_texture_cube(self, directory_path, extension="png"):
-        faces = ["right", "left", "top", "bottom", "back", "front"]
-        textures = []
+        if self.app.world.__class__.__name__ == "Yavin":
+            texture = pg.transform.flip(pg.image.load(f"{directory_path}/yavin.png").convert(),
+                                        flip_x=True, flip_y=False)
+            texture_cube = self.context.texture_cube(size=texture.get_size(), components=3, data=None)
+            for i in range(6):
+                texture_cube.write(face=i, data=pg.image.tostring(texture, "RGB"))
+            return texture_cube
+        else:
+            faces = ["right", "left", "top", "bottom", "back", "front"]
+            textures = []
 
-        for face in faces:
-            current_texture = pg.image.load(f"{directory_path}/{face}.{extension}").convert()
-            if face in ["right", "left", "front", "back"]:
-                texture = pg.transform.flip(current_texture, flip_x=True, flip_y=False)
-            else:
-                texture = pg.transform.flip(current_texture, flip_x=False, flip_y=True)
-            textures.append(texture)
+            for face in faces:
+                current_texture = pg.image.load(f"{directory_path}/{face}.{extension}").convert()
+                if face in ["right", "left", "front", "back"]:
+                    texture = pg.transform.flip(current_texture, flip_x=True, flip_y=False)
+                else:
+                    texture = pg.transform.flip(current_texture, flip_x=False, flip_y=True)
+                textures.append(texture)
 
-        texture_cube = self.context.texture_cube(size=textures[0].get_size(), components=3, data=None)
-        for i, texture in enumerate(textures):
-            texture_cube.write(face=i, data=pg.image.tostring(texture, "RGB"))
-        
-        return texture_cube
+            texture_cube = self.context.texture_cube(size=textures[0].get_size(), components=3, data=None)
+            for i, texture in enumerate(textures):
+                texture_cube.write(face=i, data=pg.image.tostring(texture, "RGB"))
+            
+            return texture_cube
 
     def get_texture(self, path):
         # Load the texture and flip it upside down to make it upright
