@@ -23,10 +23,12 @@ class SceneRenderer:
         self.scene.skybox.render()
 
     def render(self):
+        # Render the elements to the collision frame buffer
         self.app.collision_detector.clear()
         if self.scene.elements:
             for element in self.scene.elements:
-                element.render()
+                if not element.instance.__class__.__name__ == "HealthBar":
+                    element.render()
 
         # pass 1
         self.render_shadow()

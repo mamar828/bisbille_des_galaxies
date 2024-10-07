@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from src.engine.models import *
 from src.worlds.world import World
 
@@ -32,9 +34,9 @@ class Scene:
         for element in self.elements:
             if element.instance:
                 element.update_visual(
-                    position=element.instance.position,
-                    scale=element.instance.scale,
-                    rotation=element.instance.rotation,
+                    position=deepcopy(element.instance.position),
+                    scale=deepcopy(element.instance.scale),
+                    rotation=deepcopy(element.instance.rotation),
                 )
     
     def destroy(self):
