@@ -46,6 +46,16 @@ class Texture:
                                                         get_path(f"objects/{obj}/LightGraySteel_DisplacementMap.png"))
                 self.textures[f"{obj}_TopCover"] = self.get_texture(
                                                         get_path(f"objects/{obj}/LightGraySteel_DisplacementMap.png"))
+            elif obj == "tie_fighter":
+                current_material = ""
+                with open(get_path(f"objects/{obj}/star wars.mtl")) as f:
+                    for line in f.readlines():
+                        if line.startswith("newmtl"):
+                            current_material = line.split()[1]
+                        if line.startswith("Kd"):
+                            color = line.split()
+                            self.textures[f"{obj}_{current_material}"] = self.get_color(
+                                tuple([int(float(c) * 255) for c in color[1:]]))
             else:
                 for material, vertices in data:
                     self.textures[f"{obj}_{material}"] = self.get_texture(f"{get_path(f"objects/{obj}")}/{material}.jpg")

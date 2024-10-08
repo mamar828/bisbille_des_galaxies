@@ -6,7 +6,7 @@ from src.worlds.coruscant import Coruscant
 
 
 engine = Engine(
-    world=Coruscant(),#Yavin(),
+    world=[Coruscant(),Yavin()][1],
     # window_size=(1920, 1080),
     window_size=(1440, 900),
     # window_size=(700, 700),

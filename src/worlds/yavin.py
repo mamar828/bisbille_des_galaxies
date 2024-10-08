@@ -15,11 +15,18 @@ class Yavin(World):
         #     model=Corvette,
         #     instance=None#CorvetteAI(vec3(0,0,-10))
         # )
-
-        self.millenium_falcon = Object(
-            model=MilleniumFalcon,
-            instance=MilleniumFalconAI()
+        self.tie = Object(
+            position=vec3(0,0,0),
+            rotation=vec3(0,0,0),#-2900
+            scale=vec3(1,1,1),
+            model=TieFighter,
+            instance=None#CorvetteAI(vec3(0,0,-10))
         )
+
+        # self.millenium_falcon = Object(
+        #     model=MilleniumFalcon,
+        #     instance=MilleniumFalconAI()
+        # )
 
         # self.shuttle = Object(
         #     position=vec3(0,0,0),

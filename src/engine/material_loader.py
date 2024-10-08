@@ -11,16 +11,17 @@ class MaterialLoader:
         for obj, filename in [
             # ("millenium_falcon", "Star Wars FALCON centered.obj"),
             # ("imperial_shuttle", "processed_imperial_shuttle_ver1_centered.obj"),
-            ("star_destroyer", "StarDestroyer.obj"),
+            # ("star_destroyer", "StarDestroyer.obj"),
             # ("assault_frigate", "Assault_Frigate_Model.obj"),
-            # ("tie_fighter", "tie.obj")
+            ("tie_fighter", "processed_tie.obj")
             # ("corvette", "Star Wars CORVETTE centered.obj"),
             # ("x_wing", "t-65.obj")
         ]:
             path = get_path(f"objects/{obj}")
             materials = []
             for material in Wavefront(f"{path}/{filename}", collect_faces=True, strict=False).materials.values():
-                materials.append((material.name, material.vertices))
+                if material.vertices:
+                    materials.append((material.name, material.vertices))
             self.object_materials[obj] = materials
 
     @staticmethod

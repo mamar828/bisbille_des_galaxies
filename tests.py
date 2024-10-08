@@ -146,72 +146,76 @@ from pyrr import Matrix44
 # output_path_with_gradient = "/mnt/data/green_dot_with_gradient.png"
 # final_img.save(output_path_with_gradient)
 
-# output_path_with_gradient
+# # output_path_with_gradient
 
 
 
 
-import pygame
-import numpy as np
+# import pygame
+# import numpy as np
 
-# Initialize Pygame
-pygame.init()
+# # Initialize Pygame
+# pygame.init()
 
-# Screen dimensions
-width, height = 800, 600
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("3D Object Movement")
+# # Screen dimensions
+# width, height = 800, 600
+# screen = pygame.display.set_mode((width, height))
+# pygame.display.set_caption("3D Object Movement")
 
-# Colors
-black = (0, 0, 0)
-white = (255, 255, 255)
+# # Colors
+# black = (0, 0, 0)
+# white = (255, 255, 255)
 
-# Object properties
-object_pos = np.array([0.0, 0.0, 5.0])  # Initial position in 3D space
-speed = 0.05  # Movement speed
-fov = 90  # Field of view in degrees
-min_distance = 2.0  # Minimum distance from the camera
-max_distance = 10.0  # Maximum distance from the camera
+# # Object properties
+# object_pos = np.array([0.0, 0.0, 5.0])  # Initial position in 3D space
+# speed = 0.05  # Movement speed
+# fov = 90  # Field of view in degrees
+# min_distance = 2.0  # Minimum distance from the camera
+# max_distance = 10.0  # Maximum distance from the camera
 
-# Function to update object position
-def update_position(pos):
-    direction = np.random.randn(3)  # Random direction
-    direction /= np.linalg.norm(direction)  # Normalize to keep speed constant
-    pos += direction * speed
+# # Function to update object position
+# def update_position(pos):
+#     direction = np.random.randn(3)  # Random direction
+#     direction /= np.linalg.norm(direction)  # Normalize to keep speed constant
+#     pos += direction * speed
 
-    # Ensure the object stays within the FOV and distance limits
-    distance = np.linalg.norm(pos)
-    if distance < min_distance:
-        pos = pos / distance * min_distance
-    elif distance > max_distance:
-        pos = pos / distance * max_distance
+#     # Ensure the object stays within the FOV and distance limits
+#     distance = np.linalg.norm(pos)
+#     if distance < min_distance:
+#         pos = pos / distance * min_distance
+#     elif distance > max_distance:
+#         pos = pos / distance * max_distance
 
-    return pos
+#     return pos
 
-# Main loop
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+# # Main loop
+# running = True
+# while running:
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             running = False
 
-    # Update object position
-    object_pos = update_position(object_pos)
+#     # Update object position
+#     object_pos = update_position(object_pos)
 
-    # Clear screen
-    screen.fill(black)
+#     # Clear screen
+#     screen.fill(black)
 
-    # Project 3D position to 2D
-    x = int(width / 2 + object_pos * width / (2 * object_pos))
-    y = int(height / 2 - object_pos * height / (2 * object_pos))
+#     # Project 3D position to 2D
+#     x = int(width / 2 + object_pos * width / (2 * object_pos))
+#     y = int(height / 2 - object_pos * height / (2 * object_pos))
 
-    # Draw object
-    pygame.draw.circle(screen, white, (x, y), 5)
+#     # Draw object
+#     pygame.draw.circle(screen, white, (x, y), 5)
 
-    # Update display
-    pygame.display.flip()
+#     # Update display
+#     pygame.display.flip()
 
-    # Cap the frame rate
-    pygame.time.Clock().tick(60)
+#     # Cap the frame rate
+#     pygame.time.Clock().tick(60)
 
-pygame.quit()
+# pygame.quit()
+
+
+
+print(int("0.00"))

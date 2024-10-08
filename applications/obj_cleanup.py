@@ -53,7 +53,7 @@ def preprocess_obj_file(path, filename):
     return new_obj_path
 
 # Example usage:
-path = "src/engine/objects/imperial_shuttle"
-filename = "imperial_shuttle_ver1.obj"
+path = "src/engine/objects/tie_fighter"
+filename = "tie.obj"
 new_filename = preprocess_obj_file(path, filename)
 print(f"Processed OBJ file saved as: {new_filename}")
