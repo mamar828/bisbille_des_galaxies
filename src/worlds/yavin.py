@@ -1,6 +1,6 @@
+import numpy as np
 from glm import vec3
 
-from src.engine.relative_paths import get_path
 from src.engine.elements import Object
 from src.engine.models import *
 from src.worlds.world import World
@@ -8,28 +8,6 @@ from src.worlds.world import World
 
 class Yavin(World):
     def __init__(self):
-        self.master_catty_boi = Object(
-            texture="cat",
-            position=vec3(0,0,20),
-            rotation=vec3(-90,0,0),
-            scale=vec3(1,1,1),
-            model=Cat,
-        )
-        self.sphere = Object(
-            texture="white",
-            position=vec3(5,0,25),
-            rotation=vec3(0,0,0),
-            scale=vec3(1,1,1),
-            model=Sphere,
-        )
-        self.cube = Object(
-            texture="red",
-            position=vec3(7,0,25),
-            rotation=vec3(0,0,0),
-            scale=vec3(1,1,1),
-            model=Cube,
-        )
-
         # self.corvette = Object(
         #     position=vec3(0,0,0),
         #     rotation=vec3(0,0,0),#-2900
@@ -39,11 +17,8 @@ class Yavin(World):
         # )
 
         self.millenium_falcon = Object(
-            position=vec3(5,10,0),
-            rotation=vec3(45,0,0),
-            scale=vec3(1,1,1),
             model=MilleniumFalcon,
-            # instance=CorvetteAI(vec3(-20,0,-10))
+            instance=MilleniumFalconAI()
         )
 
         # self.shuttle = Object(
@@ -77,46 +52,12 @@ class Yavin(World):
         #     model=XWing,
         #     instance=None
         # )
-
-        self.cube_1 = Object(
-            texture="blue",
-            position=vec3(0,0,2),
-            rotation=vec3(0,0,0),
-            scale=vec3(1,1,1),
-            model=Cube,
-        )
-
-        self.cube_2 = Object(
-            texture="blue",
-            position=vec3(-2,0,0),
-            rotation=vec3(0,0,0),
-            scale=vec3(1,1,1),
-            model=Cube,
-        )
-
-        # self.x_wing = Object(
-        #     position=vec3(-20,0,-10),
-        #     rotation=vec3(0,0,0),
-        #     scale=vec3(1,1,1),
-        #     model=XWing,
-        #     instance=None
-        # )
-
-        # self.health = 100
         self.health_bar = Object(
             texture="red",
             model=Cube,
             instance=HealthBar(),#self.health),
             saturated=True
         )
-
-
-        # self.laser = Object(
-        #     texture="green",
-        #     model=Sphere,
-        #     instance=Laser(),
-        #     saturated=True
-        # )
 
 
 class CorvetteAI:
@@ -135,8 +76,6 @@ class HealthBar:
     def __init__(self, health=100):
         self.health = health
         self.update_health_parameters()
-        # self.position_func = lambda health: vec3(0,0.1,0.04)
-        # self.position = vec3(0,0.1,0.04)
         self.rotation = vec3(0,0,0)
         self.count = 0
 
@@ -153,14 +92,115 @@ class HealthBar:
             self.update_health_parameters()
 
 
-# class Laser:
+# class MilleniumFalconAI:
 #     def __init__(self):
-#         self.scale = vec3(0.1,0.1,0.1)
-#         self.position = vec3(0,-1,0)
+#         self.position = vec3(0,100,0)
 #         self.rotation = vec3(0,0,0)
+#         self.scale = vec3(1,1,1)
 
-#     def update(self, delta_time=None):
-#         mouse_x, mouse_y = get_pos()
-#         print(mouse_x,mouse_y)
-#         # mouse_y = self.app.window_size[1] - mouse_y  # Invert Y to match OpenGL's coordinate system
-#         # self.position = vec3(mouse_x, 100, mouse_y)
+#     def update(self, app):
+#         pass
+
+
+
+# class MilleniumFalconAI:
+#     def __init__(self):
+#         self.position = vec3(0, 20, 0)
+#         self.rotation = vec3(0, 0, 0)  # Euler angles or use quaternions
+#         self.scale = vec3(1, 1, 1)
+#         self.max_speed = 1
+#         self.turn_speed = 0.05  # Adjust for smoothness
+#         self.velocity = vec3(0, 0, 0)
+
+
+class MilleniumFalconAI:
+    def __init__(self):
+        self.position = glm.vec3(0, 100, 0)
+        self.min_distance = 50  # Minimum allowed distance from the camera
+        self.max_distance = 200  # Maximum allowed distance from the camera
+        self.speed = 2.0  # Movement speed
+        self.scale = vec3(10,10,10)
+        self.rotation = vec3(0, 0, 0)
+    
+    def update(self, app):
+        pass
+    #     direction = glm.normalize(app.camera.position - self.position)
+    #     distance = glm.length(app.camera.position - self.position)
+
+    #     # Ensure the object stays within the FOV bounds
+    #     if distance < app.camera.FOV:
+    #         self.position -= direction * self.speed
+    #     elif distance > app.camera.FOV:
+    #         self.position += direction * self.speed
+
+    #     # Update rotation to face the camera
+    #     self.rotation.y = glm.degrees(glm.atan(direction.z, direction.x))
+
+    # def get_transform(self):
+    #     return glm.translate(glm.mat4(1.0), self.position) * glm.rotate(
+    #         glm.mat4(1.0), glm.radians(self.rotation.y), glm.vec3(0, 1, 0)) * glm.scale(glm.mat4(1.0), self.scale)
+
+    # def update(self, app):
+    #     camera = app.camera
+    #     camera_pos = camera.position
+    #     camera_forward = camera.forward
+    #     fov = camera.FOV
+        
+    #     # 1. Check if within FOV
+    #     if not self.is_within_fov(camera_pos, camera_forward, fov):
+    #         # Reorient and steer towards center of FOV
+    #         self.steer_towards_center(camera_pos, camera_forward)
+        
+    #     # 2. Update position based on current velocity
+    #     self.position += self.velocity * app.delta_time
+        
+    #     # 3. Update rotation smoothly
+    #     self.smooth_turn(camera_pos, camera_forward)
+    
+    # def is_within_fov(self, camera_pos, camera_forward, fov):
+    #     # Vector from camera to starship
+    #     to_starship = self.position - camera_pos
+    #     to_starship_normalized = glm.normalize(to_starship)
+    #     camera_forward_normalized = glm.normalize(camera_forward)
+        
+    #     # Calculate angle between camera forward and to_starship
+    #     dot_product = glm.dot(to_starship_normalized, camera_forward_normalized)
+    #     angle = np.arccos(dot_product)
+        
+    #     # Check if within FOV
+    #     return angle < np.radians(fov / 2)
+    
+    # def steer_towards_center(self, camera_pos, camera_forward):
+    #     # Calculate desired direction towards the center of the FOV
+    #     to_starship = self.position - camera_pos
+    #     target_direction = camera_forward
+        
+    #     # Calculate the desired velocity in that direction
+    #     desired_velocity = glm.normalize(target_direction - to_starship) * self.max_speed
+        
+    #     # Adjust current velocity towards the desired velocity (steering behavior)
+    #     steering_force = desired_velocity - self.velocity
+    #     self.velocity += steering_force  # You can scale it for smoother steering
+    
+    # def smooth_turn(self, camera_pos, camera_forward):
+    #     # Vector from the starship to the camera
+    #     to_starship = camera_pos - self.position
+        
+    #     # Current orientation of the starship (you could store this as a quaternion)
+    #     current_rotation = R.from_euler('xyz', self.rotation)  # Current Euler angles to rotation
+
+    #     # Target direction the ship needs to face (toward the camera or center of FOV)
+    #     target_direction = glm.normalize(camera_forward)
+        
+    #     # Convert target direction to a quaternion rotation
+    #     # Assuming the target direction is along the z-axis for simplicity
+    #     target_rotation = R.from_rotvec(np.array([0, 0, np.arctan2(target_direction.y, target_direction.x)]))  # Simplify if facing along the Z-axis
+
+    #     # Create SLERP object for smooth interpolation between current and target rotation
+    #     slerp = Slerp([0, 1], R.from_euler('xyz', [self.rotation, target_rotation.as_euler('xyz')]))
+
+    #     # Apply slerp to interpolate between current and target over time
+    #     smooth_rotation = slerp(self.turn_speed).as_euler('xyz')
+
+    #     # Update the starship's rotation to the smoothed rotation
+    #     self.rotation = glm.vec3(smooth_rotation)

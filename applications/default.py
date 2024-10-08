@@ -2,10 +2,11 @@ from glm import vec3
 
 from src.engine.engine import Engine
 from src.worlds.yavin import Yavin
+from src.worlds.coruscant import Coruscant
 
 
 engine = Engine(
-    world=Yavin(),
+    world=Coruscant(),#Yavin(),
     # window_size=(1920, 1080),
     window_size=(1440, 900),
     # window_size=(700, 700),

@@ -9,9 +9,9 @@ class MaterialLoader:
     def __init__(self):
         self.object_materials = {}
         for obj, filename in [
-            ("millenium_falcon", "Star Wars FALCON centered.obj"),
+            # ("millenium_falcon", "Star Wars FALCON centered.obj"),
             # ("imperial_shuttle", "processed_imperial_shuttle_ver1_centered.obj"),
-            # ("star_destroyer", "StarDestroyer.obj"),
+            ("star_destroyer", "StarDestroyer.obj"),
             # ("assault_frigate", "Assault_Frigate_Model.obj"),
             # ("tie_fighter", "tie.obj")
             # ("corvette", "Star Wars CORVETTE centered.obj"),

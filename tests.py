@@ -114,36 +114,104 @@ from pyrr import Matrix44
 # print(np.array([16.51+16.62+16.65])/3)
 
 
+# import numpy as np
+# from PIL import Image
+
+# Image()
+
+# # Create a new image for the gradient
+# gradient_img = Image.new("RGBA", img.size)
+
+# # Create a gradient for the white spot
+# width, height = gradient_img.size
+# for y in range(height):
+#     for x in range(width):
+#         # Calculate the distance from the center
+#         dx = x - width // 2
+#         dy = y - height // 2
+#         distance = np.sqrt(dx**2 + dy**2)
+#         max_distance = min(width, height) // 4  # Adjust the size of the fading spot
+
+#         # Determine the alpha based on distance
+#         if distance < max_distance:
+#             alpha = int(255 * (1 - (distance / max_distance)))  # Fade out
+#             gradient_img.putpixel((x, y), (255, 255, 255, alpha))  # White with varying alpha
+#         else:
+#             gradient_img.putpixel((x, y), (0, 0, 0, 0))  # Transparent
+
+# # Combine the green image and the gradient
+# final_img = Image.alpha_composite(img.convert("RGBA"), gradient_img)
+
+# # Save the final image
+# output_path_with_gradient = "/mnt/data/green_dot_with_gradient.png"
+# final_img.save(output_path_with_gradient)
+
+# output_path_with_gradient
+
+
+
+
+import pygame
 import numpy as np
-from PIL import Image
 
-Image()
+# Initialize Pygame
+pygame.init()
 
-# Create a new image for the gradient
-gradient_img = Image.new("RGBA", img.size)
+# Screen dimensions
+width, height = 800, 600
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("3D Object Movement")
 
-# Create a gradient for the white spot
-width, height = gradient_img.size
-for y in range(height):
-    for x in range(width):
-        # Calculate the distance from the center
-        dx = x - width // 2
-        dy = y - height // 2
-        distance = np.sqrt(dx**2 + dy**2)
-        max_distance = min(width, height) // 4  # Adjust the size of the fading spot
+# Colors
+black = (0, 0, 0)
+white = (255, 255, 255)
 
-        # Determine the alpha based on distance
-        if distance < max_distance:
-            alpha = int(255 * (1 - (distance / max_distance)))  # Fade out
-            gradient_img.putpixel((x, y), (255, 255, 255, alpha))  # White with varying alpha
-        else:
-            gradient_img.putpixel((x, y), (0, 0, 0, 0))  # Transparent
+# Object properties
+object_pos = np.array([0.0, 0.0, 5.0])  # Initial position in 3D space
+speed = 0.05  # Movement speed
+fov = 90  # Field of view in degrees
+min_distance = 2.0  # Minimum distance from the camera
+max_distance = 10.0  # Maximum distance from the camera
 
-# Combine the green image and the gradient
-final_img = Image.alpha_composite(img.convert("RGBA"), gradient_img)
+# Function to update object position
+def update_position(pos):
+    direction = np.random.randn(3)  # Random direction
+    direction /= np.linalg.norm(direction)  # Normalize to keep speed constant
+    pos += direction * speed
 
-# Save the final image
-output_path_with_gradient = "/mnt/data/green_dot_with_gradient.png"
-final_img.save(output_path_with_gradient)
+    # Ensure the object stays within the FOV and distance limits
+    distance = np.linalg.norm(pos)
+    if distance < min_distance:
+        pos = pos / distance * min_distance
+    elif distance > max_distance:
+        pos = pos / distance * max_distance
 
-output_path_with_gradient
+    return pos
+
+# Main loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Update object position
+    object_pos = update_position(object_pos)
+
+    # Clear screen
+    screen.fill(black)
+
+    # Project 3D position to 2D
+    x = int(width / 2 + object_pos * width / (2 * object_pos))
+    y = int(height / 2 - object_pos * height / (2 * object_pos))
+
+    # Draw object
+    pygame.draw.circle(screen, white, (x, y), 5)
+
+    # Update display
+    pygame.display.flip()
+
+    # Cap the frame rate
+    pygame.time.Clock().tick(60)
+
+pygame.quit()

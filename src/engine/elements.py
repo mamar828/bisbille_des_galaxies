@@ -41,3 +41,24 @@ class Object:
         self.instance = instance
         self.model = model
         self.saturated = saturated
+
+
+class HealthBar:
+    def __init__(self, health=100):
+        self.health = health
+        self.update_health_parameters()
+        self.rotation = vec3(0,0,0)
+        self.count = 0
+        self.rate = 10
+
+    def update_health_parameters(self):
+        if self.health > 0:
+            self.position = vec3(0,0.1,0.04) - (100 - self.health)/100 * vec3(0.07,0,0)
+            self.scale = vec3(0.07,0.0001,0.001) - (100 - self.health)/100 * vec3(0.07,0,0)
+        else:
+            self.scale = vec3(0,0,0)
+
+    def update(self, app):
+        if app.collision_detector.collision:
+            self.health -= self.rate*app.delta_time
+            self.update_health_parameters()

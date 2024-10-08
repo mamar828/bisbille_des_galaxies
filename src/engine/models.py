@@ -294,6 +294,7 @@ class MilleniumFalcon(MaterialModel):
             instance=None,
             saturated: bool=False
     ):
+        self.instance = instance
         aligned_rotation = rotation/2 * 115 - glm.vec3(0,0,2250)
         scaling = scale / 100
         super().__init__(app, "millenium_falcon", position, aligned_rotation, scaling, instance, saturated)

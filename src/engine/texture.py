@@ -61,8 +61,8 @@ class Texture:
         return depth_texture
     
     def get_texture_cube(self, directory_path, extension="png"):
-        if self.app.world.__class__.__name__ == "Yavin":
-            texture = pg.transform.flip(pg.image.load(f"{directory_path}/yavin.png").convert(),
+        if self.app.world.__class__.__name__ == "Coruscant":
+            texture = pg.transform.flip(pg.image.load(f"{directory_path}/skybox_coruscant.png").convert(),
                                         flip_x=True, flip_y=False)
             texture_cube = self.context.texture_cube(size=texture.get_size(), components=3, data=None)
             for i in range(6):
