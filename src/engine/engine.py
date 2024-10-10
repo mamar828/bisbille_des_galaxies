@@ -163,7 +163,6 @@ class Engine:
 
     def quit(self):
         self.scene.destroy()
-        self.display.destroy()
         pg.quit()
         self.running = False
 
