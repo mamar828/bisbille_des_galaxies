@@ -28,4 +28,4 @@ class Beamage:
             return nparray(x, y) * self.app.window_size
         
         except PermissionError:
-            return None, None
+            return 

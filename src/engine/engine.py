@@ -11,7 +11,6 @@ from src.engine.scene_renderer import SceneRenderer
 from src.engine.material_loader import MaterialLoader
 from src.inputs.master_input import MasterInput
 from src.inputs.keyboard import Keyboard
-from src.inputs.controller import Controller
 from src.engine.display import Display
 from src.engine.collision_detector import CollisionDetector
 
