@@ -50,7 +50,7 @@ class Engine:
                 "positive_rotation" : 0.05,
                 "negative_rotation" : 0.94
             },
-            dev_mode: bool=False,
+            use_mouse: bool=True,
     ):
         """
         Initialize an Engine object.
@@ -108,6 +108,7 @@ class Engine:
         self.framerate = framerate
         self.fullscreen = fullscreen
         self.running = True
+        self.use_mouse = use_mouse
 
         self.clock = pg.time.Clock()
         self.time = 0
@@ -115,7 +116,7 @@ class Engine:
         
         self.pressed_inputs = set()       # Keep track of pressed keys
         
-        self.input = MasterInput()
+        self.input = MasterInput(self)
         self.display = Display(self)
 
         pg.init()

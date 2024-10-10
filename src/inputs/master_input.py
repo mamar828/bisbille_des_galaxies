@@ -3,6 +3,7 @@ from pygame import joystick
 
 from src.inputs.keyboard import Keyboard
 from src.inputs.controller import Controller
+from src.inputs.beamage import Beamage
 
 
 class MasterInput:
@@ -10,11 +11,10 @@ class MasterInput:
     This class defines the base class for combining inputs.
     """
 
-    def __init__(self):
+    def __init__(self, app):
+        self.app = app
         self.inputs = [Keyboard(self)]
-        joystick.init()
-        for i in range(joystick.get_count()):
-            self.inputs.append(Controller(self, joystick.Joystick(i)))
+        self.beamage = Beamage(self, "test")
 
         if len(self.inputs) == 1:
             self.get_movement_dict = self._get_single_movement_dict

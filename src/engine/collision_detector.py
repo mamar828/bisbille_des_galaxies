@@ -16,12 +16,17 @@ class CollisionDetector:
         self.off_screen_frame_buffer_object.clear(0.0,0.0,0.0,1.0)
 
     def update(self):
-        mouse_x, mouse_y = mouse.get_pos()
-        mouse_y = self.app.window_size[1] - mouse_y  # Invert Y to match OpenGL's coordinate system
-        pixel_data = frombuffer(self.off_screen_frame_buffer_object.read(
-            viewport=(mouse_x, mouse_y, 1, 1)), dtype=uint8
-        )
-        if sum(pixel_data[:3]) > 0 and mouse_y != self.app.window_size[1]:
-            self.collision = True
+        if self.use_mouse:
+            cursor_x, cursor_y = mouse.get_pos()
+        cursor_x, cursor_y = self.app.input.beamage.get_position()
+        if cursor_x is not None and cursor_y is not None:
+            cursor_y = self.app.window_size[1] - cursor_y  # Invert Y to match OpenGL's coordinate system
+            pixel_data = frombuffer(self.off_screen_frame_buffer_object.read(
+                viewport=(cursor_x, cursor_y, 1, 1)), dtype=uint8
+            )
+            if sum(pixel_data[:3]) > 0 and cursor_y != self.app.window_size[1]:
+                self.collision = True
+            else:
+                self.collision = False
         else:
             self.collision = False

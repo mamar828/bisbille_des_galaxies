@@ -28,5 +28,6 @@ engine = Engine(
     camera_yaw=-90,
     camera_pitch=0,
     model_saturation=False,
+    use_mouse=True
 )
 engine.run()
