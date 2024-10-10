@@ -58,7 +58,7 @@ class Texture:
                                 tuple([int(float(c) * 255) for c in color[1:]]))
             else:
                 for material, vertices in data:
-                    self.textures[f"{obj}_{material}"] = self.get_texture(f"{get_path(f"objects/{obj}")}/{material}.jpg")
+                    self.textures[f"{obj}_{material}"] = self.get_texture(f"{get_path(f'objects/{obj}')}/{material}.jpg")
 
         for color in ["green", "red", "blue", "yellow", "orange", "cyan", "magenta", "white", "black", "purple",
                       "brown", "grey"]:

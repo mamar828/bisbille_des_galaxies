@@ -10,8 +10,6 @@ from src.engine.scene import Scene
 from src.engine.scene_renderer import SceneRenderer
 from src.engine.material_loader import MaterialLoader
 from src.inputs.master_input import MasterInput
-from src.inputs.keyboard import Keyboard
-from src.engine.display import Display
 from src.engine.collision_detector import CollisionDetector
 
 
@@ -116,7 +114,6 @@ class Engine:
         self.pressed_inputs = set()       # Keep track of pressed keys
         
         self.input = MasterInput(self)
-        self.display = Display(self)
 
         pg.init()
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)

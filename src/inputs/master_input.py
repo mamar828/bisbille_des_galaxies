@@ -2,7 +2,6 @@ from numpy import array as nparray, sum as npsum
 from pygame import joystick
 
 from src.inputs.keyboard import Keyboard
-from src.inputs.controller import Controller
 from src.inputs.beamage import Beamage
 
 

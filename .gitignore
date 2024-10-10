@@ -1,5 +1,10 @@
 test_measurements.txt
 .*
 !.gitignore
-src/engine/objects/
 *.pyc
+
+src/engine/objects/assault_frigate
+src/engine/objects/corvette
+src/engine/objects/imperial_shuttle
+src/engine/objects/millenium_falcon
+src/engine/objects/tie_fighter
