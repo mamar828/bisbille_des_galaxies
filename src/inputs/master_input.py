@@ -13,7 +13,7 @@ class MasterInput:
     def __init__(self, app):
         self.app = app
         self.inputs = [Keyboard(self)]
-        self.beamage = Beamage(self, "test")
+        self.beamage = Beamage(self, r"C:\Users\Proprio\Documents\Mathieu\bisbille_des_galaxies\test_1.txt")
 
         if len(self.inputs) == 1:
             self.get_movement_dict = self._get_single_movement_dict
