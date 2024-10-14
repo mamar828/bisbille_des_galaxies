@@ -3,6 +3,8 @@ test_measurements.txt
 !.gitignore
 *.pyc
 
+tests
+
 src/engine/objects/assault_frigate
 src/engine/objects/corvette
 src/engine/objects/imperial_shuttle

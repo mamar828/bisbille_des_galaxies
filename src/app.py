@@ -22,6 +22,8 @@ class App(tk.Tk):
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
 
+        self.beamage_filename = ""
+        self.score_foldername = ""
         menubar = tk.Menu(self)
         self.config(menu=menubar)
         self.mode_menu = tk.Menu(menubar, tearoff=0)
@@ -29,21 +31,32 @@ class App(tk.Tk):
         self.mode_menu.add_command(label="Select Beamage file", command=self.select_beamage_file)
         self.mode_menu.add_command(label="Print Beamage file", command=self.print_beamage_file)
         self.mode_menu.entryconfig("Print Beamage file", state=tk.DISABLED)
+        self.mode_menu.add_command(label="Select score folder", command=self.select_score_folder)
+        self.mode_menu.add_command(label="Print score folder", command=self.print_score_folder)
+        self.mode_menu.entryconfig("Print score folder", state=tk.DISABLED)
 
     def select_beamage_file(self):
-        self.filename = filedialog.askopenfilename(initialdir="/", title="Select Beamage file",
+        self.beamage_filename = filedialog.askopenfilename(initialdir="/", title="Select Beamage file",
             filetypes = (("Text files", "*.txt"), ("All files", "*.*")))
         self.frame.focus_force()
-        if self.filename == "":
+        if self.beamage_filename == "":
             self.mode_menu.entryconfig("Print Beamage file", state=tk.DISABLED)
         else:
             self.mode_menu.entryconfig("Print Beamage file", state=tk.NORMAL)
 
     def print_beamage_file(self):
-        tk.messagebox.showinfo(
-            title="Beamage file",
-            message=f"filename :\n{self.filename}"
-        )
+        tk.messagebox.showinfo(title="Beamage file", message=f"filename :\n{self.beamage_filename}")
+
+    def select_score_folder(self):
+        self.score_foldername = filedialog.askdirectory(initialdir="/", title="Select a folder")
+        self.frame.focus_force()
+        if self.score_foldername == "":
+            self.mode_menu.entryconfig("Print score folder", state=tk.DISABLED)
+        else:
+            self.mode_menu.entryconfig("Print score folder", state=tk.NORMAL)
+
+    def print_score_folder(self):
+        tk.messagebox.showinfo(title="Score folder", message=f"foldername :\n{self.score_foldername}")
 
 class Window(tk.Frame):
     def __init__(self, master):
@@ -51,13 +64,12 @@ class Window(tk.Frame):
         self.master = master
         self.n_players = 5
 
-        # Configure the rows and columns for proper centering
-        self.grid_rowconfigure(0, weight=1)  # Top space
-        self.grid_rowconfigure(1, weight=0)  # Button row (centered)
-        self.grid_rowconfigure(2, weight=1)  # Bottom space
-        self.grid_columnconfigure(0, weight=1)  # Left space
-        self.grid_columnconfigure(1, weight=0)  # Center space
-        self.grid_columnconfigure(2, weight=1)  # Center space
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=0)
+        self.grid_rowconfigure(2, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=0)
+        self.grid_columnconfigure(2, weight=1)
 
         # Load background image and set up panel
         self.image = Image.open("src/engine/textures/floor_test.png")
@@ -76,6 +88,8 @@ class Window(tk.Frame):
         button_frame.columnconfigure(0, weight=1)
         button_frame.columnconfigure(1, weight=1, minsize=70)
         button_frame.columnconfigure(2, weight=1)
+        button_frame.rowconfigure(0, weight=1)
+        button_frame.rowconfigure(1, weight=1)
 
         # Buttons: they will now stay centered
         self.decrease_button = tk.Button(
@@ -88,24 +102,24 @@ class Window(tk.Frame):
         )
         self.increase_button.grid(column=2, row=0, sticky="nsew", padx=(10, 10), pady=(10, 10))
         
-        self.n_players_label = tk.Label(
-            button_frame, text=self.n_players, font=("menlo", 35), bg="black"
-        )
+        self.n_players_label = tk.Label(button_frame, text=self.n_players, font=("menlo", 35), bg="black")
         self.n_players_label.grid(column=1, row=0, sticky="nsew", padx=(10, 10), pady=(10, 10))
+        
+        self.start_button = tk.Button(button_frame, text="START", font=("menlo", 35), bg="black", command=self.start)
+        self.start_button.grid(column=0, row=1, columnspan=3, sticky="nsew", padx=(10, 10), pady=(10, 10))
 
     def increase_players(self):
         self.n_players += 1
-        self.update_n_players_label()  # Update the label immediately
+        self.update_n_players_label()
 
     def decrease_players(self):
         self.n_players = max(1, self.n_players - 1)
-        self.update_n_players_label()  # Update the label immediately
+        self.update_n_players_label()
 
     def update_n_players_label(self):
         self.n_players_label.config(text=self.n_players)
 
     def _resize_image(self, event):
-        # Get the new dimensions of the window
         new_width = event.width
         new_height = event.height
 
@@ -116,6 +130,13 @@ class Window(tk.Frame):
         # Update the label with the resized background image
         self.background.configure(image=self.background_image)
 
+    def start(self):
+        if self.master.beamage_filename == "":
+            tk.messagebox.showwarning(title="Error", message="No Beamage file was given.")
+        elif self.master.score_foldername == "":
+            tk.messagebox.showwarning(title="Error", message="No score folder was given.")
+        else:
+            print("Starting")
 
 if __name__ == "__main__":
     app = App()
