@@ -335,11 +335,12 @@ class StarDestroyer(MaterialModel):
             instance=None,
             saturated: bool=False
     ):
-        scaling = scale * 0.9
+        self.scaling_factor = 0.9
+        scaling = scale * self.scaling_factor
         super().__init__(app, "star_destroyer", position, rotation, scaling, instance, saturated)
 
     def update_visual(self, **kwargs):
-        kwargs["scale"] *= 0.9
+        kwargs["scale"] *= self.scaling_factor
         super().update_visual(**kwargs)
 
 
@@ -369,9 +370,13 @@ class TieFighter(MaterialModel):
             instance=None,
             saturated: bool=False
     ):
-        # aligned_rotation = rotation * 115 - glm.vec3(0,0,2250)
-        # scaling = scale / 100
-        super().__init__(app, "tie_fighter", position, rotation, scale, instance, saturated)
+        self.scaling_factor = 0.7
+        scaling = scale * self.scaling_factor
+        super().__init__(app, "tie_fighter", position, rotation, scaling, instance, saturated)
+
+    def update_visual(self, **kwargs):
+        kwargs["scale"] *= self.scaling_factor
+        super().update_visual(**kwargs)
 
 
 class XWing(MaterialModel):

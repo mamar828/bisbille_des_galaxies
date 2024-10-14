@@ -21,13 +21,13 @@ class Engine:
 
     def __init__(
             self,
-            world=None,
+            # world=None,
             window_size: tuple[int,int]=(1440,900),
             framerate: int=60,
             fullscreen: bool=True,
-            light_position: vec3=vec3(0,0,0),
+            light_position: vec3=vec3(0,0,100),
             light_color: vec3=vec3(1,1,1),
-            light_ambient_intensity: float=0,
+            light_ambient_intensity: float=0.1,
             light_diffuse_intensity: float=1.5,
             light_specular_intensity: float=1.0,
             camera_origin: tuple[int,int,int]=(0,0,0),
@@ -40,14 +40,14 @@ class Engine:
             camera_pitch: float=0.,
             # objects: list[Object3D]=None,
             # functions: list[Function3D]=None,
-            model_saturation: bool=True,
+            model_saturation: bool=False,
             camera_cinematic_settings: dict={
                 "positive_acceleration" : 0.05,
                 "negative_acceleration" : 0.05,
                 "positive_rotation" : 0.05,
                 "negative_rotation" : 0.94
             },
-            use_mouse: bool=True,
+            dev_mode: bool=True,
     ):
         """
         Initialize an Engine object.
@@ -105,7 +105,7 @@ class Engine:
         self.framerate = framerate
         self.fullscreen = fullscreen
         self.running = True
-        self.use_mouse = use_mouse
+        self.dev_mode = dev_mode
 
         self.clock = pg.time.Clock()
         self.time = 0
@@ -142,8 +142,8 @@ class Engine:
         self.camera = Camera(
             app=self,
             position=camera_origin,
-            speed=camera_speed,
-            sensitivity=camera_sensitivity,
+            speed=camera_speed if dev_mode else 0,
+            sensitivity=camera_sensitivity if dev_mode else 0,
             fov=camera_fov,
             near_render_distance=camera_near_render_distance,
             far_render_distance=camera_far_render_distance,
@@ -151,15 +151,15 @@ class Engine:
             pitch=camera_pitch,
             # cinematic_settings=camera_cinematic_settings
         )
-
-        self.world = world
-
         self.loader = MaterialLoader()
         self.collision_detector = CollisionDetector(self)
 
+    def set_world(self, world):
+        self.world = world
         self.mesh = Mesh(self)
         self.scene = Scene(self)
         self.scene_renderer = SceneRenderer(self)
+        self.time = 0
 
     def quit(self):
         self.scene.destroy()
@@ -186,58 +186,6 @@ class Engine:
         if event.key == pg.K_p:
             self.camera.mouse_mode = list({"camera", "pointer"}.difference({self.camera.mouse_mode}))[0]
 
-    # def check_controller_event(self, event):
-    #     if self.key_mode == "presets":
-    #         if event.button == 11:
-    #             self.current_preset_i += 1
-    #         elif event.button == 12:
-    #             self.current_preset_i -= 1
-    #         self.current_preset_i = max(self.current_preset_i, 0)
-    #         self.physics_speed = round((10**(2.4)*self.current_preset_i)**2 + 1)
-
-    #     elif self.key_mode == "camera":
-    #         if event.button == 11:
-    #             self.camera.current_speed_modifier_i += 1
-    #         elif event.button == 12:
-    #             self.camera.current_speed_modifier_i -= 1
-    #         self.camera.current_speed_modifier_i = max(self.camera.current_speed_modifier_i, 0)
-    #         if self.camera.current_speed_modifier_i <= 5:
-    #             self.camera.current_speed_modifier = 1 / 5**3 * self.camera.current_speed_modifier_i**3
-    #         else:
-    #             self.camera.current_speed_modifier = 1 / 5**6 * self.camera.current_speed_modifier_i**6
-
-    #     if event.button == 0 and "camera" in self.key_modes:
-    #         self.camera.cycle_tracked_bodies()
-
-    #     if event.button == 1 and "camera" in self.key_modes:
-    #         self.camera.cycle_movement_modes()
-
-    #     if event.button == 3 and "camera" in self.key_modes and self.scene.hidden_surfaces:
-    #         self.scene.hidden_surfaces.append(self.scene.surfaces[0])
-    #         self.scene.surfaces.remove(self.scene.surfaces[0])
-    #         self.scene.surfaces.append(self.scene.hidden_surfaces[0])
-    #         self.scene.hidden_surfaces.remove(self.scene.hidden_surfaces[0])
-
-
-    #     if event.button == 14:
-    #         current_mode_1 = self.key_modes.index(self.key_mode)
-    #         self.key_mode = self.key_modes[(current_mode_1 + 1) % len(self.key_modes)]
-    #         if self.key_mode == "manual":
-    #             current_mode_1 = self.key_modes.index(self.key_mode)
-    #             self.key_mode = self.key_modes[(current_mode_1 + 1) % len(self.key_modes)]
-    #         self.key_string = ""
-
-    #     if event.button == 13:
-    #         current_mode_1 = self.key_modes.index(self.key_mode)
-    #         self.key_mode = self.key_modes[(current_mode_1 - 1 + len(self.key_modes)) % len(self.key_modes)]
-    #         if self.key_mode == "manual":
-    #             current_mode_1 = self.key_modes.index(self.key_mode)
-    #             self.key_mode = self.key_modes[(current_mode_1 - 1 + len(self.key_modes)) % len(self.key_modes)]
-    #         self.key_string = ""
-
-    #     if event.button == 6:
-    #         self.quit()
-            
     def filter_event(self, event):
         if event.type == pg.KEYDOWN:
             if event.key not in self.pressed_inputs:
@@ -246,22 +194,6 @@ class Engine:
 
         elif event.type == pg.KEYUP and event.key in self.pressed_inputs:
             self.pressed_inputs.remove(event.key)
-
-        # elif event.type == pg.JOYBUTTONDOWN:
-        #     if event.button not in self.pressed_inputs:
-        #         self.check_controller_event(event)
-        #         self.pressed_inputs.add(event.button)
-        
-        # elif event.type == pg.JOYBUTTONUP and event.button in self.pressed_inputs:
-        #     self.pressed_inputs.remove(event.button)
-
-    # @staticmethod
-    # def is_int(value):
-    #     try:
-    #         int(value)
-    #         return True
-    #     except ValueError:
-    #         return False
 
     def check_time(self):
         self.time = pg.time.get_ticks() * 0.001
@@ -273,26 +205,6 @@ class Engine:
         self.context.clear()
         self.scene_renderer.render()
         pg.display.flip()
-
-    # def get_current_state(self):
-    #     state = {
-    #         "lEngine type" : self.__class__.__name__,
-    #         "Simulation time (s)" : f"{self.simulation_time:.2e}",
-    #         "lWindow size" : self.window_size,
-    #         "Physics speed" : f"{self.physics_speed:.2e}",
-    #         "lFramerate" : f"{0 if self.delta_time ==0 else self.physics_speed / self.delta_time:.1f}",
-    #         "Camera pos (x,y,z)" : \
-    #             f"{self.camera.position.x:.3f}, {-self.camera.position.z:.3f}, {self.camera.position.y:.3f}",
-    #         "lNumber of inputs" : len(self.input.inputs),
-    #         "Camera speed" : self.camera.current_speed_modifier_i,
-    #         "lKey mode" : self.key_mode,
-    #         "Tracked body index" : self.camera.current_tracked_body_index,
-    #         "lModel size type" : self.model_size_type,
-    #         "Camera movement mode" : self.camera.movement_mode,
-    #         "lManual str" : self.key_string,
-    #         "empty" : "   "
-    #     }
-    #     return state
 
     def run(self):
         while self.running:

@@ -1,14 +1,13 @@
 from glm import vec3
+import time
 
 from src.engine.engine import Engine
-from src.worlds.yavin import Yavin
-from src.worlds.coruscant import Coruscant
+from src.worlds.world import *
 
 
 engine = Engine(
-    world=[Coruscant(),Yavin()][0],
-    window_size=(1920, 1080),
-    # window_size=(1440, 900),
+    # window_size=(1920, 1080),
+    window_size=(1440, 900),
     # window_size=(700, 700),
     framerate=60,
     # framerate=5,
@@ -28,6 +27,7 @@ engine = Engine(
     camera_yaw=-90,
     camera_pitch=0,
     model_saturation=False,
-    use_mouse=True
+    dev_mode=True
 )
+engine.set_world(world=[Coruscant(),Yavin4()][1])
 engine.run()

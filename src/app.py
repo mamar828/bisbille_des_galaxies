@@ -1,14 +1,16 @@
-import serial
 import time
+from datetime import datetime
 import tkinter as tk
-from PIL import ImageTk, Image
 import threading
 import numpy as np
-
-from tkinter import scrolledtext
+from PIL import ImageTk, Image
 from tkinter import filedialog
 from datetime import datetime
+from random import sample
+from os.path import isfile
 
+from src.engine.engine import Engine
+# from src.worlds.world import worlds
 
 class App(tk.Tk):
     def __init__(self):
@@ -28,41 +30,41 @@ class App(tk.Tk):
         self.config(menu=menubar)
         self.mode_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="File", menu=self.mode_menu)
-        self.mode_menu.add_command(label="Select Beamage file", command=self.select_beamage_file)
-        self.mode_menu.add_command(label="Print Beamage file", command=self.print_beamage_file)
-        self.mode_menu.entryconfig("Print Beamage file", state=tk.DISABLED)
-        self.mode_menu.add_command(label="Select score folder", command=self.select_score_folder)
-        self.mode_menu.add_command(label="Print score folder", command=self.print_score_folder)
-        self.mode_menu.entryconfig("Print score folder", state=tk.DISABLED)
+        self.mode_menu.add_command(label="Sélectionner fichier Beamage", command=self.select_beamage_file)
+        self.mode_menu.add_command(label="Imprimer fichier Beamage", command=self.print_beamage_file)
+        self.mode_menu.entryconfig("Imprimer fichier Beamage", state=tk.DISABLED)
+        self.mode_menu.add_command(label="Sélectionner fichier score", command=self.select_score_folder)
+        self.mode_menu.add_command(label="Imprimer fichier score", command=self.print_score_folder)
+        self.mode_menu.entryconfig("Imprimer fichier score", state=tk.DISABLED)
 
     def select_beamage_file(self):
-        self.beamage_filename = filedialog.askopenfilename(initialdir="/", title="Select Beamage file",
-            filetypes = (("Text files", "*.txt"), ("All files", "*.*")))
+        self.beamage_filename = filedialog.askopenfilename(initialdir="/", title="Sélectionner fichier Beamage",
+            filetypes = (("Fichiers texte", "*.txt"), ("Tout fichiers", "*.*")))
         self.frame.focus_force()
         if self.beamage_filename == "":
-            self.mode_menu.entryconfig("Print Beamage file", state=tk.DISABLED)
+            self.mode_menu.entryconfig("Imprimer fichier Beamage", state=tk.DISABLED)
         else:
-            self.mode_menu.entryconfig("Print Beamage file", state=tk.NORMAL)
+            self.mode_menu.entryconfig("Imprimer fichier Beamage", state=tk.NORMAL)
 
     def print_beamage_file(self):
-        tk.messagebox.showinfo(title="Beamage file", message=f"filename :\n{self.beamage_filename}")
+        tk.messagebox.showinfo(title="Fichier beamage", message=f"{self.beamage_filename}")
 
     def select_score_folder(self):
-        self.score_foldername = filedialog.askdirectory(initialdir="/", title="Select a folder")
+        self.score_foldername = filedialog.askdirectory(initialdir="/", title="Sélectionner un dossier")
         self.frame.focus_force()
         if self.score_foldername == "":
-            self.mode_menu.entryconfig("Print score folder", state=tk.DISABLED)
+            self.mode_menu.entryconfig("Imprimer fichier score", state=tk.DISABLED)
         else:
-            self.mode_menu.entryconfig("Print score folder", state=tk.NORMAL)
+            self.mode_menu.entryconfig("Imprimer fichier score", state=tk.NORMAL)
 
     def print_score_folder(self):
-        tk.messagebox.showinfo(title="Score folder", message=f"foldername :\n{self.score_foldername}")
+        tk.messagebox.showinfo(title="Fichier score", message=f"{self.score_foldername}")
 
 class Window(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.master = master
-        self.n_players = 5
+        self.n_players = 4
         self.team_number = None
 
         self.grid_rowconfigure(0, weight=1)
@@ -87,7 +89,7 @@ class Window(tk.Frame):
 
         # Configure the button frame to stretch
         button_frame.columnconfigure(0, weight=1)
-        button_frame.columnconfigure(1, weight=1, minsize=70)
+        button_frame.columnconfigure(1, weight=1, minsize=100)
         button_frame.columnconfigure(2, weight=1)
         button_frame.rowconfigure(0, weight=1)
         button_frame.rowconfigure(1, weight=1)
@@ -110,7 +112,7 @@ class Window(tk.Frame):
         self.start_button = tk.Button(button_frame, text="START", font=("menlo", 35), bg="black", command=self.start)
         self.start_button.grid(column=0, row=1, columnspan=3, sticky="nsew", padx=(10, 10), pady=(10, 10))
         
-        self.team_number_label = tk.Label(button_frame, text="Team #", font=("menlo", 35), bg="black")
+        self.team_number_label = tk.Label(button_frame, text="Équipe #", font=("menlo", 35), bg="black")
         self.team_number_label.grid(column=0, row=2, columnspan=2, sticky="nsew", padx=(10, 10), pady=(10, 10))
 
         self.team_number = tk.Entry(
@@ -127,8 +129,9 @@ class Window(tk.Frame):
             return False
 
     def increase_players(self):
-        self.n_players += 1
-        self.update_n_players_label()
+        if self.n_players < len(worlds):
+            self.n_players += 1
+            self.update_n_players_label()
 
     def decrease_players(self):
         self.n_players = max(1, self.n_players - 1)
@@ -149,15 +152,43 @@ class Window(tk.Frame):
         self.background.configure(image=self.background_image)
 
     def start(self):
-        if self.master.beamage_filename == "":
-            tk.messagebox.showwarning(title="Error", message="No Beamage file was given.")
-        elif self.master.score_foldername == "":
-            tk.messagebox.showwarning(title="Error", message="No score folder was given.")
+        # if self.master.beamage_filename == "":
+        #     tk.messagebox.showwarning(title="Error", message="Aucun fichier Beamage n'a été donné.")
+        if self.master.score_foldername == "":
+            tk.messagebox.showwarning(title="Error", message="Aucun fichier score n'a été donné.")
         elif self.team_number.get() == "":
-            tk.messagebox.showwarning(title="Error", message="No team number was given.")
+            tk.messagebox.showwarning(title="Error", message="Aucun numéro d'équipe n'a été donné.")
         else:
-            print("Starting")
+            score_filename = f"{self.master.score_foldername}/bisbille_scores.csv"
+            if not isfile(score_filename):
+                with open(score_filename, "w") as f:
+                    f.write("equipe,nombre de joueurs,temps total (s),temps par joueur (s),temps de debut\n")
+
+            engine = Engine(
+                window_size=[(1920, 1080), (1440, 900)][1],
+                dev_mode=True
+            )
+            chosen_worlds = sample(worlds, self.n_players)
+            start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            total_time = []
+            for world in chosen_worlds:
+                engine.set_world(world())
+                time.sleep(5)
+                start = time.time()
+                engine.run()
+                stop = time.time()
+                total_time.append(stop - start)
+
+            engine.quit()
+            with open(score_filename, "a") as f:
+                total = sum(total_time)
+                line = f"{self.team_number.get()},{self.n_players},{total},{total/self.n_players},{start_time}\n"
+                print(line)
+                f.write(line)
+
+        tk.messagebox.showinfo(title="Résultat", message=f"Temps total : {total:.1f}s")
         self.focus_force()
+
 
 if __name__ == "__main__":
     app = App()
