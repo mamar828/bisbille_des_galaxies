@@ -63,6 +63,7 @@ class Window(tk.Frame):
         super().__init__(master)
         self.master = master
         self.n_players = 5
+        self.team_number = None
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=0)
@@ -77,7 +78,7 @@ class Window(tk.Frame):
         self.background_image = ImageTk.PhotoImage(self.image)
         self.background = tk.Label(self, image=self.background_image)
         self.background.grid(column=0, row=0, columnspan=3, rowspan=3, sticky="nsew")
-        self.bind("<Configure>", self._resize_image)
+        self.bind("<Configure>", self.resize_background)
         self.background.lower()
 
         # Create a frame for buttons to manage their layout
@@ -90,6 +91,7 @@ class Window(tk.Frame):
         button_frame.columnconfigure(2, weight=1)
         button_frame.rowconfigure(0, weight=1)
         button_frame.rowconfigure(1, weight=1)
+        button_frame.rowconfigure(2, weight=1)
 
         # Buttons: they will now stay centered
         self.decrease_button = tk.Button(
@@ -107,6 +109,22 @@ class Window(tk.Frame):
         
         self.start_button = tk.Button(button_frame, text="START", font=("menlo", 35), bg="black", command=self.start)
         self.start_button.grid(column=0, row=1, columnspan=3, sticky="nsew", padx=(10, 10), pady=(10, 10))
+        
+        self.team_number_label = tk.Label(button_frame, text="Team #", font=("menlo", 35), bg="black")
+        self.team_number_label.grid(column=0, row=2, columnspan=2, sticky="nsew", padx=(10, 10), pady=(10, 10))
+
+        self.team_number = tk.Entry(
+            button_frame, font=("menlo", 35), bg="black", justify="right", width=2,
+            validate="key", validatecommand=(self.master.register(Window.validate_team_number_entry), "%P")
+        )
+        self.team_number.grid(column=2, row=2, sticky="nse", padx=(10, 10), pady=(10, 10))
+
+    @staticmethod
+    def validate_team_number_entry(value):
+        if len(value) <= 2 and value.isdigit() or len(value) == 0:
+            return True
+        else:
+            return False
 
     def increase_players(self):
         self.n_players += 1
@@ -119,7 +137,7 @@ class Window(tk.Frame):
     def update_n_players_label(self):
         self.n_players_label.config(text=self.n_players)
 
-    def _resize_image(self, event):
+    def resize_background(self, event):
         new_width = event.width
         new_height = event.height
 
@@ -135,8 +153,11 @@ class Window(tk.Frame):
             tk.messagebox.showwarning(title="Error", message="No Beamage file was given.")
         elif self.master.score_foldername == "":
             tk.messagebox.showwarning(title="Error", message="No score folder was given.")
+        elif self.team_number.get() == "":
+            tk.messagebox.showwarning(title="Error", message="No team number was given.")
         else:
             print("Starting")
+        self.focus_force()
 
 if __name__ == "__main__":
     app = App()
