@@ -70,31 +70,14 @@ class Texture:
         depth_texture.repeat_y = False
         return depth_texture
     
-    def get_texture_cube(self, directory_path, extension="png"):
-        if self.app.world.__class__.__name__ == "Coruscant":
-            texture = pg.transform.flip(pg.image.load(f"{directory_path}/skybox_coruscant.png").convert(),
-                                        flip_x=True, flip_y=False)
-            texture_cube = self.context.texture_cube(size=texture.get_size(), components=3, data=None)
-            for i in range(6):
-                texture_cube.write(face=i, data=pg.image.tostring(texture, "RGB"))
-            return texture_cube
-        else:
-            faces = ["right", "left", "top", "bottom", "back", "front"]
-            textures = []
-
-            for face in faces:
-                current_texture = pg.image.load(f"{directory_path}/{face}.{extension}").convert()
-                if face in ["right", "left", "front", "back"]:
-                    texture = pg.transform.flip(current_texture, flip_x=True, flip_y=False)
-                else:
-                    texture = pg.transform.flip(current_texture, flip_x=False, flip_y=True)
-                textures.append(texture)
-
-            texture_cube = self.context.texture_cube(size=textures[0].get_size(), components=3, data=None)
-            for i, texture in enumerate(textures):
-                texture_cube.write(face=i, data=pg.image.tostring(texture, "RGB"))
-            
-            return texture_cube
+    def get_texture_cube(self, directory_path):
+        skybox_path = f"{directory_path}/skybox_{self.app.world.__class__.__name__.lower()}.png"
+        texture = pg.transform.flip(pg.image.load(skybox_path).convert(),
+                                    flip_x=True, flip_y=False)
+        texture_cube = self.context.texture_cube(size=texture.get_size(), components=3, data=None)
+        for i in range(6):
+            texture_cube.write(face=i, data=pg.image.tostring(texture, "RGB"))
+        return texture_cube
 
     def get_texture(self, path):
         # Load the texture and flip it upside down to make it upright

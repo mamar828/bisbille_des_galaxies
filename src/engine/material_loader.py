@@ -13,7 +13,7 @@ class MaterialLoader:
             # ("imperial_shuttle", "processed_imperial_shuttle_ver1_centered.obj"),
             ("star_destroyer", "StarDestroyer.obj"),
             # ("assault_frigate", "Assault_Frigate_Model.obj"),
-            # ("tie_fighter", "processed_tie.obj")
+            ("tie_fighter", "processed_tie.obj")
             # ("corvette", "Star Wars CORVETTE centered.obj"),
             # ("x_wing", "t-65.obj")
         ]:
