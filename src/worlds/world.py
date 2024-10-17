@@ -38,6 +38,11 @@ class Yavin4(World):
             model=TieFighter,
             instance=TieFighterAI()
         )
+        self.cat = Object(
+            "cat",
+            position=vec3(0, 0, 0),
+            model=Cat,
+        )
 
 
 # class Yavin4(World):
