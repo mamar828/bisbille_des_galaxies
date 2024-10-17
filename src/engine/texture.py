@@ -71,7 +71,8 @@ class Texture:
         return depth_texture
     
     def get_texture_cube(self, directory_path):
-        skybox_path = f"{directory_path}/skybox_{self.app.world.__class__.__name__.lower()}.png"
+        # skybox_path = f"{directory_path}/skybox_{self.app.world.__class__.__name__.lower()}.png"
+        skybox_path = f"{directory_path}/skybox_yavin4.png"
         texture = pg.transform.flip(pg.image.load(skybox_path).convert(),
                                     flip_x=True, flip_y=False)
         texture_cube = self.context.texture_cube(size=texture.get_size(), components=3, data=None)

@@ -10,7 +10,8 @@ from random import sample
 from os.path import isfile
 
 from src.engine.engine import Engine
-# from src.worlds.world import worlds
+from src.worlds.world import worlds
+
 
 class App(tk.Tk):
     def __init__(self):
