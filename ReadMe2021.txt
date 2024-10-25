@@ -37,3 +37,16 @@ Protocole:
 - Pointer le laser dans la caméra et détruire les vaisseaux
 - S'amuser :)
  
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+Ajouter à .vscode :
+"env": {
+    "PYTHONPATH": "${workspaceFolder}"
+}
+et exécuter en mode déboggage avec le launch.json
+
+Pour download les packages :
+source .venv/bin/activate
+pip install -r requirements.txt

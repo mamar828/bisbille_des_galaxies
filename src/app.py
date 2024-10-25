@@ -1,7 +1,6 @@
 import time
 from datetime import datetime
 import tkinter as tk
-import threading
 import numpy as np
 from PIL import ImageTk, Image
 from tkinter import filedialog
@@ -159,7 +158,7 @@ class Window(tk.Frame):
         # self.master.beamage_filename = r"C:\Users\Proprio\Documents\Mathieu\bisbille_des_galaxies\beamage.txt"
         if self.master.beamage_filename == "":
             tk.messagebox.showwarning(title="Error", message="Aucun fichier Beamage n'a été donné.")
-        if self.master.score_foldername == "":
+        elif self.master.score_foldername == "":
             tk.messagebox.showwarning(title="Error", message="Aucun fichier score n'a été donné.")
         elif self.team_number.get() == "":
             tk.messagebox.showwarning(title="Error", message="Aucun numéro d'équipe n'a été donné.")
