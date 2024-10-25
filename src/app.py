@@ -98,26 +98,26 @@ class Window(tk.Frame):
 
         # Buttons: they will now stay centered
         self.decrease_button = tk.Button(
-            button_frame, text="-", font=("menlo", 35), bg="black", command=self.decrease_players
+            button_frame, text="-", font=("menlo", 35), bg="white", command=self.decrease_players
         )
         self.decrease_button.grid(column=0, row=0, sticky="nsew", padx=(10, 10), pady=(10, 10))
         
         self.increase_button = tk.Button(
-            button_frame, text="+", font=("menlo", 35), bg="black", command=self.increase_players
+            button_frame, text="+", font=("menlo", 35), bg="white", command=self.increase_players
         )
         self.increase_button.grid(column=2, row=0, sticky="nsew", padx=(10, 10), pady=(10, 10))
         
-        self.n_players_label = tk.Label(button_frame, text=self.n_players, font=("menlo", 35), bg="black")
+        self.n_players_label = tk.Label(button_frame, text=self.n_players, font=("menlo", 35), bg="white")
         self.n_players_label.grid(column=1, row=0, sticky="nsew", padx=(10, 10), pady=(10, 10))
         
-        self.start_button = tk.Button(button_frame, text="START", font=("menlo", 35), bg="black", command=self.start)
+        self.start_button = tk.Button(button_frame, text="START", font=("menlo", 35), bg="white", command=self.start)
         self.start_button.grid(column=0, row=1, columnspan=3, sticky="nsew", padx=(10, 10), pady=(10, 10))
         
-        self.team_number_label = tk.Label(button_frame, text="Équipe #", font=("menlo", 35), bg="black")
+        self.team_number_label = tk.Label(button_frame, text="Équipe #", font=("menlo", 35), bg="white")
         self.team_number_label.grid(column=0, row=2, columnspan=2, sticky="nsew", padx=(10, 10), pady=(10, 10))
 
         self.team_number = tk.Entry(
-            button_frame, font=("menlo", 35), bg="black", justify="right", width=2,
+            button_frame, font=("menlo", 35), bg="white", justify="right", width=2,
             validate="key", validatecommand=(self.master.register(Window.validate_team_number_entry), "%P")
         )
         self.team_number.grid(column=2, row=2, sticky="nse", padx=(10, 10), pady=(10, 10))
@@ -153,21 +153,22 @@ class Window(tk.Frame):
         self.background.configure(image=self.background_image)
 
     def start(self):
-        # if self.master.beamage_filename == "":
-        #     tk.messagebox.showwarning(title="Error", message="Aucun fichier Beamage n'a été donné.")
-        if self.master.score_foldername == "":
-            tk.messagebox.showwarning(title="Error", message="Aucun fichier score n'a été donné.")
-        # elif self.team_number.get() == "":
-        #     tk.messagebox.showwarning(title="Error", message="Aucun numéro d'équipe n'a été donné.")
+        self.master.beamage_filename = r"C:\Users\Proprio\Documents\Mathieu\bisbille_des_galaxies\beamage.txt"
+        if self.master.beamage_filename == "":
+            tk.messagebox.showwarning(title="Error", message="Aucun fichier Beamage n'a été donné.")
+#        if self.master.score_foldername == "":
+ #           tk.messagebox.showwarning(title="Error", message="Aucun fichier score n'a été donné.")
+  #      elif self.team_number.get() == "":
+   #         tk.messagebox.showwarning(title="Error", message="Aucun numéro d'équipe n'a été donné.")
         else:
-            score_filename = f"{self.master.score_foldername}/bisbille_scores.csv"
-            if not isfile(score_filename):
-                with open(score_filename, "w") as f:
-                    f.write("equipe,nombre de joueurs,temps total (s),temps par joueur (s),temps de debut\n")
+   #         score_filename = f"{self.master.score_foldername}/bisbille_scores.csv"
+    #        if not isfile(score_filename):
+     #           with open(score_filename, "w") as f:
+      #              f.write("equipe,nombre de joueurs,temps total (s),temps par joueur (s),temps de debut\n")
 
             engine = Engine(
-                window_size=[(1920, 1080), (1440, 900)][1],
-                dev_mode=True
+                beamage_filename=self.master.beamage_filename,
+                dev_mode=False
             )
             chosen_worlds = sample(worlds, self.n_players)
             start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

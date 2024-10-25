@@ -32,7 +32,7 @@ class Engine:
             camera_origin: tuple[int,int,int]=(0,0,0),
             camera_speed: float=0.025,
             camera_sensitivity: float=0.1,
-            camera_fov: float=50.,
+            camera_fov: float=45.,
             camera_near_render_distance: float=10,
             camera_far_render_distance: float=1000,
             camera_yaw: float=-90.,
@@ -47,6 +47,7 @@ class Engine:
                 "negative_rotation" : 0.94
             },
             dev_mode: bool=True,
+            beamage_filename: str=None,
     ):
         """
         Initialize an Engine object.
@@ -104,6 +105,7 @@ class Engine:
         self.fullscreen = fullscreen
         self.running = True
         self.dev_mode = dev_mode
+        self.beamage_filename = beamage_filename
 
         self.clock = pg.time.Clock()
         self.time = 0

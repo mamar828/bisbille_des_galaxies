@@ -66,6 +66,6 @@ class Yavin4(World):
 #         )
 
 worlds = [
-    Coruscant,
-    # Yavin4
+    # Coruscant,
+    Yavin4
 ]

@@ -9,9 +9,6 @@ class Beamage:
     def __init__(self, master_input, filename: str):
         self.master_input = master_input
         self.filename = filename
-        # self.position = -1
-        # self.y = -1
-        # self.filename = C:\Users\Proprio\Documents\Mathieu\bisbille_des_galaxies\test_measurements.txt
 
     def get_position(self):
         try:
@@ -25,7 +22,7 @@ class Beamage:
                     x = (float(infos[-4]) + 5500) / 11000
                     y = (float(infos[-3]) + 5500) / 11000
                     # x and y seem to range from ~-5500 to ~5500
-                    return nparray([x, y]) * nparray(self.master_input.app.window_size)
+                    return (nparray([x, y]) * nparray(self.master_input.app.window_size)).round(0).astype(int)
         
         except Exception:
             pass
