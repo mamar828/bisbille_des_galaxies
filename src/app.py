@@ -191,8 +191,8 @@ class Window(tk.Frame):
                 print(line, end="")
                 f.write(line)
 
-        tk.messagebox.showinfo(title="Résultat", message=f"Temps total : {total:.1f}s")
-        self.focus_force()
+            tk.messagebox.showinfo(title="Résultat", message=f"Temps total : {total:.1f}s")
+            self.focus_force()
 
 
 if __name__ == "__main__":
