@@ -86,10 +86,9 @@ class Texture:
         # texture.fill("green")
         texture = self.context.texture(size=texture.get_size(), components=3, data=pg.image.tostring(texture, "RGB"))
         # mipmaps activation (correction for high distance objects)
-        texture.filter = (mglNEAREST, mglNEAREST)
-        # texture.filter = (mgl.LINEAR_MIPMAP_LINEAR, mgl.LINEAR)       # alternative mipmap
         texture.build_mipmaps()
         texture.anisotropy = 32.0
+        texture.filter = (mglNEAREST, mglNEAREST)
         return texture
 
     def get_color(self, color):
