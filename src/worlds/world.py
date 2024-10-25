@@ -110,7 +110,7 @@ class Test(World):
         )
 
 available_worlds = [
-    Coruscant,
+    # Coruscant,
     Yavin4,
     Hoth,
     Dathomir,

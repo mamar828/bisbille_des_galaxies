@@ -171,7 +171,7 @@ class Window(tk.Frame):
 
             engine = Engine(
                 beamage_filename=self.master.beamage_filename,
-                dev_mode=True
+                dev_mode=False
             )
             chosen_worlds = sample(available_worlds, self.n_players)
             start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

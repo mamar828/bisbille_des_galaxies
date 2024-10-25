@@ -95,7 +95,6 @@ class Engine:
         """
         self.framerate = framerate
         self.fullscreen = fullscreen
-        self.running = True
         self.dev_mode = dev_mode
         self.beamage_filename = beamage_filename
 
@@ -150,6 +149,7 @@ class Engine:
         self.collision_detector = CollisionDetector(self)
 
     def set_world(self, world):
+        self.running = True
         self.world = world
         self.mesh = Mesh(self)
         self.scene = Scene(self)

@@ -13,10 +13,11 @@ class MaterialLoader:
         self.object_materials = {}
         for obj, filename in [
             ("millenium_falcon", "Star Wars FALCON centered.obj"),
-            ("star_destroyer", "StarDestroyer.obj"),
+            # ("star_destroyer", "StarDestroyer.obj"),
             ("tie_fighter", "processed_tie.obj"),
             ("malevolence", "emship_hq.obj"),
-            ("slave", "Star Wars slave.obj"),
+            # ("slave", "Star Wars slave.obj"),
+
             # ("imperial_shuttle", "processed_imperial_shuttle_ver1_centered.obj"),
             # ("assault_frigate", "Assault_Frigate_Model.obj"),
             # ("corvette", "Star Wars CORVETTE centered.obj"),
