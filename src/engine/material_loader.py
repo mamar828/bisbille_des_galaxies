@@ -1,5 +1,6 @@
 import numpy as np
 from pywavefront import Wavefront
+from os.path import basename
 
 from src.engine.relative_paths import get_path
 
@@ -11,13 +12,15 @@ class MaterialLoader:
     def __init__(self):
         self.object_materials = {}
         for obj, filename in [
-            # ("millenium_falcon", "Star Wars FALCON centered.obj"),
-            # ("imperial_shuttle", "processed_imperial_shuttle_ver1_centered.obj"),
+            ("millenium_falcon", "Star Wars FALCON centered.obj"),
             ("star_destroyer", "StarDestroyer.obj"),
+            ("tie_fighter", "processed_tie.obj"),
+            ("malevolence", "emship_hq.obj"),
+            ("slave", "Star Wars slave.obj"),
+            # ("imperial_shuttle", "processed_imperial_shuttle_ver1_centered.obj"),
             # ("assault_frigate", "Assault_Frigate_Model.obj"),
-            ("tie_fighter", "processed_tie.obj")
             # ("corvette", "Star Wars CORVETTE centered.obj"),
-            # ("x_wing", "t-65.obj")
+            # ("x_wing", "t-65.obj"),
         ]:
             path = get_path(f"objects/{obj}")
             materials = []

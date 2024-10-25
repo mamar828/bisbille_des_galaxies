@@ -153,7 +153,8 @@ class Window(tk.Frame):
         self.background.configure(image=self.background_image)
 
     def start(self):
-        self.master.beamage_filename = r"C:\Users\Proprio\Documents\Mathieu\bisbille_des_galaxies\beamage.txt"
+        self.master.beamage_filename = ""
+        # self.master.beamage_filename = r"C:\Users\Proprio\Documents\Mathieu\bisbille_des_galaxies\beamage.txt"
         if self.master.beamage_filename == "":
             tk.messagebox.showwarning(title="Error", message="Aucun fichier Beamage n'a été donné.")
 #        if self.master.score_foldername == "":

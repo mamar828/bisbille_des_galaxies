@@ -6,7 +6,6 @@ from src.engine.models import *
 from src.worlds.ais import *
 
 
-
 class World:
     def __init__(self, health_bar_rate: float=20):
         self.health_bar = Object(
@@ -25,47 +24,95 @@ class World:
 class Coruscant(World):
     def __init__(self):
         super().__init__()
-        self.star_destroyer = Object(
+        self.ship = Object(
             model=StarDestroyer,
             instance=StarDestroyerAI()
+        )
+
+
+class Dathomir(World):
+    def __init__(self):
+        super().__init__()
+        self.ship = Object(
+            model=Malevolence,
+            instance=TieFighterAI()
+        )
+
+
+class Hoth(World):
+    def __init__(self):
+        super().__init__()
+        self.ship = Object(
+            model=MilleniumFalcon,
+            instance=TieFighterAI()
+        )
+
+
+class Kamino(World):
+    def __init__(self):
+        super().__init__()
+        self.ship = Object(
+            model=TieFighter,
+            instance=TieFighterAI()
+        )
+
+
+class Kashyyyk(World):
+    def __init__(self):
+        super().__init__()
+        self.ship = Object(
+            model=TieFighter,
+            instance=TieFighterAI()
+        )
+
+
+class Naboo(World):
+    def __init__(self):
+        super().__init__()
+        self.ship = Object(
+            model=TieFighter,
+            instance=TieFighterAI()
+        )
+
+
+class Umbara(World):
+    def __init__(self):
+        super().__init__()
+        self.ship = Object(
+            model=TieFighter,
+            instance=TieFighterAI()
         )
 
 
 class Yavin4(World):
     def __init__(self):
         super().__init__()
-        self.tie_fighter = Object(
+        self.ship = Object(
             model=TieFighter,
             instance=TieFighterAI()
         )
-        # self.cat = Object(
-        #     "cat",
-        #     position=vec3(0, 0, 0),
-        #     model=Cat,
-        # )
 
 
-# class Yavin4(World):
-#     def __init__(self):
-#         # self.tie_fighter = Object(
-#         #     model=TieFighter,
-#         #     instance=TieFighterAI()
-#         # )
-#         super().__init__(1e-8)
-#         self.tie_fighter = Object(
-#             model=TieFighter,
-#             position=glm.vec3(0, 10, 0),
-#         )
-#         self.cube = Object(
-#             model=Cube,
-#             position=glm.vec3(2, 10, 0),
-#         )
-#         self.cube_2 = Object(
-#             model=Cube,
-#             position=glm.vec3(0, 10, 2),
-#         )
+class Test(World):
+    def __init__(self):
+        super().__init__(1e-8)
+        self.ship = Object(
+            model=Slave,
+            position=glm.vec3(0, 10, 0),
+        )
+        self.cube = Object(
+            model=Cube,
+            position=glm.vec3(2, 10, 0),
+        )
+        self.cube_2 = Object(
+            model=Cube,
+            position=glm.vec3(0, 10, 2),
+        )
 
-worlds = [
-    # Coruscant,
-    Yavin4
+available_worlds = [
+    Coruscant,
+    Yavin4,
+    Hoth,
+    Dathomir,
+    # Test,
 ]

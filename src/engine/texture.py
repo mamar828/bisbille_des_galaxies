@@ -46,9 +46,9 @@ class Texture:
                                                         get_path(f"objects/{obj}/LightGraySteel_DisplacementMap.png"))
                 self.textures[f"{obj}_TopCover"] = self.get_texture(
                                                         get_path(f"objects/{obj}/LightGraySteel_DisplacementMap.png"))
-            elif obj == "tie_fighter":
+            elif obj in ["tie_fighter", "x_wing"]:
                 current_material = ""
-                with open(get_path(f"objects/{obj}/star wars.mtl")) as f:
+                with open(get_path(f"objects/{obj}/info.mtl")) as f:
                     for line in f.readlines():
                         if line.startswith("newmtl"):
                             current_material = line.split()[1]
@@ -58,7 +58,14 @@ class Texture:
                                 tuple([int(float(c) * 255) for c in color[1:]]))
             else:
                 for material, vertices in data:
-                    self.textures[f"{obj}_{material}"] = self.get_texture(f"{get_path(f'objects/{obj}')}/{material}.jpg")
+                    try:
+                        self.textures[f"{obj}_{material}"] = self.get_texture(
+                            f"{get_path(f'objects/{obj}')}/{material}.jpg"
+                        )
+                    except FileNotFoundError:
+                        self.textures[f"{obj}_{material}"] = self.get_texture(
+                            f"{get_path(f'objects/{obj}')}/{material}.png"
+                        )
 
         for color in ["green", "red", "blue", "yellow", "orange", "cyan", "magenta", "white", "black", "purple",
                       "brown", "grey"]:
@@ -71,8 +78,7 @@ class Texture:
         return depth_texture
     
     def get_texture_cube(self, directory_path):
-        # skybox_path = f"{directory_path}/skybox_{self.app.world.__class__.__name__.lower()}.png"
-        skybox_path = f"{directory_path}/skybox_yavin4.png"
+        skybox_path = f"{directory_path}/skybox_{self.app.world.__class__.__name__.lower()}.png"
         texture = pg.transform.flip(pg.image.load(skybox_path).convert(),
                                     flip_x=True, flip_y=False)
         texture_cube = self.context.texture_cube(size=texture.get_size(), components=3, data=None)

@@ -14,7 +14,6 @@ class Camera:
             far_render_distance=1000,
             yaw=-90,
             pitch=0,
-            # cinematic_settings: dict=None
     ):
         self.app = app
         self.speed = speed

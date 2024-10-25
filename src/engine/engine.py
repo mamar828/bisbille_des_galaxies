@@ -37,15 +37,7 @@ class Engine:
             camera_far_render_distance: float=1000,
             camera_yaw: float=-90.,
             camera_pitch: float=0.,
-            # objects: list[Object3D]=None,
-            # functions: list[Function3D]=None,
             model_saturation: bool=False,
-            camera_cinematic_settings: dict={
-                "positive_acceleration" : 0.05,
-                "negative_acceleration" : 0.05,
-                "positive_rotation" : 0.05,
-                "negative_rotation" : 0.94
-            },
             dev_mode: bool=True,
             beamage_filename: str=None,
     ):
@@ -153,7 +145,6 @@ class Engine:
             far_render_distance=camera_far_render_distance,
             yaw=camera_yaw,
             pitch=camera_pitch,
-            # cinematic_settings=camera_cinematic_settings
         )
         self.loader = MaterialLoader()
         self.collision_detector = CollisionDetector(self)

@@ -269,18 +269,18 @@ class MaterialModel:
         del self
 
 
-class Corvette(MaterialModel):
-    def __init__(
-            self,
-            app,
-            texture_id: str=None,
-            position=glm.vec3(0, 0, 0),
-            rotation=glm.vec3(0, 0, 0),
-            scale=glm.vec3(1, 1, 1),
-            instance=None,
-            saturated: bool=False
-    ):
-        super().__init__(app, "corvette", position, rotation, scale, instance, saturated)
+# class Corvette(MaterialModel):
+#     def __init__(
+#             self,
+#             app,
+#             texture_id: str=None,
+#             position=glm.vec3(0, 0, 0),
+#             rotation=glm.vec3(0, 0, 0),
+#             scale=glm.vec3(1, 1, 1),
+#             instance=None,
+#             saturated: bool=False
+#     ):
+#         super().__init__(app, "corvette", position, rotation, scale, instance, saturated)
 
 
 class MilleniumFalcon(MaterialModel):
@@ -344,19 +344,19 @@ class StarDestroyer(MaterialModel):
         super().update_visual(**kwargs)
 
 
-class AssaultFrigate(MaterialModel):
-    def __init__(
-            self,
-            app,
-            texture_id: str=None,
-            position=glm.vec3(0, 0, 0),
-            rotation=glm.vec3(0, 0, 0),
-            scale=glm.vec3(1, 1, 1),
-            instance=None,
-            saturated: bool=False
-    ):
-        scaling = scale * 0.9
-        super().__init__(app, "assault_frigate", position, rotation, scaling, instance, saturated)
+# class AssaultFrigate(MaterialModel):
+#     def __init__(
+#             self,
+#             app,
+#             texture_id: str=None,
+#             position=glm.vec3(0, 0, 0),
+#             rotation=glm.vec3(0, 0, 0),
+#             scale=glm.vec3(1, 1, 1),
+#             instance=None,
+#             saturated: bool=False
+#     ):
+#         scaling = scale * 0.9
+#         super().__init__(app, "assault_frigate", position, rotation, scaling, instance, saturated)
 
 
 class TieFighter(MaterialModel):
@@ -379,7 +379,21 @@ class TieFighter(MaterialModel):
         super().update_visual(**kwargs)
 
 
-class XWing(MaterialModel):
+# class XWing(MaterialModel):
+#     def __init__(
+#             self,
+#             app,
+#             texture_id: str=None,
+#             position=glm.vec3(0, 0, 0),
+#             rotation=glm.vec3(0, 0, 0),
+#             scale=glm.vec3(1, 1, 1),
+#             instance=None,
+#             saturated: bool=False
+#     ):
+#         super().__init__(app, "x_wing", position, rotation, scale, instance, saturated)
+
+
+class Malevolence(MaterialModel):
     def __init__(
             self,
             app,
@@ -390,4 +404,18 @@ class XWing(MaterialModel):
             instance=None,
             saturated: bool=False
     ):
-        super().__init__(app, "x_wing", position, rotation, scale, instance, saturated)
+        super().__init__(app, "malevolence", position, rotation, scale, instance, saturated)
+
+
+class Slave(MaterialModel):
+    def __init__(
+            self,
+            app,
+            texture_id: str=None,
+            position=glm.vec3(0, 0, 0),
+            rotation=glm.vec3(0, 0, 0),
+            scale=glm.vec3(1, 1, 1),
+            instance=None,
+            saturated: bool=False
+    ):
+        super().__init__(app, "slave", position, rotation, scale, instance, saturated)
