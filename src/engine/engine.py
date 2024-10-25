@@ -22,7 +22,6 @@ class Engine:
     def __init__(
             self,
             # world=None,
-            window_size: tuple[int,int]=(1440,900),
             framerate: int=60,
             fullscreen: bool=True,
             light_position: vec3=vec3(0,0,100),
@@ -101,7 +100,6 @@ class Engine:
         camera_cinematic_settings : dict, optional
             Camera cinematic settings. Default is a dictionary with specific values.
         """
-        self.window_size = window_size
         self.framerate = framerate
         self.fullscreen = fullscreen
         self.running = True
@@ -119,6 +117,8 @@ class Engine:
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MINOR_VERSION, 3)
         pg.display.gl_set_attribute(pg.GL_CONTEXT_PROFILE_MASK, pg.GL_CONTEXT_PROFILE_CORE)
+        display_info = pg.display.Info()
+        self.window_size = display_info.current_w, display_info.current_h
 
         pg.display.set_mode(self.window_size, flags=pg.OPENGL | pg.DOUBLEBUF)
         if fullscreen: pg.display.toggle_fullscreen()
