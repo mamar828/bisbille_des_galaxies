@@ -34,8 +34,8 @@ class Engine:
             camera_speed: float=0.025,
             camera_sensitivity: float=0.1,
             camera_fov: float=50.,
-            camera_near_render_distance: float=0.05,
-            camera_far_render_distance: float=1e20,
+            camera_near_render_distance: float=1,
+            camera_far_render_distance: float=1000,
             camera_yaw: float=-90.,
             camera_pitch: float=0.,
             # objects: list[Object3D]=None,
@@ -119,6 +119,8 @@ class Engine:
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MINOR_VERSION, 3)
         pg.display.gl_set_attribute(pg.GL_CONTEXT_PROFILE_MASK, pg.GL_CONTEXT_PROFILE_CORE)
+        pg.display.gl_set_attribute(pg.GL_MULTISAMPLEBUFFERS, 1)
+        pg.display.gl_set_attribute(pg.GL_MULTISAMPLESAMPLES, 4)
 
         pg.display.set_mode(self.window_size, flags=pg.OPENGL | pg.DOUBLEBUF)
         if fullscreen: pg.display.toggle_fullscreen()
