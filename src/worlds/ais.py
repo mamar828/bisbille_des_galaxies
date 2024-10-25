@@ -29,7 +29,7 @@ class StarDestroyerAI(AI):
         self.flag = False
     
     def update(self, app):
-        t = app.time - 4
+        t = app.time - 6
         dt = 1/app.framerate # app.delta_time
         self.forward = self.calculate_forward_vector()
         if 0 < (t%110) < 0.2:

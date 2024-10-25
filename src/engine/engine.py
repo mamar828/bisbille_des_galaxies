@@ -33,7 +33,7 @@ class Engine:
             camera_speed: float=0.025,
             camera_sensitivity: float=0.1,
             camera_fov: float=50.,
-            camera_near_render_distance: float=1,
+            camera_near_render_distance: float=10,
             camera_far_render_distance: float=1000,
             camera_yaw: float=-90.,
             camera_pitch: float=0.,

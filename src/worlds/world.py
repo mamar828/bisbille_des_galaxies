@@ -8,7 +8,7 @@ from src.worlds.ais import *
 
 
 class World:
-    def __init__(self, health_bar_rate: float=50):
+    def __init__(self, health_bar_rate: float=20):
         self.health_bar = Object(
             texture="red",
             model=Cube,
@@ -33,16 +33,16 @@ class Coruscant(World):
 
 class Yavin4(World):
     def __init__(self):
-        super().__init__(1)
+        super().__init__()
         self.tie_fighter = Object(
             model=TieFighter,
             instance=TieFighterAI()
         )
-        self.cat = Object(
-            "cat",
-            position=vec3(0, 0, 0),
-            model=Cat,
-        )
+        # self.cat = Object(
+        #     "cat",
+        #     position=vec3(0, 0, 0),
+        #     model=Cat,
+        # )
 
 
 # class Yavin4(World):

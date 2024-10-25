@@ -1,4 +1,4 @@
-from numpy import frombuffer, uint8, array_equal
+from numpy import frombuffer, uint8, array_equal, array
 from pygame import mouse
 
 
@@ -10,10 +10,11 @@ class CollisionDetector:
             depth_attachment=self.app.context.depth_renderbuffer(self.app.window_size)
         )
         self.collision = False
+        self.background_color = array([33,64,92])   # random background color
 
     def clear(self):
         self.off_screen_frame_buffer_object.use()
-        self.off_screen_frame_buffer_object.clear(0.0,0.0,0.0,1.0)
+        self.off_screen_frame_buffer_object.clear(*(self.background_color/255), 1.0)
 
     def update(self):
         cursor_x, cursor_y = None, None
@@ -29,7 +30,7 @@ class CollisionDetector:
             pixel_data = frombuffer(self.off_screen_frame_buffer_object.read(
                 viewport=(cursor_x, cursor_y, 1, 1)), dtype=uint8
             )
-            if sum(pixel_data[:3]) > 0 and cursor_y != self.app.window_size[1]:
+            if not array_equal(pixel_data[:3], self.background_color) and cursor_y != self.app.window_size[1]:
                 self.collision = True
             else:
                 self.collision = False

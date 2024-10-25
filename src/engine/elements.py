@@ -53,8 +53,8 @@ class HealthBar:
 
     def update_visual_health_parameters(self):
         if self.health > 0:
-            self.position = vec3(0,0.1,0.04) - (100 - self.health)/100 * vec3(0.07,0,0)
-            self.scale = vec3(0.07,0.0001,0.001) - (100 - self.health)/100 * vec3(0.07,0,0)
+            self.position = vec3(0,100,37) - (100 - self.health)/100 * vec3(62,0,0)
+            self.scale = (vec3(62,0.0001,1) - (100 - self.health)/100 * vec3(62,0,0))
         else:
             self.scale = vec3(0,0,0)
             self.empty = True

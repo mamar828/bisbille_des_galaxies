@@ -6,9 +6,6 @@ from src.worlds.world import *
 
 
 engine = Engine(
-    # window_size=(1920, 1080),
-    window_size=(1440, 900),
-    # window_size=(700, 700),
     framerate=60,
     # framerate=5,
     fullscreen=True,
@@ -21,9 +18,9 @@ engine = Engine(
     camera_origin=(0,0,0),
     camera_speed=0.025,
     camera_sensitivity=0.1,
-    camera_fov=50,
-    camera_near_render_distance=0.05,
-    camera_far_render_distance=1e20,
+    camera_fov=45,
+    # camera_near_render_distance=0.05,
+    # camera_far_render_distance=1e20,
     camera_yaw=-90,
     camera_pitch=0,
     model_saturation=False,
