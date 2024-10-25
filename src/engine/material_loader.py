@@ -1,11 +1,13 @@
 import numpy as np
-import os
 from pywavefront import Wavefront
 
 from src.engine.relative_paths import get_path
 
 
 class MaterialLoader:
+    """
+    Note: for inconsistent vertex format, try searching for the characters // in the .obj and replacing it with /1/.
+    """
     def __init__(self):
         self.object_materials = {}
         for obj, filename in [

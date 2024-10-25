@@ -76,7 +76,7 @@ class Window(tk.Frame):
         self.grid_columnconfigure(2, weight=1)
 
         # Load background image and set up panel
-        self.image = Image.open("src/engine/textures/floor_test.png")
+        self.image = Image.open("src/engine/textures/magnificent.png")
         self.image_copy= self.image.copy()
         self.background_image = ImageTk.PhotoImage(self.image)
         self.background = tk.Label(self, image=self.background_image)
@@ -157,8 +157,8 @@ class Window(tk.Frame):
         #     tk.messagebox.showwarning(title="Error", message="Aucun fichier Beamage n'a été donné.")
         if self.master.score_foldername == "":
             tk.messagebox.showwarning(title="Error", message="Aucun fichier score n'a été donné.")
-        elif self.team_number.get() == "":
-            tk.messagebox.showwarning(title="Error", message="Aucun numéro d'équipe n'a été donné.")
+        # elif self.team_number.get() == "":
+        #     tk.messagebox.showwarning(title="Error", message="Aucun numéro d'équipe n'a été donné.")
         else:
             score_filename = f"{self.master.score_foldername}/bisbille_scores.csv"
             if not isfile(score_filename):
@@ -174,7 +174,7 @@ class Window(tk.Frame):
             total_time = []
             for world in chosen_worlds:
                 engine.set_world(world())
-                time.sleep(5)
+                time.sleep(1)
                 start = time.time()
                 engine.run()
                 stop = time.time()
@@ -184,7 +184,7 @@ class Window(tk.Frame):
             with open(score_filename, "a") as f:
                 total = sum(total_time)
                 line = f"{self.team_number.get()},{self.n_players},{total},{total/self.n_players},{start_time}\n"
-                print(line)
+                print(line, end="")
                 f.write(line)
 
         tk.messagebox.showinfo(title="Résultat", message=f"Temps total : {total:.1f}s")
