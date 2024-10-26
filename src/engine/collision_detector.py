@@ -21,10 +21,10 @@ class CollisionDetector:
         cursor_x, cursor_y = None, None
         if self.app.dev_mode:
             cursor_x, cursor_y = mouse.get_pos()
-        # beamage_pos = self.app.input.beamage.get_position()
-        # if beamage_pos is not None:
-        #     cursor_x, cursor_y = beamage_pos
-        #     mouse.set_pos(cursor_x, self.app.window_size[1] - cursor_y)
+        beamage_pos = self.app.input.beamage.get_position()
+        if beamage_pos is not None:
+            cursor_x, cursor_y = beamage_pos
+            mouse.set_pos(cursor_x, self.app.window_size[1] - cursor_y)
         
         if cursor_x is not None and cursor_y is not None:
             cursor_y = self.app.window_size[1] - cursor_y  # Invert Y to match OpenGL's coordinate system
@@ -55,12 +55,3 @@ class CollisionDetector:
             self.collision = collision_detected
         else:
             self.collision = False
-        #     pixel_data = frombuffer(self.off_screen_frame_buffer_object.read(
-        #         viewport=(cursor_x, cursor_y, 1, 1)), dtype=uint8
-        #     )
-        #     if not array_equal(pixel_data[:3], self.background_color) and cursor_y != self.app.window_size[1]:
-        #         self.collision = True
-        #     else:
-        #         self.collision = False
-        # else:
-        #     self.collision = False
