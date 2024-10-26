@@ -166,7 +166,7 @@ class Window(tk.Frame):
             new_height = int(new_width / img_aspect_ratio)
 
         # Resize the image and update the label
-        resized_image = self.original_image.resize((new_width, new_height), Image.LANCZOS)
+        resized_image = self.original_image.resize((max(new_width, 1), max(new_height, 1)), Image.LANCZOS)
         self.background_image = ImageTk.PhotoImage(resized_image)
         self.image_label.config(image=self.background_image)
         self.image_label.image = self.background_image  # Keep a reference to avoid garbage collection

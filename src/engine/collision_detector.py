@@ -29,30 +29,43 @@ class CollisionDetector:
         
         if cursor_x is not None and cursor_y is not None:
             cursor_y = self.app.window_size[1] - cursor_y  # Invert Y to match OpenGL's coordinate system
-            radius = self.collision_radius
-
-            # Define a grid of points around the cursor
-            collision_detected = False
-            for dx in range(-radius, radius + 1):
-                for dy in range(-radius, radius + 1):
-                    sample_x, sample_y = cursor_x + dx, cursor_y + dy
-                    
-                    # Skip positions outside the window bounds
-                    if (0 <= sample_x < self.app.window_size[0] and
-                            0 <= sample_y < self.app.window_size[1]):
-                        
-                        # Read pixel data at the sample position
-                        pixel_data = frombuffer(self.off_screen_frame_buffer_object.read(
-                            viewport=(sample_x, sample_y, 1, 1)), dtype=uint8
-                        )
-                        
-                        # Check if pixel color matches anything other than background color
-                        if not array_equal(pixel_data[:3], self.background_color):
-                            collision_detected = True
-                            break
-                if collision_detected:
-                    break
-            
-            self.collision = collision_detected
+            pixel_data = frombuffer(self.off_screen_frame_buffer_object.read(
+                viewport=(cursor_x, cursor_y, 1, 1)), dtype=uint8
+            )
+            if not array_equal(pixel_data[:3], self.background_color) and cursor_y != self.app.window_size[1]:
+                self.collision = True
+            else:
+                self.collision = False
         else:
             self.collision = False
+
+
+        # if cursor_x is not None and cursor_y is not None:
+        #     cursor_y = self.app.window_size[1] - cursor_y  # Invert Y to match OpenGL's coordinate system
+        #     radius = self.collision_radius
+
+        #     # Define a grid of points around the cursor
+        #     collision_detected = False
+        #     for dx in range(-radius, radius + 1):
+        #         for dy in range(-radius, radius + 1):
+        #             sample_x, sample_y = cursor_x + dx, cursor_y + dy
+                    
+        #             # Skip positions outside the window bounds
+        #             if (0 <= sample_x < self.app.window_size[0] and
+        #                     0 <= sample_y < self.app.window_size[1]):
+                        
+        #                 # Read pixel data at the sample position
+        #                 pixel_data = frombuffer(self.off_screen_frame_buffer_object.read(
+        #                     viewport=(sample_x, sample_y, 1, 1)), dtype=uint8
+        #                 )
+                        
+        #                 # Check if pixel color matches anything other than background color
+        #                 if not array_equal(pixel_data[:3], self.background_color):
+        #                     collision_detected = True
+        #                     break
+        #         if collision_detected:
+        #             break
+            
+        #     self.collision = collision_detected
+        # else:
+        #     self.collision = False
