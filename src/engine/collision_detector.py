@@ -29,15 +29,39 @@ class CollisionDetector:
         
         if cursor_x is not None and cursor_y is not None:
             cursor_y = self.app.window_size[1] - cursor_y  # Invert Y to match OpenGL's coordinate system
+            
+            # Define the viewport to read a block of pixels around the cursor
+            radius = self.collision_radius
+            min_x = max(0, cursor_x - radius)
+            min_y = max(0, cursor_y - radius)
+            width = min(self.app.window_size[0], cursor_x + radius + 1) - min_x
+            height = min(self.app.window_size[1], cursor_y + radius + 1) - min_y
+
+            # Read the block of pixels
             pixel_data = frombuffer(self.off_screen_frame_buffer_object.read(
-                viewport=(cursor_x, cursor_y, 1, 1)), dtype=uint8
+                viewport=(min_x, min_y, width, height)), dtype=uint8
+            ).reshape((height, width, 3))
+            
+            # Check each pixel in the block
+            self.collision = any(
+                not array_equal(pixel_data[dy, dx, :3], self.background_color)
+                for dx in range(width) for dy in range(height)
             )
-            if not array_equal(pixel_data[:3], self.background_color) and cursor_y != self.app.window_size[1]:
-                self.collision = True
-            else:
-                self.collision = False
         else:
             self.collision = False
+
+
+        # if cursor_x is not None and cursor_y is not None:
+        #     cursor_y = self.app.window_size[1] - cursor_y  # Invert Y to match OpenGL's coordinate system
+        #     pixel_data = frombuffer(self.off_screen_frame_buffer_object.read(
+        #         viewport=(cursor_x, cursor_y, 1, 1)), dtype=uint8
+        #     )
+        #     if not array_equal(pixel_data[:3], self.background_color) and cursor_y != self.app.window_size[1]:
+        #         self.collision = True
+        #     else:
+        #         self.collision = False
+        # else:
+        #     self.collision = False
 
 
         # if cursor_x is not None and cursor_y is not None:
