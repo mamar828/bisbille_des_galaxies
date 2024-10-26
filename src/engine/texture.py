@@ -27,17 +27,7 @@ class Texture:
         }
 
         for obj, data in self.app.loader.object_materials.items():
-            if obj == "imperial_shuttle":
-                self.textures[f"{obj}_wire_088199225"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
-                self.textures[f"{obj}_wire_057008136"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
-                self.textures[f"{obj}_wire_115115115"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
-                self.textures[f"{obj}_wire_086086086"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
-                self.textures[f"{obj}_wire_154185229"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
-                self.textures[f"{obj}_wire_008110134"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
-                self.textures[f"{obj}_wire_006135006"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
-                self.textures[f"{obj}_wire_140088225"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
-                self.textures[f"{obj}_wire_087225198"] = self.get_texture(get_path(f"objects/{obj}/wing texture.png"))
-            elif obj == "star_destroyer":
+            if obj == "star_destroyer":
                 self.textures[f"{obj}_EdgeBummp"] = self.get_texture(
                                                         get_path(f"objects/{obj}/wallSegment_DisplacementMap.png"))
                 self.textures[f"{obj}_JetFire"] = self.get_texture(
@@ -46,7 +36,7 @@ class Texture:
                                                         get_path(f"objects/{obj}/LightGraySteel_DisplacementMap.png"))
                 self.textures[f"{obj}_TopCover"] = self.get_texture(
                                                         get_path(f"objects/{obj}/LightGraySteel_DisplacementMap.png"))
-            elif obj in ["tie_fighter", "x_wing", "corvette"]:
+            elif obj in ["tie_fighter", "corvette", "royal_starship", "imperial_shuttle", "death_star"]:
                 current_material = ""
                 with open(get_path(f"objects/{obj}/info.mtl")) as f:
                     for line in f.readlines():

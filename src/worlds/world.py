@@ -52,7 +52,7 @@ class Kamino(World):
     def __init__(self):
         super().__init__()
         self.ship = Object(
-            model=TieFighter,
+            model=AWing,
             instance=TieFighterAI()
         )
 
@@ -61,7 +61,7 @@ class Kashyyyk(World):
     def __init__(self):
         super().__init__()
         self.ship = Object(
-            model=TieFighter,
+            model=ImperialShuttle,
             instance=TieFighterAI()
         )
 
@@ -70,7 +70,7 @@ class Naboo(World):
     def __init__(self):
         super().__init__()
         self.ship = Object(
-            model=TieFighter,
+            model=RoyalStarship,
             instance=TieFighterAI()
         )
 
@@ -97,7 +97,7 @@ class Test(World):
     def __init__(self):
         super().__init__(1e-8)
         self.ship = Object(
-            model=Corvette,
+            model=AWing,
             position=glm.vec3(0, 10, 0),
         )
         self.cube = Object(
@@ -115,5 +115,7 @@ available_worlds = [
     Hoth,
     Dathomir,
     Umbara,
-    # Test,
+    Naboo,
+    Kamino,
+    Kashyyyk,
 ]
