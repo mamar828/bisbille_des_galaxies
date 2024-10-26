@@ -27,7 +27,7 @@ if __name__ == "__main__":
         model_saturation=False,
         dev_mode=True
     )
-    engine.set_world(world=Yavin4())
+    engine.set_world(world=Naboo())
     # time.sleep(10)
     engine.run()
     # for world in available_worlds:

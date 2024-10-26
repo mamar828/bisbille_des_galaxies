@@ -71,7 +71,7 @@ class Naboo(World):
         super().__init__()
         self.ship = Object(
             model=RoyalStarship,
-            instance=TieFighterAI()
+            instance=StarDestroyerAIFilix()
         )
 
 
@@ -110,12 +110,19 @@ class Test(World):
         )
 
 available_worlds = [
-    Coruscant,
-    Yavin4,
-    Hoth,
-    Dathomir,
-    Umbara,
+    # Coruscant,
+    # Yavin4,
+    # Hoth,
+    # Dathomir,
+    # Umbara,
     Naboo,
-    Kamino,
-    Kashyyyk,
+    Naboo,
+    Naboo,
+    Naboo,
+    Naboo,
+    Naboo,
+    Naboo,
+    Naboo,
+    # Kamino,
+    # Kashyyyk,
 ]

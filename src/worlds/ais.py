@@ -211,7 +211,7 @@ class StarDestroyerAIFilix(AI):
    def update(self, app):
        # st describes the time within a given step and sd[n] is the time it takes to do step n with n=0 being the setup
        t = app.time
-       sd = [0,15,5,10,15,5,5]
+       sd = [0,5,5,20,15,5,5]
        loop_length = sum(sd) - sd[0]
        self.forward = self.calculate_forward_vector()
        if 0 < t < sd[0]:
