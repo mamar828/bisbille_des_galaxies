@@ -31,11 +31,11 @@ class App(tk.Tk):
         self.mode_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="File", menu=self.mode_menu)
         self.mode_menu.add_command(label="Sélectionner fichier Beamage", command=self.select_beamage_file)
-        self.mode_menu.add_command(label="Imprimer fichier Beamage", command=self.print_beamage_file)
-        self.mode_menu.entryconfig("Imprimer fichier Beamage", state=tk.DISABLED)
+        self.mode_menu.add_command(label="Afficher fichier Beamage", command=self.print_beamage_file)
+        self.mode_menu.entryconfig("Afficher fichier Beamage", state=tk.DISABLED)
         self.mode_menu.add_command(label="Sélectionner fichier score", command=self.select_score_folder)
-        self.mode_menu.add_command(label="Imprimer fichier score", command=self.print_score_folder)
-        self.mode_menu.entryconfig("Imprimer fichier score", state=tk.DISABLED)
+        self.mode_menu.add_command(label="Afficher fichier score", command=self.print_score_folder)
+        self.mode_menu.entryconfig("Afficher fichier score", state=tk.DISABLED)
 
         self.material_loader = MaterialLoader()
         self.pause_time = 10
@@ -45,9 +45,9 @@ class App(tk.Tk):
             filetypes = (("Fichiers texte", "*.txt"), ("Tout fichiers", "*.*")))
         self.frame.focus_force()
         if self.beamage_filename == "":
-            self.mode_menu.entryconfig("Imprimer fichier Beamage", state=tk.DISABLED)
+            self.mode_menu.entryconfig("Afficher fichier Beamage", state=tk.DISABLED)
         else:
-            self.mode_menu.entryconfig("Imprimer fichier Beamage", state=tk.NORMAL)
+            self.mode_menu.entryconfig("Afficher fichier Beamage", state=tk.NORMAL)
 
     def print_beamage_file(self):
         tk.messagebox.showinfo(title="Fichier beamage", message=f"{self.beamage_filename}")
@@ -56,9 +56,9 @@ class App(tk.Tk):
         self.score_foldername = filedialog.askdirectory(initialdir="/", title="Sélectionner un dossier")
         self.frame.focus_force()
         if self.score_foldername == "":
-            self.mode_menu.entryconfig("Imprimer fichier score", state=tk.DISABLED)
+            self.mode_menu.entryconfig("Afficher fichier score", state=tk.DISABLED)
         else:
-            self.mode_menu.entryconfig("Imprimer fichier score", state=tk.NORMAL)
+            self.mode_menu.entryconfig("Afficher fichier score", state=tk.NORMAL)
 
     def print_score_folder(self):
         tk.messagebox.showinfo(title="Fichier score", message=f"{self.score_foldername}")
