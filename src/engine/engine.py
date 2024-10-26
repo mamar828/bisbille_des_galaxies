@@ -40,6 +40,7 @@ class Engine:
             model_saturation: bool=False,
             dev_mode: bool=True,
             beamage_filename: str=None,
+            material_loader: MaterialLoader=None,
     ):
         """
         Initialize an Engine object.
@@ -145,7 +146,10 @@ class Engine:
             yaw=camera_yaw,
             pitch=camera_pitch,
         )
-        self.loader = MaterialLoader()
+        if material_loader:
+            self.loader = material_loader
+        else:
+            self.loader = MaterialLoader()
         self.collision_detector = CollisionDetector(self)
 
     def set_world(self, world):

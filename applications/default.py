@@ -26,8 +26,9 @@ engine = Engine(
     model_saturation=False,
     dev_mode=True
 )
-# engine.set_world(world=Kashyyyk())
-# engine.run()
-for world in available_worlds:
-    engine.set_world(world=world())
-    engine.run()
+engine.set_world(world=Coruscant())
+time.sleep(10)
+engine.run()
+# for world in available_worlds:
+#     engine.set_world(world=world())
+#     engine.run()

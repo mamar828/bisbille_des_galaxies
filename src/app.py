@@ -10,6 +10,7 @@ from os.path import isfile
 
 from src.engine.engine import Engine
 from src.worlds.world import available_worlds
+from src.engine.material_loader import MaterialLoader
 
 
 class App(tk.Tk):
@@ -35,6 +36,8 @@ class App(tk.Tk):
         self.mode_menu.add_command(label="Sélectionner fichier score", command=self.select_score_folder)
         self.mode_menu.add_command(label="Imprimer fichier score", command=self.print_score_folder)
         self.mode_menu.entryconfig("Imprimer fichier score", state=tk.DISABLED)
+
+        self.material_loader = MaterialLoader()
 
     def select_beamage_file(self):
         self.beamage_filename = filedialog.askopenfilename(initialdir="/", title="Sélectionner fichier Beamage",
@@ -152,9 +155,6 @@ class Window(tk.Frame):
         self.background.configure(image=self.background_image)
 
     def start(self):
-        # self.master.beamage_filename = ""
-        # if False: pass
-        # self.master.beamage_filename = r"C:\Users\Proprio\Documents\Mathieu\bisbille_des_galaxies\beamage.txt"
         if self.master.beamage_filename == "":
             tk.messagebox.showwarning(title="Error", message="Aucun fichier Beamage n'a été donné.")
         elif self.master.score_foldername == "":
@@ -169,14 +169,15 @@ class Window(tk.Frame):
 
             engine = Engine(
                 beamage_filename=self.master.beamage_filename,
-                dev_mode=False
+                dev_mode=False,
+                material_loader=self.master.material_loader
             )
             chosen_worlds = sample(available_worlds, self.n_players)
             start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             total_time = []
             for world in chosen_worlds:
                 engine.set_world(world())
-                time.sleep(1)
+                time.sleep(7)
                 start = time.time()
                 engine.run()
                 stop = time.time()
