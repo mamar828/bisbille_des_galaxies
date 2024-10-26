@@ -97,7 +97,7 @@ class Test(World):
     def __init__(self):
         super().__init__(1e-8)
         self.ship = Object(
-            model=AWing,
+            model=RoyalStarship,
             position=glm.vec3(0, 10, 0),
         )
         self.cube = Object(
@@ -110,19 +110,12 @@ class Test(World):
         )
 
 available_worlds = [
-    # Coruscant,
-    # Yavin4,
-    # Hoth,
-    # Dathomir,
-    # Umbara,
+    Coruscant,
+    Yavin4,
+    Hoth,
+    Dathomir,
+    Umbara,
     Naboo,
-    Naboo,
-    Naboo,
-    Naboo,
-    Naboo,
-    Naboo,
-    Naboo,
-    Naboo,
-    # Kamino,
-    # Kashyyyk,
+    Kamino,
+    Kashyyyk,
 ]

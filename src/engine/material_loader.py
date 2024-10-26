@@ -23,24 +23,24 @@ class MaterialLoader:
     def __init__(self):
         self.object_materials = {}
         objects_names = [
-            # "millenium_falcon",
-            # "star_destroyer",
-            # "tie_fighter",
-            # "malevolence",
-            # "corvette",
+            "millenium_falcon",
+            "star_destroyer",
+            "tie_fighter",
+            "malevolence",
+            "corvette",
             "royal_starship",
-            # "imperial_shuttle",
-            # "a_wing",
+            "imperial_shuttle",
+            "a_wing",
         ]
         object_filenames = [
-            # "Star Wars FALCON centered.obj",
-            # "StarDestroyer.obj",
-            # "processed_tie.obj",
-            # "emship_hq.obj",
-            # "CR90_New.obj",
+            "Star Wars FALCON centered.obj",
+            "StarDestroyer.obj",
+            "processed_tie.obj",
+            "emship_hq.obj",
+            "CR90_New.obj",
             "model.obj",
-            # "imperial_shuttle_ver1.obj",
-            # "a_wing.obj",
+            "imperial_shuttle_ver1.obj",
+            "a_wing.obj",
         ]
 
         with ProcessPool() as pool:
@@ -61,8 +61,6 @@ class MaterialLoader:
                 material_results.append(materials)
                 progressbar.update(1)
         
-        # material_results = [worker_open(list(zip(objects_names, object_filenames))[i]) for i in range(len(objects_names))]
-
         for name, material_result in zip(objects_names, material_results):
             self.object_materials[name] = material_result
 
