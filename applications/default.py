@@ -26,5 +26,5 @@ engine = Engine(
     model_saturation=False,
     dev_mode=True
 )
-engine.set_world(world=available_worlds[-1]())
+engine.set_world(world=available_worlds[0]())
 engine.run()
