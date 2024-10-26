@@ -48,5 +48,4 @@ Ajouter à .vscode :
 et exécuter en mode déboggage avec le launch.json
 
 Pour download les packages :
-source .venv/bin/activate
 pip install -r requirements.txt

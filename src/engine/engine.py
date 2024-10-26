@@ -145,7 +145,9 @@ class Engine:
             yaw=camera_yaw,
             pitch=camera_pitch,
         )
+        print("start")
         self.loader = MaterialLoader()
+        print("end")
         self.collision_detector = CollisionDetector(self)
 
     def set_world(self, world):

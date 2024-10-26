@@ -269,18 +269,18 @@ class MaterialModel:
         del self
 
 
-# class Corvette(MaterialModel):
-#     def __init__(
-#             self,
-#             app,
-#             texture_id: str=None,
-#             position=glm.vec3(0, 0, 0),
-#             rotation=glm.vec3(0, 0, 0),
-#             scale=glm.vec3(1, 1, 1),
-#             instance=None,
-#             saturated: bool=False
-#     ):
-#         super().__init__(app, "corvette", position, rotation, scale, instance, saturated)
+class Corvette(MaterialModel):
+    def __init__(
+            self,
+            app,
+            texture_id: str=None,
+            position=glm.vec3(0, 0, 0),
+            rotation=glm.vec3(0, 0, 0),
+            scale=glm.vec3(1, 1, 1),
+            instance=None,
+            saturated: bool=False
+    ):
+        super().__init__(app, "corvette", position, rotation, scale, instance, saturated)
 
 
 class MilleniumFalcon(MaterialModel):

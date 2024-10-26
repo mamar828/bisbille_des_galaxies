@@ -26,7 +26,7 @@ class Coruscant(World):
         super().__init__()
         self.ship = Object(
             model=StarDestroyer,
-            instance=StarDestroyerAI()
+            instance=TieFighterAI()
         )
 
 
@@ -79,7 +79,7 @@ class Umbara(World):
     def __init__(self):
         super().__init__()
         self.ship = Object(
-            model=TieFighter,
+            model=Corvette,
             instance=TieFighterAI()
         )
 
@@ -97,7 +97,7 @@ class Test(World):
     def __init__(self):
         super().__init__(1e-8)
         self.ship = Object(
-            model=Slave,
+            model=Corvette,
             position=glm.vec3(0, 10, 0),
         )
         self.cube = Object(
@@ -110,9 +110,10 @@ class Test(World):
         )
 
 available_worlds = [
-    # Coruscant,
+    Coruscant,
     Yavin4,
     Hoth,
     Dathomir,
+    Umbara,
     # Test,
 ]

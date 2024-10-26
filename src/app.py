@@ -15,8 +15,7 @@ from src.worlds.world import available_worlds
 class App(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
-        self.geometry("600x600")
-        self.minsize(600, 600)
+        self.minsize(1072, 603)
         self.title("Bisbille des Galaxies")
         self.grid_propagate(False)
         self.frame = Window(self)
@@ -75,7 +74,7 @@ class Window(tk.Frame):
         self.grid_columnconfigure(2, weight=1)
 
         # Load background image and set up panel
-        self.image = Image.open("src/engine/textures/magnificent.png")
+        self.image = Image.open("src/engine/textures/title_screen.png")
         self.image_copy= self.image.copy()
         self.background_image = ImageTk.PhotoImage(self.image)
         self.background = tk.Label(self, image=self.background_image)

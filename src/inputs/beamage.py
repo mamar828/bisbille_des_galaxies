@@ -19,8 +19,8 @@ class Beamage:
                     with open(self.filename, "w") as f:
                         f.write("NOTHING\n")
                 if float(infos[11]) > 50:   # peak saturation
-                    x = (float(infos[-4]) + 5500) / 11000
-                    y = (float(infos[-3]) + 5500) / 11000
+                    x = (float(infos[-5]) + 5500) / 11000
+                    y = (float(infos[-6]) + 5500) / 11000
                     # x and y seem to range from ~-5500 to ~5500
                     return (nparray([x, y]) * nparray(self.master_input.app.window_size)).round(0).astype(int)
         

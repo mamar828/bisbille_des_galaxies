@@ -46,7 +46,7 @@ class Texture:
                                                         get_path(f"objects/{obj}/LightGraySteel_DisplacementMap.png"))
                 self.textures[f"{obj}_TopCover"] = self.get_texture(
                                                         get_path(f"objects/{obj}/LightGraySteel_DisplacementMap.png"))
-            elif obj in ["tie_fighter", "x_wing"]:
+            elif obj in ["tie_fighter", "x_wing", "corvette"]:
                 current_material = ""
                 with open(get_path(f"objects/{obj}/info.mtl")) as f:
                     for line in f.readlines():
