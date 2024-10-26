@@ -1,12 +1,12 @@
 import time
 from datetime import datetime
 import tkinter as tk
-import numpy as np
 from PIL import ImageTk, Image
 from tkinter import filedialog
 from datetime import datetime
 from random import sample
 from os.path import isfile
+from itertools import cycle
 
 from src.engine.engine import Engine
 from src.worlds.world import available_worlds
@@ -77,14 +77,13 @@ class Window(tk.Frame):
         self.grid_columnconfigure(1, weight=0)
         self.grid_columnconfigure(2, weight=1)
 
-        # Load background image and set up panel
-        self.image = Image.open("src/engine/textures/title_screen_1.png")
-        self.image_copy= self.image.copy()
-        self.background_image = ImageTk.PhotoImage(self.image)
-        self.background = tk.Label(self, image=self.background_image)
-        self.background.grid(column=0, row=0, columnspan=3, rowspan=3, sticky="nsew")
+        self.images = [Image.open(f"src/engine/textures/title_screen_{i}.png") for i in [1,2]] 
+        self.image_iter = cycle(self.images)
+        # Initialize with the first image
+        self.image_label = tk.Label(self, bg="black")
+        self.image_label.grid(column=0, row=0, columnspan=3, rowspan=3, sticky="nsew")
+        self.update_background()
         self.bind("<Configure>", self.resize_background)
-        self.background.lower()
 
         # Create a frame for buttons to manage their layout
         button_frame = tk.Frame(self, bg="black")
@@ -144,16 +143,33 @@ class Window(tk.Frame):
     def update_n_players_label(self):
         self.n_players_label.config(text=self.n_players)
 
-    def resize_background(self, event):
-        new_width = event.width
-        new_height = event.height
+    def update_background(self):
+        self.original_image = next(self.image_iter)
+        self.resize_background()
+        self.after(1000, self.update_background)
 
-        # Resize the background image to match the new window size
-        self.image = self.image_copy.resize((new_width, new_height))
-        self.background_image = ImageTk.PhotoImage(self.image)
+    def resize_background(self):
+        window_width = self.master.winfo_width()
+        window_height = self.master.winfo_height()
 
-        # Update the label with the resized background image
-        self.background.configure(image=self.background_image)
+        img_width, img_height = self.original_image.size
+        img_aspect_ratio = img_width / img_height
+        window_aspect_ratio = window_width / window_height
+
+        if window_aspect_ratio > img_aspect_ratio:
+            # Window is wider than the image
+            new_height = window_height
+            new_width = int(new_height * img_aspect_ratio)
+        else:
+            # Window is taller than the image
+            new_width = window_width
+            new_height = int(new_width / img_aspect_ratio)
+
+        # Resize the image and update the label
+        resized_image = self.original_image.resize((new_width, new_height), Image.LANCZOS)
+        self.background_image = ImageTk.PhotoImage(resized_image)
+        self.image_label.config(image=self.background_image)
+        self.image_label.image = self.background_image  # Keep a reference to avoid garbage collection
 
     def start(self):
         if self.master.beamage_filename == "":

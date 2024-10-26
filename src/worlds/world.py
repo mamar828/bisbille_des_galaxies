@@ -26,7 +26,7 @@ class Coruscant(World):
         super().__init__()
         self.ship = Object(
             model=StarDestroyer,
-            instance=TieFighterAI()
+            instance=StarDestroyerAIFilix()
         )
 
 

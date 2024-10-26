@@ -11,7 +11,7 @@ class CollisionDetector:
         )
         self.collision = False
         self.background_color = array([33,64,92])   # random background color
-        self.collision_radius = 5
+        self.collision_radius = 10
 
     def clear(self):
         self.off_screen_frame_buffer_object.use()
@@ -21,10 +21,11 @@ class CollisionDetector:
         cursor_x, cursor_y = None, None
         if self.app.dev_mode:
             cursor_x, cursor_y = mouse.get_pos()
-        beamage_pos = self.app.input.beamage.get_position()
-        if beamage_pos is not None:
-            cursor_x, cursor_y = beamage_pos
-            mouse.set_pos(cursor_x, self.app.window_size[1] - cursor_y)
+        if not self.app.dev_mode:
+            beamage_pos = self.app.input.beamage.get_position()
+            if beamage_pos is not None:
+                cursor_x, cursor_y = beamage_pos
+                mouse.set_pos(cursor_x, self.app.window_size[1] - cursor_y)
         
         if cursor_x is not None and cursor_y is not None:
             cursor_y = self.app.window_size[1] - cursor_y  # Invert Y to match OpenGL's coordinate system

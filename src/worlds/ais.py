@@ -198,3 +198,47 @@ class TieFighterAI(AI):
         # else:
         #     self.position = glm.vec3(0, 1500, 0)
         #     self.rotation = glm.vec3(0, 0, 0)
+
+
+class StarDestroyerAIFilix(AI):
+   def __init__(self):
+       self.position = glm.vec3(0, 500, 0)
+       self.scale = glm.vec3(5,5,5)
+       self.rotation = glm.vec3(0, 0, 0)
+       self.forward = glm.vec3(0, -1, 0)
+       self.flag = False
+  
+   def update(self, app):
+       # st describes the time within a given step and sd[n] is the time it takes to do step n with n=0 being the setup
+       t = app.time
+       sd = [0,15,5,5,15,5,5]
+       loop_length = sum(sd) - sd[0]
+       self.forward = self.calculate_forward_vector()
+       if 0 < t < sd[0]:
+           self.position = glm.vec3(0, 500, 0) + (glm.vec3(0, 0, 25) - glm.vec3(0, 500, 0)) * t / sd[0]
+      
+       elif 0 < (t-sum(sd[:1]))%loop_length/sd[1] < 1 :
+           st = (t-sum(sd[:1]))%loop_length/sd[1]
+           self.position = glm.vec3(0, 500, 0) + glm.vec3(0,-400,15)*st
+           self.rotation = glm.vec3(0,0,0)
+       elif 0 < (t-sum(sd[:2]))%loop_length/sd[2] < 1 :
+           st = (t-sum(sd[:2]))%loop_length/sd[2]
+           self.position = glm.vec3(0, 100, 15) + glm.vec3(50,-100,0)*st
+           self.rotation = glm.vec3(0,0,pi/4*st)
+       elif 0 < (t-sum(sd[:3]))%loop_length/sd[3] < 1 :
+           st = (t-sum(sd[:3]))%loop_length/sd[3]
+           self.position = glm.vec3(40, 15, 0) + glm.vec3(-80,15,0)*st
+           self.rotation = glm.vec3(0,0,-pi/2)
+       elif 0 < (t-sum(sd[:4]))%loop_length/sd[4] < 1 :
+           st = (t-sum(sd[:4]))%loop_length/sd[4]
+           self.position = glm.vec3(-40, 15, 0) + glm.vec3(30,450,-30)*st
+           self.rotation = glm.vec3(0,-0.06656,-pi+0.06656)
+       elif 0 < (t-sum(sd[:5]))%loop_length/sd[5] < 1 :
+           st = (t-sum(sd[:5]))%loop_length/sd[5]
+           self.position = glm.vec3(-10, 465, -30) + glm.vec3(10,35,30*4/5)*st
+           self.rotation = glm.vec3(pi*st*(4/5),-0.06656 + 0.06656*st,-pi+0.06656 -0.06656*st)
+       elif 0 < (t-sum(sd[:6]))%loop_length/sd[6] < 1 :
+           st = (t-sum(sd[:6]))%loop_length/sd[6]
+           self.position = glm.vec3(0, 500, -30*1/5) + glm.vec3(0,0,30*1/5)*st
+           self.rotation = glm.vec3(pi*(4/5)+pi*(1/5)*st,pi*st,-pi)
+
