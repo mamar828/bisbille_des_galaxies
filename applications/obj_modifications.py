@@ -2,8 +2,8 @@ from src.engine.material_loader import MaterialLoader
 from src.engine.relative_paths import get_path
 
 
-input_path = get_path("objects/a_wing/a_wing.obj")
-output_path = get_path("objects/a_wing/a_wing.obj")
+input_path = get_path("objects/corvette/CR90_New.obj")
+output_path = get_path("objects/corvette/CR90_New.obj")
 
 MaterialLoader.recenter_obj_file(
     input_path=input_path,

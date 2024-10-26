@@ -280,7 +280,13 @@ class Corvette(MaterialModel):
             instance=None,
             saturated: bool=False
     ):
-        super().__init__(app, "corvette", position, rotation, scale, instance, saturated)
+        self.scaling_factor = 0.4
+        scaling = scale * self.scaling_factor
+        super().__init__(app, "corvette", position, rotation, scaling, instance, saturated)
+
+    def update_visual(self, **kwargs):
+        kwargs["scale"] *= self.scaling_factor
+        super().update_visual(**kwargs)
 
 
 class MilleniumFalcon(MaterialModel):
@@ -403,4 +409,10 @@ class AWing(MaterialModel):
             instance=None,
             saturated: bool=False
     ):
-        super().__init__(app, "a_wing", position, rotation, scale, instance, saturated)
+        self.scaling_factor = 0.1
+        scaling = scale * self.scaling_factor
+        super().__init__(app, "a_wing", position, rotation, scaling, instance, saturated)
+
+    def update_visual(self, **kwargs):
+        kwargs["scale"] *= self.scaling_factor
+        super().update_visual(**kwargs)

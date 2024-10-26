@@ -26,5 +26,8 @@ engine = Engine(
     model_saturation=False,
     dev_mode=True
 )
-engine.set_world(world=available_worlds[0]())
-engine.run()
+# engine.set_world(world=Kashyyyk())
+# engine.run()
+for world in available_worlds:
+    engine.set_world(world=world())
+    engine.run()

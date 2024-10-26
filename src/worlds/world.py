@@ -52,7 +52,7 @@ class Kamino(World):
     def __init__(self):
         super().__init__()
         self.ship = Object(
-            model=AWing,
+            model=ImperialShuttle,
             instance=TieFighterAI()
         )
 
@@ -61,7 +61,7 @@ class Kashyyyk(World):
     def __init__(self):
         super().__init__()
         self.ship = Object(
-            model=ImperialShuttle,
+            model=Corvette,
             instance=TieFighterAI()
         )
 
@@ -79,7 +79,7 @@ class Umbara(World):
     def __init__(self):
         super().__init__()
         self.ship = Object(
-            model=Corvette,
+            model=AWing,
             instance=TieFighterAI()
         )
 

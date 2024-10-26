@@ -1,9 +1,19 @@
 import numpy as np
 from pywavefront import Wavefront
-from os.path import basename
 from tqdm import tqdm
+from pathos.pools import ProcessPool
 
 from src.engine.relative_paths import get_path
+
+
+def worker_open(object_: tuple[str, str]):
+    obj, filename = object_
+    path = get_path(f"objects/{obj}")
+    materials = []
+    for material in Wavefront(f"{path}/{filename}", collect_faces=True, strict=False).materials.values():
+        if material.vertices:
+            materials.append((material.name, material.vertices))
+    return materials
 
 
 class MaterialLoader:
@@ -12,22 +22,47 @@ class MaterialLoader:
     """
     def __init__(self):
         self.object_materials = {}
-        for obj, filename in [
-            # ("millenium_falcon", "Star Wars FALCON centered.obj"),
-            ("star_destroyer", "StarDestroyer.obj"),
-            # ("tie_fighter", "processed_tie.obj"),
-            # ("malevolence", "emship_hq.obj"),
-            # ("corvette", "CR90_New.obj"),
-            # ("royal_starship", "model.obj")
-            # ("imperial_shuttle", "imperial_shuttle_ver1.obj"),
-            # ("a_wing", "a_wing.obj"),
-        ]:
-            path = get_path(f"objects/{obj}")
-            materials = []
-            for material in Wavefront(f"{path}/{filename}", collect_faces=True, strict=False).materials.values():
-                if material.vertices:
-                    materials.append((material.name, material.vertices))
-            self.object_materials[obj] = materials
+        objects_names = [
+            "millenium_falcon",
+            "star_destroyer",
+            "tie_fighter",
+            "malevolence",
+            "corvette",
+            "royal_starship",
+            "imperial_shuttle",
+            "a_wing",
+        ]
+        object_filenames = [
+            "Star Wars FALCON centered.obj",
+            "StarDestroyer.obj",
+            "processed_tie.obj",
+            "emship_hq.obj",
+            "CR90_New.obj",
+            "model.obj",
+            "imperial_shuttle_ver1.obj",
+            "a_wing.obj",
+        ]
+
+        with ProcessPool() as pool:
+            progressbar = tqdm(
+                desc="Loading",
+                total=len(objects_names),
+                unit="obj",
+                colour="GREEN"
+            )
+
+            imap_iterator = pool.imap(
+                worker_open,
+                zip(objects_names, object_filenames)
+            )
+
+            material_results = []
+            for materials in imap_iterator:
+                material_results.append(materials)
+                progressbar.update(1)
+
+        for name, material_result in zip(objects_names, material_results):
+            self.object_materials[name] = material_result
 
     @staticmethod
     def recenter_obj_file(input_path, output_path):
