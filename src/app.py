@@ -38,6 +38,7 @@ class App(tk.Tk):
         self.mode_menu.entryconfig("Imprimer fichier score", state=tk.DISABLED)
 
         self.material_loader = MaterialLoader()
+        self.pause_time = 10
 
     def select_beamage_file(self):
         self.beamage_filename = filedialog.askopenfilename(initialdir="/", title="Sélectionner fichier Beamage",
@@ -176,8 +177,10 @@ class Window(tk.Frame):
             start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             total_time = []
             for world in chosen_worlds:
+                loading_start = time.time()
                 engine.set_world(world())
-                time.sleep(7)
+                loading_time = time.time() - loading_start
+                time.sleep(max(self.master.pause_time - loading_time, 0))
                 start = time.time()
                 engine.run()
                 stop = time.time()

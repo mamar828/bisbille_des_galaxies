@@ -22,8 +22,6 @@ class Beamage:
                 if float(infos[5]) < 90:   # peak saturation
                     x = (float(infos[7]) + 5500) / 11000
                     y = (float(infos[8]) + 5500) / 11000
-                    # x = (float(infos[-5]) + 5500) / 11000
-                    # y = (float(infos[-6]) + 5500) / 11000
                     # x and y seem to range from ~-5500 to ~5500
                     self.position = (nparray([x, y]) * nparray(self.master_input.app.window_size)).round(0).astype(int)
         

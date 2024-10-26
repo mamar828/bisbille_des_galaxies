@@ -158,7 +158,7 @@ class Engine:
         self.mesh = Mesh(self)
         self.scene = Scene(self)
         self.scene_renderer = SceneRenderer(self)
-        self.time = 0
+        self.input.beamage.position = [0, 0]
 
     def quit(self):
         self.scene.destroy()
@@ -206,6 +206,7 @@ class Engine:
         pg.display.flip()
 
     def run(self):
+        self.time = 0
         while self.running:
             self.check_time()
             self.check_events()
