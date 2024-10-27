@@ -195,7 +195,7 @@ class Engine:
             self.pressed_inputs.remove(event.key)
 
     def check_time(self):
-        self.time = pg.time.get_ticks() * 0.001
+        self.time += self.delta_time
 
     def render(self):
         # Update scene and camera before to prevent flickering

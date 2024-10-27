@@ -35,7 +35,7 @@ class Dathomir(World):
         super().__init__()
         self.ship = Object(
             model=Malevolence,
-            instance=TieFighterAI()
+            instance=StarDestroyerAIFilix()
         )
 
 
@@ -44,7 +44,7 @@ class Hoth(World):
         super().__init__()
         self.ship = Object(
             model=MilleniumFalcon,
-            instance=TieFighterAI()
+            instance=MillenniumFalconAIFilix()
         )
 
 
@@ -53,7 +53,7 @@ class Kamino(World):
         super().__init__()
         self.ship = Object(
             model=ImperialShuttle,
-            instance=TieFighterAI()
+            instance=MillenniumFalconAIFilix()
         )
 
 
@@ -62,7 +62,7 @@ class Kashyyyk(World):
         super().__init__()
         self.ship = Object(
             model=Corvette,
-            instance=TieFighterAI()
+            instance=MillenniumFalconAIFilix()
         )
 
 
@@ -80,7 +80,7 @@ class Umbara(World):
         super().__init__()
         self.ship = Object(
             model=AWing,
-            instance=TieFighterAI()
+            instance=MillenniumFalconAIFilix()
         )
 
 
@@ -89,7 +89,7 @@ class Yavin4(World):
         super().__init__()
         self.ship = Object(
             model=TieFighter,
-            instance=TieFighterAI()
+            instance=MillenniumFalconAIFilix()
         )
 
 
