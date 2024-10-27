@@ -148,7 +148,7 @@ class Window(tk.Frame):
         self.resize_background()
         self.after(1000, self.update_background)
 
-    def resize_background(self):
+    def resize_background(self, *args):
         window_width = self.master.winfo_width()
         window_height = self.master.winfo_height()
 
@@ -196,7 +196,7 @@ class Window(tk.Frame):
                 loading_start = time.time()
                 engine.set_world(world())
                 loading_time = time.time() - loading_start
-                time.sleep(max(self.master.pause_time - loading_time, 0))
+                # time.sleep(max(self.master.pause_time - loading_time, 0))
                 start = time.time()
                 engine.run()
                 stop = time.time()
@@ -205,7 +205,8 @@ class Window(tk.Frame):
             engine.quit()
             with open(score_filename, "a") as f:
                 total = sum(total_time)
-                line = f"{self.team_number.get()},{self.n_players},{total},{total/self.n_players},{start_time}\n"
+                line = \
+                    f"{self.team_number.get()},{self.n_players},{total:.2f},{total/self.n_players:.2f},{start_time}\n"
                 print(line, end="")
                 f.write(line)
 

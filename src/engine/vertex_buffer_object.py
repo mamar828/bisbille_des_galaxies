@@ -1,10 +1,5 @@
 import numpy as np
 from pywavefront import Wavefront
-from gzip import open as gzip_open
-from os.path import exists
-from pickle import dump, load
-from pygame import transform, image
-import json
 import pygame as pg
 from moderngl import NEAREST as mglNEAREST
 from pywavefront import Wavefront

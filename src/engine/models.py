@@ -363,9 +363,11 @@ class TieFighter(MaterialModel):
     ):
         self.scaling_factor = 0.7
         scaling = scale * self.scaling_factor
-        super().__init__(app, "tie_fighter", position, rotation, scaling, instance, saturated)
+        self.rot_plus = - glm.vec3(glm.pi(), 0, glm.pi()/2)
+        super().__init__(app, "tie_fighter", position, rotation + self.rot_plus, scaling, instance, saturated)
 
     def update_visual(self, **kwargs):
+        kwargs["rotation"] = kwargs["rotation"] + self.rot_plus
         kwargs["scale"] *= self.scaling_factor
         super().update_visual(**kwargs)
 
@@ -381,8 +383,15 @@ class Malevolence(MaterialModel):
             instance=None,
             saturated: bool=False
     ):
-        super().__init__(app, "malevolence", position, rotation, scale, instance, saturated)
+        self.scaling_factor = 0.5
+        scaling = scale * self.scaling_factor
+        self.rot_plus = - glm.vec3(0, 0, glm.pi()/2)
+        super().__init__(app, "malevolence", position, rotation + self.rot_plus, scaling, instance, saturated)
 
+    def update_visual(self, **kwargs):
+        kwargs["rotation"] = kwargs["rotation"] + self.rot_plus
+        kwargs["scale"] *= self.scaling_factor
+        super().update_visual(**kwargs)
 
 class RoyalStarship(MaterialModel):
     def __init__(
@@ -395,7 +404,12 @@ class RoyalStarship(MaterialModel):
             instance=None,
             saturated: bool=False
     ):
-        super().__init__(app, "royal_starship", position, rotation, scale, instance, saturated)
+        self.rot_plus = - glm.vec3(0, 0, glm.pi()/2)
+        super().__init__(app, "royal_starship", position, rotation + self.rot_plus, scale, instance, saturated)
+
+    def update_visual(self, **kwargs):
+        kwargs["rotation"] = kwargs["rotation"] + self.rot_plus
+        super().update_visual(**kwargs)
 
 
 class AWing(MaterialModel):

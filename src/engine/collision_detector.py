@@ -18,14 +18,13 @@ class CollisionDetector:
         self.off_screen_frame_buffer_object.clear(*(self.background_color/255), 1.0)
 
     def update(self):
-        cursor_x, cursor_y = None, None
         if self.app.dev_mode:
             cursor_x, cursor_y = mouse.get_pos()
         if not self.app.dev_mode:
             beamage_pos = self.app.input.beamage.get_position()
             if beamage_pos is not None:
                 cursor_x, cursor_y = beamage_pos
-                # cursor_y = self.app.window_size[1] - cursor_y
+                cursor_y = self.app.window_size[1] - cursor_y
                 mouse.set_pos(cursor_x, cursor_y)
         
         if cursor_x is not None and cursor_y is not None:

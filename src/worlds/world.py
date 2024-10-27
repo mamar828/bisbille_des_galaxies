@@ -53,7 +53,7 @@ class Kamino(World):
         super().__init__()
         self.ship = Object(
             model=ImperialShuttle,
-            instance=MillenniumFalconAIFilix()
+            instance=AWingAI()
         )
 
 
@@ -62,7 +62,7 @@ class Kashyyyk(World):
         super().__init__()
         self.ship = Object(
             model=Corvette,
-            instance=MillenniumFalconAIFilix()
+            instance=CorvetteAI()
         )
 
 
@@ -71,7 +71,7 @@ class Naboo(World):
         super().__init__()
         self.ship = Object(
             model=RoyalStarship,
-            instance=StarDestroyerAIFilix()
+            instance=CorvetteAI()
         )
 
 
@@ -80,7 +80,7 @@ class Umbara(World):
         super().__init__()
         self.ship = Object(
             model=AWing,
-            instance=MillenniumFalconAIFilix()
+            instance=AWingAI()
         )
 
 
@@ -89,7 +89,7 @@ class Yavin4(World):
         super().__init__()
         self.ship = Object(
             model=TieFighter,
-            instance=MillenniumFalconAIFilix()
+            instance=AWingAI()
         )
 
 
