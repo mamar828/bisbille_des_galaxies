@@ -98,10 +98,6 @@ class Engine:
         self.fullscreen = fullscreen
         self.dev_mode = dev_mode
         self.beamage_filename = beamage_filename
-
-        self.clock = pg.time.Clock()
-        self.time = 0
-        self.delta_time = 0
         
         self.pressed_inputs = set()       # Keep track of pressed keys
         
@@ -207,6 +203,8 @@ class Engine:
 
     def run(self):
         self.time = 0
+        self.delta_time = 0
+        self.clock = pg.time.Clock()
         while self.running:
             self.check_time()
             self.check_events()

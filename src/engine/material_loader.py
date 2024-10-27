@@ -24,23 +24,23 @@ class MaterialLoader:
         self.object_materials = {}
         objects_names = [
             "millenium_falcon",
-            "star_destroyer",
-            "tie_fighter",
-            "malevolence",
-            "corvette",
-            "royal_starship",
-            "imperial_shuttle",
-            "a_wing",
+            # "star_destroyer",
+            # "tie_fighter",
+            # "malevolence",
+            # "corvette",
+            # "royal_starship",
+            # "imperial_shuttle",
+            # "a_wing",
         ]
         object_filenames = [
             "Star Wars FALCON centered.obj",
-            "StarDestroyer.obj",
-            "processed_tie.obj",
-            "emship_hq.obj",
-            "CR90_New.obj",
-            "model.obj",
-            "imperial_shuttle_ver1.obj",
-            "a_wing.obj",
+            # "StarDestroyer.obj",
+            # "processed_tie.obj",
+            # "emship_hq.obj",
+            # "CR90_New.obj",
+            # "model.obj",
+            # "imperial_shuttle_ver1.obj",
+            # "a_wing.obj",
         ]
 
         with ProcessPool() as pool:

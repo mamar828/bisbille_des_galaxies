@@ -25,11 +25,11 @@ class CollisionDetector:
             beamage_pos = self.app.input.beamage.get_position()
             if beamage_pos is not None:
                 cursor_x, cursor_y = beamage_pos
-                mouse.set_pos(cursor_x, self.app.window_size[1] - cursor_y)
+                # cursor_y = self.app.window_size[1] - cursor_y
+                mouse.set_pos(cursor_x, cursor_y)
         
         if cursor_x is not None and cursor_y is not None:
-            cursor_y = self.app.window_size[1] - cursor_y  # Invert Y to match OpenGL's coordinate system
-            
+            cursor_y = self.app.window_size[1] - cursor_y
             # Define the viewport to read a block of pixels around the cursor
             radius = self.collision_radius
             min_x = max(0, cursor_x - radius)
