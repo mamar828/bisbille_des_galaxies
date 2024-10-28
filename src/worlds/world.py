@@ -35,7 +35,7 @@ class Dathomir(World):
         super().__init__()
         self.ship = Object(
             model=Malevolence,
-            instance=StarDestroyerAIFilix()
+            instance=MalevolenceAIFilix()
         )
 
 
@@ -53,7 +53,7 @@ class Kamino(World):
         super().__init__()
         self.ship = Object(
             model=ImperialShuttle,
-            instance=AWingAI()
+            instance=ImperialShuttleAI()
         )
 
 
@@ -71,7 +71,7 @@ class Naboo(World):
         super().__init__()
         self.ship = Object(
             model=RoyalStarship,
-            instance=CorvetteAI()
+            instance=RoyalStarshipAI()
         )
 
 
@@ -89,7 +89,7 @@ class Yavin4(World):
         super().__init__()
         self.ship = Object(
             model=TieFighter,
-            instance=AWingAI()
+            instance=TieFighterAIFilix()
         )
 
 
