@@ -20,7 +20,7 @@ class AI:
         return glm.vec3(rotated_forward)
 
 
-class StarDestroyerAI(AI):
+class StarDestroyerAIOld(AI):
     def __init__(self):
         self.position = glm.vec3(0, 1500, 0)
         self.scale = glm.vec3(5,5,5)
@@ -409,28 +409,6 @@ class RoyalStarshipAI(AI):
             self.rotation = glm.vec3(0, -pi/6, 5*pi/8) + glm.vec3(0, pi/6, 0)*st
 
 
-class TieFighterAIFilix(AI):
-    def __init__(self):
-        self.position = glm.vec3(-30, 75, 20)
-        self.scale = glm.vec3(3,3,3)
-        self.rotation = glm.vec3(0, 0, 0)
-        self.forward = glm.vec3(0, -1, 0)
-
-    def update(self, app):
-        # st describes the time within a given step and sd[n] is the time it takes to do step n with n=0 being the setup
-        t = app.time
-        sd = [0,2,1]
-        loop_length = sum(sd) - sd[0]
-        self.forward = self.calculate_forward_vector()
-        if 0 < t < sd[0]:
-           self.position = glm.vec3(0, 500, 0) + (glm.vec3(0, 0, 25) - glm.vec3(0, 500, 3)) * t / sd[0]
-
-        elif 0 < (t-sum(sd[:1]))%loop_length/sd[1] < 1 :
-            st = (t-sum(sd[:1]))%loop_length/sd[1]
-            self.position = glm.vec3(-30, 75, 20) + glm.vec3(30,-70,-50+15*st)*st
-            self.rotation = glm.vec3(0.708626272128-0.5*st,0,-0.4049)
-
-
 class StarDestroyerAIFilix(AI):
    def __init__(self):
        self.position = glm.vec3(0, -15, 5)
@@ -558,3 +536,68 @@ class ImperialShuttleAI(AI):
             st = (t-sum(sd[:13]))%loop_length/sd[13]
             self.position = glm.vec3(0, 100, 10) + glm.vec3(0, -150, 0)*st
             self.rotation = glm.vec3(0, 0, 0)
+
+
+class TieFighterAIFilix(AI):
+   def __init__(self):
+        self.position = glm.vec3(-30, 75, 20)
+        self.scale = glm.vec3(3,3,3)
+        self.rotation = glm.vec3(0, 0, 0)
+        self.forward = glm.vec3(0, -1, 0)
+
+   def update(self, app):
+        # st describes the time within a given step and sd[n] is the time it takes to do step n with n=0 being the setup
+        t = app.time
+        sd = [0,2,4,2,1,1,1,1,2,3,1.5,3]
+        loop_length = sum(sd) - sd[0]
+        self.forward = self.calculate_forward_vector()
+        if 0 < t < sd[0]:
+            self.position = glm.vec3(0, 500, 0) + (glm.vec3(0, 0, 25) - glm.vec3(0, 500, 3)) * t / sd[0]
+
+        elif 0 < (t-sum(sd[:1]))%loop_length/sd[1] < 1 :
+            st = (t-sum(sd[:1]))%loop_length/sd[1]
+            self.position = glm.vec3(-30, 75, 20) + glm.vec3(30,-70,-50+15*st)*st
+            self.rotation = glm.vec3(0.708626272128-0.5*st,0,-0.4049)
+        elif 0 < (t-sum(sd[:2]))%loop_length/sd[2] < 1 :
+            st = (t-sum(sd[:2]))%loop_length/sd[2]
+            self.position = glm.vec3(10, 10, -20) + glm.vec3(10-15*st,40+20*st-20*st*st,20+15*st-10*st*st)*st
+            if st<2/5:
+                self.rotation = glm.vec3(0.5586-0.5586*st*5/2,0,-pi+0.2)
+            else:
+                self.rotation = glm.vec3(0,0,-pi+0.2-pi/8*(st-2/5)*5/3-0.2*(st-2/5)*5/3)
+        elif 0 < (t-sum(sd[:3]))%loop_length/sd[3] < 1 :
+            st = (t-sum(sd[:3]))%loop_length/sd[3]
+            self.position = glm.vec3(5, 50, 5) + glm.vec3(-5,40,15)*st
+            self.rotation = glm.vec3(0,pi/2*st,-pi-pi/8+pi/8*st*st)
+        elif 0 < (t-sum(sd[:4]))%loop_length/sd[4] < 1 :
+            st = (t-sum(sd[:4]))%loop_length/sd[4]
+            self.position = glm.vec3(0, 90, 20) + glm.vec3(-3,20,8)*st
+            self.rotation = glm.vec3(pi/2*st,pi/2+pi/2*st,-pi)
+        elif 0 < (t-sum(sd[:5]))%loop_length/sd[5] < 1 :
+            st = (t-sum(sd[:5]))%loop_length/sd[5]
+            self.position = glm.vec3(-3, 110, 28) + glm.vec3(-2,10,10-13*st)*st
+            self.rotation = glm.vec3(pi/2,pi,-pi)
+        elif 0 < (t-sum(sd[:6]))%loop_length/sd[6] < 1 :
+            st = (t-sum(sd[:6]))%loop_length/sd[6]
+            self.position = glm.vec3(-5, 120, 25) + glm.vec3(0,-10-3*st-2*st*st,-15-10*st)*st
+            self.rotation = glm.vec3(pi/2+pi/6*st+pi/6*st*st,pi,-pi)
+        elif 0 < (t-sum(sd[:7]))%loop_length/sd[7] < 1 :
+            st = (t-sum(sd[:7]))%loop_length/sd[7]
+            self.position = glm.vec3(-5, 105, 0) + glm.vec3(0,-30-5*st,-10*st)*st
+            self.rotation = glm.vec3(pi/2+2*pi/6+pi/6*st,pi,-pi)
+        elif 0 < (t-sum(sd[:8]))%loop_length/sd[8] < 1 :
+            st = (t-sum(sd[:8]))%loop_length/sd[8]
+            self.position = glm.vec3(-5, 70, -10) + glm.vec3(-10-10*st,-20-10*st,-5-10*st)*st
+            self.rotation = glm.vec3(pi,pi,-pi+pi/3*st)
+        elif 0 < (t-sum(sd[:9]))%loop_length/sd[9] < 1 :
+            st = (t-sum(sd[:9]))%loop_length/sd[9]
+            self.position = glm.vec3(-30,50,-30) + glm.vec3(30+25*st+30*st*st,10+5*st,30+10*st-5*st*st)*st
+            self.rotation = glm.vec3(-pi/3,pi/4+pi/1.5*st,-pi/2-pi*st)
+        elif 0 < (t-sum(sd[:10]))%loop_length/sd[10] < 1 :
+            st = (t-sum(sd[:10]))%loop_length/sd[10]
+            self.position = glm.vec3(45+1000,65,-5-250) + glm.vec3(-1000-65,0,250+15)*st
+            self.rotation = glm.vec3(0,-0.226798848054,-pi/2)
+        elif 0 < (t-sum(sd[:11]))%loop_length/sd[11] < 1 :
+            st = (t-sum(sd[:11]))%loop_length/sd[11]
+            self.position = glm.vec3(-20,65,10) + glm.vec3(-26-26*st-26*st*st,0,6+6*st+6*st*st)*st
+            self.rotation = glm.vec3(0,-0.226798848054,-pi/2)
