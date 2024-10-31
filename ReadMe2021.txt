@@ -52,3 +52,7 @@ et exécuter en mode déboggage avec le launch.json
 
 Pour download les packages :
 pip install -r requirements.txt
+
+
+bisbilledesgalaxies@gmail.com
+bisbilledesgalaxies2024

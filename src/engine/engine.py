@@ -213,3 +213,6 @@ class Engine:
                 self.delta_time = self.clock.tick(self.framerate) / 1000
                 self.camera_delta_time = self.clock.tick(self.framerate)
                 self.world.update(self)
+        self.mesh.destroy()
+        self.scene.destroy()
+        self.scene_renderer.destroy()
