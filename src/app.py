@@ -29,13 +29,29 @@ class App(tk.Tk):
         menubar = tk.Menu(self)
         self.config(menu=menubar)
         self.mode_menu = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label="File", menu=self.mode_menu)
+        menubar.add_cascade(label="Fichier", menu=self.mode_menu)
         self.mode_menu.add_command(label="Sélectionner fichier Beamage", command=self.select_beamage_file)
         self.mode_menu.add_command(label="Afficher fichier Beamage", command=self.print_beamage_file)
         self.mode_menu.entryconfig("Afficher fichier Beamage", state=tk.DISABLED)
-        self.mode_menu.add_command(label="Sélectionner fichier score", command=self.select_score_folder)
-        self.mode_menu.add_command(label="Afficher fichier score", command=self.print_score_folder)
-        self.mode_menu.entryconfig("Afficher fichier score", state=tk.DISABLED)
+        self.mode_menu.add_command(label="Sélectionner dossier score", command=self.select_score_folder)
+        self.mode_menu.add_command(label="Afficher dossier score", command=self.print_score_folder)
+        self.mode_menu.entryconfig("Afficher dossier score", state=tk.DISABLED)
+
+        info_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="À propos", menu=info_menu)
+        info_menu.add_command(label="Version", command=lambda: tk.messagebox.showinfo(title="Version", 
+                message="Bisbille des galaxies - version 1.0\n\nMathieu Marquis\nNovembre 2024"))
+        info_menu.add_command(
+            label="Contributions et remerciements",
+            command=lambda: tk.messagebox.showinfo(
+                title="Contributions et remerciements", 
+                message="Mathieu Marquis\nDéveloppement principal\n\n\
+                         Félix Desroches\nCréation des trajectoires de plusieurs vaisseaux\n\n\
+                         Anabelle Dompierre Dauphin\nCréation des arrières-plans\n\n\
+                         Félix Olivier\nCréation de l'arrière-plan du menu principal\n\n\
+                         Merci à Gentec-EO pour le matériel !"
+            )
+        )
 
         self.material_loader = MaterialLoader()
         self.pause_time = 10
@@ -56,12 +72,12 @@ class App(tk.Tk):
         self.score_foldername = filedialog.askdirectory(initialdir="/", title="Sélectionner un dossier")
         self.frame.focus_force()
         if self.score_foldername == "":
-            self.mode_menu.entryconfig("Afficher fichier score", state=tk.DISABLED)
+            self.mode_menu.entryconfig("Afficher dossier score", state=tk.DISABLED)
         else:
-            self.mode_menu.entryconfig("Afficher fichier score", state=tk.NORMAL)
+            self.mode_menu.entryconfig("Afficher dossier score", state=tk.NORMAL)
 
     def print_score_folder(self):
-        tk.messagebox.showinfo(title="Fichier score", message=f"{self.score_foldername}")
+        tk.messagebox.showinfo(title="dossier score", message=f"{self.score_foldername}")
 
 class Window(tk.Frame):
     def __init__(self, master):
@@ -212,8 +228,3 @@ class Window(tk.Frame):
 
             tk.messagebox.showinfo(title="Résultat", message=f"Temps total : {total:.1f}s")
             self.focus_force()
-
-
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
