@@ -1,4 +1,5 @@
 Document de transition - Défi bisbille des galaxies (Défi Gentec-EO) - Jeux photoniques - Édition 2024
+
 Dernière modification par Mathieu Marquis le 27 novembre 2024
 
 # Matériel
@@ -10,12 +11,18 @@ Dernière modification par Mathieu Marquis le 27 novembre 2024
 # Protocole
 ### Préparation de l'environnement
 - Cloner le repository (`git clone https://github.com/mamar828/bisbille_des_galaxies.git`)
-- **Les explications suivantes sont pour l'IDE Visual Studio Code. Il est possible d'en utiliser d'autres, mais les conseils suivants permettent d'éviter les erreurs de type `ModuleNotFoundError`**.
+
+**Les explications suivantes sont pour l'IDE Visual Studio Code. Cet IDE n'est pas obligatoire, mais les conseils suivants permettent d'éviter les erreurs de type `ModuleNotFoundError`**.
+
 - Ouvrir le repository dans Visual Studio Code
 - Télécharger les modules requis : `pip install -r requirements.txt`
 - S'assurer d'avoir installé Python et Python Debugger
 - Dans l'onglet « Run and Debug », sélectionner « create a launch.json file », choisir « Python Debugger », puis « Python File »
-- Une fois le fichier launch.json généré, il suffit d'ajouter 
+<img width="387" alt="image" src="https://github.com/user-attachments/assets/f1d1736a-abc4-4337-aeb9-3962945b0df8">
+
+- Une fois le fichier launch.json généré, il suffit d'ajouter la ligne suivante dans la liste configurations : "env": {"PYTHONPATH": "${workspaceFolder}"}
+- Le fichier caché situé dans .vscode/launch.json devrait ressembler à :
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/bc7a138a-04f7-4365-bfd8-8f5ac8e16d9e">
 
 ### Téléchargement des modèles 3D
 - Télécharger le dossier : https://drive.google.com/drive/folders/1HpwH1RNlUmcR1B5gHtB0RaP4ZLxdS0TR?usp=sharing
@@ -24,6 +31,7 @@ Dernière modification par Mathieu Marquis le 27 novembre 2024
 ### Téléchargement de PC-Beamage
 - Sur le site internet de Gentec-EO, télécharger « Beamage » à l'adresse : https://www.gentec-eo.com/resources/download-center?DownloadCenterParamViewModel.DocumentTypes=0&DownloadCenterParamViewModel.Lang=en&DownloadCenterParamViewModel.IsUserFromChina=False#page:1
 - Après avoir ouvert « Beamage Installer », cliquer sur « PC-Beamage »
+
 ### Setup dans PC-Beamage
 - Lancer l'application « PC-Beamage »
 - Brancher la caméra à l'ordinateur
