@@ -15,6 +15,7 @@ Dernière modification par Mathieu Marquis le 27 novembre 2024
 - Télécharger le dossier : https://drive.google.com/drive/folders/1HpwH1RNlUmcR1B5gHtB0RaP4ZLxdS0TR?usp=sharing
 - Placer le dossier dans src/engine (le nom du dossier devrait être « objects » et le dossier devrait contenir 10 sous-dossiers)
 - Pour run les fichiers depuis le terminal, [ajouter le chemin du repository au PYTHONPATH](https://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-so-it-finds-my-modules-packages) en créant une variable PYTHONPATH ayant comme valeur le chemin complet dans l'ordinateur
+- Redémarrer le terminal
 - Pour vérifier que cela est fonctionnel, vérifier que la commande `python applications/main.py` ne soulève pas d'exception `ModuleNotFoundError`
 
 ### Téléchargement de PC-Beamage
@@ -37,7 +38,7 @@ Dernière modification par Mathieu Marquis le 27 novembre 2024
 - Run le fichier applications/main.py
 - Il se peut que le chargement de l'application prenne quelques minutes (les modèles 3D doivent tous être chargés)
 - Une fois que le menu principal apparaît, sélectionner dans la barre de menus Fichier -> Sélectionner fichier Beamage 
-- Sélectionner le fichier texte de l'acquisition de données avec PC-Beamage, créé à l'étape précédente.
+- Sélectionner le fichier texte de l'acquisition de données avec PC-Beamage, créé à la section précédente.
 - Dans Fichier -> Sélectionner dossier score, sélectionner un dossier dans lequel sera enregistré les pointages des équipes (le fichier créé sera nommé « bisbilles_scores.csv », et les scores seront ajoutés au fichier s'il existe déjà)
 - Sélectionner le nombre de joueurs
 - Sélectionner le numéro d'équipe

@@ -45,11 +45,11 @@ class App(tk.Tk):
             label="Contributions et remerciements",
             command=lambda: tk.messagebox.showinfo(
                 title="Contributions et remerciements", 
-                message="Mathieu Marquis\nDéveloppement principal\n\n\
-                         Félix Desroches\nCréation des trajectoires de plusieurs vaisseaux\n\n\
-                         Anabelle Dompierre Dauphin\nCréation des arrières-plans\n\n\
-                         Félix Olivier\nCréation de l'arrière-plan du menu principal\n\n\
-                         Merci à Gentec-EO pour le matériel !"
+                message="Mathieu Marquis\nDéveloppement principal\n\n"
+                      + "Félix Desroches\nCréation des trajectoires de plusieurs vaisseaux\n\n"
+                      + "Anabelle Dompierre Dauphin\nCréation des arrières-plans\n\n"
+                      + "Félix Olivier\nCréation de l'arrière-plan du menu principal\n\n"
+                      + "Merci à Gentec-EO pour le matériel !"
             )
         )
 
