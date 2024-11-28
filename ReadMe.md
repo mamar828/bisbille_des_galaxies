@@ -11,26 +11,15 @@ Dernière modification par Mathieu Marquis le 27 novembre 2024
 # Protocole
 ### Préparation de l'environnement
 - Cloner le repository (`git clone https://github.com/mamar828/bisbille_des_galaxies.git`)
-
-**Les explications suivantes sont pour l'IDE Visual Studio Code. Cet IDE n'est pas obligatoire, mais les conseils suivants permettent d'éviter les erreurs de type `ModuleNotFoundError`**.
-
-- Ouvrir le repository dans Visual Studio Code
-- Télécharger les modules requis : `pip install -r requirements.txt`
-- S'assurer d'avoir installé Python et Python Debugger
-- Dans l'onglet « Run and Debug », sélectionner « create a launch.json file », choisir « Python Debugger », puis « Python File »
-<img width="387" alt="image" src="https://github.com/user-attachments/assets/f1d1736a-abc4-4337-aeb9-3962945b0df8">
-
-- Une fois le fichier launch.json généré, il suffit d'ajouter la ligne suivante dans la liste configurations : "env": {"PYTHONPATH": "${workspaceFolder}"}
-- Le fichier caché situé dans .vscode/launch.json devrait ressembler à :
-<img width="700" alt="image" src="https://github.com/user-attachments/assets/bc7a138a-04f7-4365-bfd8-8f5ac8e16d9e">
-
-### Téléchargement des modèles 3D
+- Installer les modules requis : `pip install -r requirements.txt`
 - Télécharger le dossier : https://drive.google.com/drive/folders/1HpwH1RNlUmcR1B5gHtB0RaP4ZLxdS0TR?usp=sharing
-- Placer le dossier dans src/engine (le nom du dossier devrait être « objects » et devrait contenir 10 sous-dossiers)
+- Placer le dossier dans src/engine (le nom du dossier devrait être « objects » et le dossier devrait contenir 10 sous-dossiers)
+- Pour run les fichiers depuis le terminal, [ajouter le chemin du repository au PYTHONPATH](https://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-so-it-finds-my-modules-packages) en créant une variable PYTHONPATH ayant comme valeur le chemin complet dans l'ordinateur
+- Pour vérifier que cela est fonctionnel, vérifier que la commande `python applications/main.py` ne soulève pas d'exception `ModuleNotFoundError`
 
 ### Téléchargement de PC-Beamage
 - Sur le site internet de Gentec-EO, télécharger « Beamage » à l'adresse : https://www.gentec-eo.com/resources/download-center?DownloadCenterParamViewModel.DocumentTypes=0&DownloadCenterParamViewModel.Lang=en&DownloadCenterParamViewModel.IsUserFromChina=False#page:1
-- Après avoir ouvert « Beamage Installer », cliquer sur « PC-Beamage »
+- Après avoir ouvert « Beamage Installer », cliquer sur « PC-Beamage » pour l'installer
 
 ### Setup dans PC-Beamage
 - Lancer l'application « PC-Beamage »
@@ -45,7 +34,7 @@ Dernière modification par Mathieu Marquis le 27 novembre 2024
 - Appuyer sur « Start Data Acquisition »
  
 ### Jouer
-- Sélectionner le fichier applications/main.py et l'exécuter en mode Debug avec le launch.json (dans le menu à droite du bouton pour exécuter le fichier, sélectionner « Python Debugger: Debug using launch.json »)
+- Run le fichier applications/main.py
 - Il se peut que le chargement de l'application prenne quelques minutes (les modèles 3D doivent tous être chargés)
 - Une fois que le menu principal apparaît, sélectionner dans la barre de menus Fichier -> Sélectionner fichier Beamage 
 - Sélectionner le fichier texte de l'acquisition de données avec PC-Beamage, créé à l'étape précédente.
