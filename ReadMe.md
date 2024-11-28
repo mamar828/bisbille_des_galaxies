@@ -46,11 +46,4 @@ Dernière modification par Mathieu Marquis le 27 novembre 2024
 - Après la partie, les scores sont automatiquement enregistrés dans le dossier indiqué et il ne suffit que de changer le nombre de joueurs et le numéro de la prochaine équipe participante
 
 # Notes
-Les modèles 3D sont partagés avec l'adresse courrielle suivante :
-
-bisbilledesgalaxies@gmail.com
-
-MDP : bisbilledesgalaxies2024
-
----
 La méthode de communication avec la caméra actuelle est assez rudimentaire et il serait certainement bénéfique de trouver une alternative, mais mes recherches n'ont pas trouvé de moyen simple d'effectuer le lien.
