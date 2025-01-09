@@ -7,14 +7,63 @@ from datetime import datetime
 from random import sample
 from os.path import isfile
 from itertools import cycle
+from typing import Literal
 
 from src.engine.engine import Engine
 from src.worlds.world import available_worlds
 from src.engine.material_loader import MaterialLoader
 
 
+localization = {
+    "fr": {
+        "file_menu": "Fichier",
+        "select_beamage": "Sélectionner fichier Beamage",
+        "show_beamage": "Afficher fichier Beamage",
+        "select_score_folder": "Sélectionner dossier score",
+        "show_score_folder": "Afficher dossier score",
+        "beamage_file": "Fichier beamage",
+        "score_folder": "Dossier score",
+        "about_menu": "À propos",
+        "version_info": "Bisbille des galaxies - version 1.1\n\nMathieu Marquis\nJanvier 2025",
+        "thanks": "Contributions et remerciements",
+        "thanks_info": "Mathieu Marquis\nDéveloppement principal\n\n"
+                       "Félix Desroches\nCréation des trajectoires de plusieurs vaisseaux\n\n"
+                       "Anabelle Dompierre Dauphin\nCréation des arrière-plans\n\n"
+                       "Félix Olivier\nCréation de l'arrière-plan du menu principal\n\n"
+                       "Merci à Gentec-EO pour le matériel !",
+        "error_no_beamage": "Aucun fichier Beamage n'a été donné.",
+        "error_no_score": "Aucun fichier score n'a été donné.",
+        "error_no_team": "Aucun numéro d'équipe n'a été donné.",
+        "result": "Résultat",
+        "total_time": "Temps total :",
+    },
+    "en": {
+        "file_menu": "File",
+        "select_beamage": "Select Beamage File",
+        "show_beamage": "Show Beamage File",
+        "select_score_folder": "Select Score Folder",
+        "show_score_folder": "Show Score Folder",
+        "beamage_file": "Beamage file",
+        "score_folder": "Score folder",
+        "about_menu": "About",
+        "version_info": "Bisbille des galaxies - version 1.1\n\nMathieu Marquis\nJanuary 2025",
+        "thanks": "Credits and Acknowledgments",
+        "thanks_info": "Mathieu Marquis\nLead Developer\n\n"
+                       "Félix Desroches\nTrajectory creation for several ships\n\n"
+                       "Anabelle Dompierre Dauphin\nBackground creation\n\n"
+                       "Félix Olivier\nMain menu background creation\n\n"
+                       "Thanks to Gentec-EO for the equipment!",
+        "error_no_beamage": "No Beamage file provided.",
+        "error_no_score": "No score folder provided.",
+        "error_no_team": "No team number provided.",
+        "result": "Result",
+        "total_time": "Total time:",
+    }
+}
+
+
 class App(tk.Tk):
-    def __init__(self):
+    def __init__(self, language: Literal["fr"] | Literal["en"]="fr"):
         tk.Tk.__init__(self)
         self.minsize(1072, 603)
         self.title("Bisbille des Galaxies")
@@ -23,61 +72,58 @@ class App(tk.Tk):
         self.frame.grid(column=0, row=0, sticky="nsew")
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
+        self.language = localization[language]
 
         self.beamage_filename = ""
         self.score_foldername = ""
-        menubar = tk.Menu(self)
-        self.config(menu=menubar)
-        self.mode_menu = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label="Fichier", menu=self.mode_menu)
-        self.mode_menu.add_command(label="Sélectionner fichier Beamage", command=self.select_beamage_file)
-        self.mode_menu.add_command(label="Afficher fichier Beamage", command=self.print_beamage_file)
-        self.mode_menu.entryconfig("Afficher fichier Beamage", state=tk.DISABLED)
-        self.mode_menu.add_command(label="Sélectionner dossier score", command=self.select_score_folder)
-        self.mode_menu.add_command(label="Afficher dossier score", command=self.print_score_folder)
-        self.mode_menu.entryconfig("Afficher dossier score", state=tk.DISABLED)
+        self.menubar = tk.Menu(self)
+        self.config(menu=self.menubar)
+        self.mode_menu = tk.Menu(self.menubar, tearoff=0)
+        self.menubar.add_cascade(label=self.language["file_menu"], menu=self.mode_menu)
+        self.mode_menu.add_command(label=self.language["select_beamage"], command=self.select_beamage_file)
+        self.mode_menu.add_command(label=self.language["show_beamage"], command=self.print_beamage_file)
+        self.mode_menu.entryconfig(self.language["show_beamage"], state=tk.DISABLED)
+        self.mode_menu.add_command(label=self.language["select_score_folder"], command=self.select_score_folder)
+        self.mode_menu.add_command(label=self.language["show_score_folder"], command=self.print_score_folder)
+        self.mode_menu.entryconfig(self.language["show_score_folder"], state=tk.DISABLED)
 
-        info_menu = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label="À propos", menu=info_menu)
+        info_menu = tk.Menu(self.menubar, tearoff=0)
+        self.menubar.add_cascade(label=self.language["about_menu"], menu=info_menu)
         info_menu.add_command(label="Version", command=lambda: tk.messagebox.showinfo(title="Version", 
-                message="Bisbille des galaxies - version 1.0\n\nMathieu Marquis\nNovembre 2024"))
+                message=self.language["version_info"]))
         info_menu.add_command(
-            label="Contributions et remerciements",
+            label=self.language["thanks"],
             command=lambda: tk.messagebox.showinfo(
-                title="Contributions et remerciements", 
-                message="Mathieu Marquis\nDéveloppement principal\n\n"
-                      + "Félix Desroches\nCréation des trajectoires de plusieurs vaisseaux\n\n"
-                      + "Anabelle Dompierre Dauphin\nCréation des arrière-plans\n\n"
-                      + "Félix Olivier\nCréation de l'arrière-plan du menu principal\n\n"
-                      + "Merci à Gentec-EO pour le matériel !"
+                title=self.language["thanks"], 
+                message=self.language["thanks_info"]
             )
         )
 
         self.material_loader = MaterialLoader()
-        self.pause_time = 10
 
     def select_beamage_file(self):
-        self.beamage_filename = filedialog.askopenfilename(initialdir="/", title="Sélectionner fichier Beamage",
+        self.beamage_filename = filedialog.askopenfilename(initialdir="/", title=self.language["select_beamage"],
             filetypes = (("Fichiers texte", "*.txt"), ("Tout fichiers", "*.*")))
         self.frame.focus_force()
         if self.beamage_filename == "":
-            self.mode_menu.entryconfig("Afficher fichier Beamage", state=tk.DISABLED)
+            self.mode_menu.entryconfig(self.language["show_beamage"], state=tk.DISABLED)
         else:
-            self.mode_menu.entryconfig("Afficher fichier Beamage", state=tk.NORMAL)
+            self.mode_menu.entryconfig(self.language["show_beamage"], state=tk.NORMAL)
 
     def print_beamage_file(self):
-        tk.messagebox.showinfo(title="Fichier beamage", message=f"{self.beamage_filename}")
+        tk.messagebox.showinfo(title=self.language["beamage_file"], message=f"{self.beamage_filename}")
 
     def select_score_folder(self):
-        self.score_foldername = filedialog.askdirectory(initialdir="/", title="Sélectionner un dossier")
+        self.score_foldername = filedialog.askdirectory(initialdir="/", title=self.language["select_score_folder"])
         self.frame.focus_force()
         if self.score_foldername == "":
-            self.mode_menu.entryconfig("Afficher dossier score", state=tk.DISABLED)
+            self.mode_menu.entryconfig(self.language["show_score_folder"], state=tk.DISABLED)
         else:
-            self.mode_menu.entryconfig("Afficher dossier score", state=tk.NORMAL)
+            self.mode_menu.entryconfig(self.language["show_score_folder"], state=tk.NORMAL)
 
     def print_score_folder(self):
-        tk.messagebox.showinfo(title="dossier score", message=f"{self.score_foldername}")
+        tk.messagebox.showinfo(title=self.language["score_folder"], message=f"{self.score_foldername}")
+
 
 class Window(tk.Frame):
     def __init__(self, master):
@@ -189,11 +235,11 @@ class Window(tk.Frame):
 
     def start(self):
         if self.master.beamage_filename == "":
-            tk.messagebox.showwarning(title="Error", message="Aucun fichier Beamage n'a été donné.")
+            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_beamage"])
         elif self.master.score_foldername == "":
-            tk.messagebox.showwarning(title="Error", message="Aucun fichier score n'a été donné.")
+            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_score"])
         elif self.team_number.get() == "":
-            tk.messagebox.showwarning(title="Error", message="Aucun numéro d'équipe n'a été donné.")
+            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_team"])
         else:
             score_filename = f"{self.master.score_foldername}/bisbille_scores.csv"
             if not isfile(score_filename):
@@ -211,8 +257,6 @@ class Window(tk.Frame):
             for world in chosen_worlds:
                 loading_start = time.time()
                 engine.set_world(world())
-                loading_time = time.time() - loading_start
-                # time.sleep(max(self.master.pause_time - loading_time, 0))
                 start = time.time()
                 engine.run()
                 stop = time.time()
@@ -226,5 +270,14 @@ class Window(tk.Frame):
                 print(line, end="")
                 f.write(line)
 
-            tk.messagebox.showinfo(title="Résultat", message=f"Temps total : {total:.1f}s")
+            tk.messagebox.showinfo(
+                title=self.master.language["result"],
+                message=f"{self.master.language["total_time"]} {total:.1f}s"
+            )
             self.focus_force()
+
+
+# class AppGentec(App):
+#     def __init__(self):
+#         super().__init__()
+#         self.menubar.entryconfig(0, label="File")
