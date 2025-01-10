@@ -20,7 +20,7 @@ class MaterialLoader:
     """
     Note: for inconsistent vertex format, try searching for the characters // in the .obj and replacing it with /1/.
     """
-    def __init__(self):
+    def __init__(self, world_index: int=slice(None, None, None)):
         self.object_materials = {}
         objects_names = [
             "millenium_falcon",
@@ -31,7 +31,7 @@ class MaterialLoader:
             "royal_starship",
             "imperial_shuttle",
             "a_wing",
-        ]
+        ][world_index]
         object_filenames = [
             "Star Wars FALCON centered.obj",
             "StarDestroyer.obj",
@@ -41,28 +41,31 @@ class MaterialLoader:
             "model.obj",
             "imperial_shuttle_ver1.obj",
             "a_wing.obj",
-        ]
+        ][world_index]
 
-        with ProcessPool() as pool:
-            progressbar = tqdm(
-                desc="Loading",
-                total=len(objects_names),
-                unit="obj",
-                colour="GREEN"
-            )
+        if isinstance(world_index, int):
+            self.object_materials[objects_names] = worker_open((objects_names, object_filenames))
+        else:
+            with ProcessPool() as pool:
+                progressbar = tqdm(
+                    desc="Loading",
+                    total=len(objects_names),
+                    unit="obj",
+                    colour="GREEN"
+                )
 
-            imap_iterator = pool.imap(
-                worker_open,
-                zip(objects_names, object_filenames)
-            )
+                imap_iterator = pool.imap(
+                    worker_open,
+                    zip(objects_names, object_filenames)
+                )
 
-            material_results = []
-            for materials in imap_iterator:
-                material_results.append(materials)
-                progressbar.update(1)
-        
-        for name, material_result in zip(objects_names, material_results):
-            self.object_materials[name] = material_result
+                material_results = []
+                for materials in imap_iterator:
+                    material_results.append(materials)
+                    progressbar.update(1)
+            
+            for name, material_result in zip(objects_names, material_results):
+                self.object_materials[name] = material_result
 
     @staticmethod
     def recenter_obj_file(input_path, output_path):

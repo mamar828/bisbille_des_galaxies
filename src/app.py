@@ -1,8 +1,9 @@
 import time
+import numpy as np
 from datetime import datetime
 import tkinter as tk
-from PIL import ImageTk, Image
-from tkinter import filedialog
+from PIL import ImageTk, Image, ImageFont, ImageDraw
+from tkinter import filedialog, Canvas
 from datetime import datetime
 from random import sample
 from os.path import isfile
@@ -34,6 +35,7 @@ localization = {
         "error_no_beamage": "Aucun fichier Beamage n'a été donné.",
         "error_no_score": "Aucun fichier score n'a été donné.",
         "error_no_team": "Aucun numéro d'équipe n'a été donné.",
+        "error_no_player": "Aucun nom de joueur n'a été donné.",
         "result": "Résultat",
         "total_time": "Temps total :",
     },
@@ -56,6 +58,7 @@ localization = {
         "error_no_beamage": "No Beamage file provided.",
         "error_no_score": "No score folder provided.",
         "error_no_team": "No team number provided.",
+        "error_no_player": "No player name provided.",
         "result": "Result",
         "total_time": "Total time:",
     }
@@ -68,8 +71,6 @@ class App(tk.Tk):
         self.minsize(1072, 603)
         self.title("Bisbille des Galaxies")
         self.grid_propagate(False)
-        self.frame = Window(self)
-        self.frame.grid(column=0, row=0, sticky="nsew")
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
         self.language = localization[language]
@@ -99,8 +100,6 @@ class App(tk.Tk):
             )
         )
 
-        self.material_loader = MaterialLoader()
-
     def select_beamage_file(self):
         self.beamage_filename = filedialog.askopenfilename(initialdir="/", title=self.language["select_beamage"],
             filetypes = (("Fichiers texte", "*.txt"), ("Tout fichiers", "*.*")))
@@ -129,6 +128,46 @@ class Window(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.master = master
+        self.images = [Image.open(f"src/engine/textures/title_screen_{i}.png") for i in [1,2]] 
+        self.image_iter = cycle(self.images)
+        # Initialize with the first image
+        self.image_label = tk.Label(self, bg="black")
+        self.image_label.grid(column=0, row=0, columnspan=3, rowspan=3, sticky="nsew")
+        self.update_background()
+        self.bind("<Configure>", self.resize_background)
+
+    def update_background(self):
+        self.original_image = next(self.image_iter)
+        self.resize_background()
+        self.after(1000, self.update_background)
+
+    def resize_background(self, *args):
+        window_width = self.master.winfo_width()
+        window_height = self.master.winfo_height()
+
+        img_width, img_height = self.original_image.size
+        img_aspect_ratio = img_width / img_height
+        window_aspect_ratio = window_width / window_height
+
+        if window_aspect_ratio > img_aspect_ratio:
+            # Window is wider than the image
+            new_height = window_height
+            new_width = int(new_height * img_aspect_ratio)
+        else:
+            # Window is taller than the image
+            new_width = window_width
+            new_height = int(new_width / img_aspect_ratio)
+
+        # Resize the image and update the label
+        resized_image = self.original_image.resize((max(new_width, 1), max(new_height, 1)), Image.LANCZOS)
+        self.background_image = ImageTk.PhotoImage(resized_image)
+        self.image_label.config(image=self.background_image)
+        self.image_label.image = self.background_image  # Keep a reference to avoid garbage collection
+
+
+class WindowJeuxPhotoniques(Window):
+    def __init__(self, master):
+        super().__init__(master)
         self.n_players = 4
         self.team_number = None
 
@@ -138,14 +177,6 @@ class Window(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=0)
         self.grid_columnconfigure(2, weight=1)
-
-        self.images = [Image.open(f"src/engine/textures/title_screen_{i}.png") for i in [1,2]] 
-        self.image_iter = cycle(self.images)
-        # Initialize with the first image
-        self.image_label = tk.Label(self, bg="black")
-        self.image_label.grid(column=0, row=0, columnspan=3, rowspan=3, sticky="nsew")
-        self.update_background()
-        self.bind("<Configure>", self.resize_background)
 
         # Create a frame for buttons to manage their layout
         button_frame = tk.Frame(self, bg="black")
@@ -181,8 +212,8 @@ class Window(tk.Frame):
         self.team_number_label.grid(column=0, row=2, columnspan=2, sticky="nsew", padx=(10, 10), pady=(10, 10))
 
         self.team_number = tk.Entry(
-            button_frame, font=("menlo", 35), bg="white", fg="black", justify="right", width=2,
-            validate="key", validatecommand=(self.master.register(Window.validate_team_number_entry), "%P")
+            button_frame, font=("menlo", 35), bg="white", fg="black", justify="right", width=2, validate="key",
+            validatecommand=(self.master.register(WindowJeuxPhotoniques.validate_team_number_entry), "%P")
         )
         self.team_number.grid(column=2, row=2, sticky="nse", padx=(10, 10), pady=(10, 10))
 
@@ -194,7 +225,7 @@ class Window(tk.Frame):
             return False
 
     def increase_players(self):
-        if self.n_players < len(available_worlds):
+        if self.n_players < len(self.master.worlds):
             self.n_players += 1
             self.update_n_players_label()
 
@@ -205,57 +236,29 @@ class Window(tk.Frame):
     def update_n_players_label(self):
         self.n_players_label.config(text=self.n_players)
 
-    def update_background(self):
-        self.original_image = next(self.image_iter)
-        self.resize_background()
-        self.after(1000, self.update_background)
-
-    def resize_background(self, *args):
-        window_width = self.master.winfo_width()
-        window_height = self.master.winfo_height()
-
-        img_width, img_height = self.original_image.size
-        img_aspect_ratio = img_width / img_height
-        window_aspect_ratio = window_width / window_height
-
-        if window_aspect_ratio > img_aspect_ratio:
-            # Window is wider than the image
-            new_height = window_height
-            new_width = int(new_height * img_aspect_ratio)
-        else:
-            # Window is taller than the image
-            new_width = window_width
-            new_height = int(new_width / img_aspect_ratio)
-
-        # Resize the image and update the label
-        resized_image = self.original_image.resize((max(new_width, 1), max(new_height, 1)), Image.LANCZOS)
-        self.background_image = ImageTk.PhotoImage(resized_image)
-        self.image_label.config(image=self.background_image)
-        self.image_label.image = self.background_image  # Keep a reference to avoid garbage collection
-
     def start(self):
-        if self.master.beamage_filename == "":
-            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_beamage"])
-        elif self.master.score_foldername == "":
-            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_score"])
-        elif self.team_number.get() == "":
-            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_team"])
+        # if self.master.beamage_filename == "":
+        #     tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_beamage"])
+        # elif self.master.score_foldername == "":
+        #     tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_score"])
+        # elif self.team_number.get() == "":
+        #     tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_team"])
+        if False: pass
         else:
-            score_filename = f"{self.master.score_foldername}/bisbille_scores.csv"
-            if not isfile(score_filename):
-                with open(score_filename, "w") as f:
-                    f.write("equipe,nombre de joueurs,temps total (s),temps par joueur (s),temps de debut\n")
+            # score_filename = f"{self.master.score_foldername}/bisbille_scores.csv"
+            # if not isfile(score_filename):
+            #     with open(score_filename, "w") as f:
+            #         f.write("equipe,nombre de joueurs,temps total (s),temps par joueur (s),temps de debut\n")
 
             engine = Engine(
                 beamage_filename=self.master.beamage_filename,
-                dev_mode=False,
+                dev_mode=True,#False,
                 material_loader=self.master.material_loader
             )
-            chosen_worlds = sample(available_worlds, self.n_players)
+            chosen_worlds = sample(self.master.worlds, self.n_players)
             start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             total_time = []
             for world in chosen_worlds:
-                loading_start = time.time()
                 engine.set_world(world())
                 start = time.time()
                 engine.run()
@@ -263,21 +266,164 @@ class Window(tk.Frame):
                 total_time.append(stop - start)
 
             engine.quit()
+            # with open(score_filename, "a") as f:
+            #     total = sum(total_time)
+            #     line = \
+            #         f"{self.team_number.get()},{self.n_players},{total:.2f},{total/self.n_players:.2f},{start_time}\n"
+            #     print(line, end="")
+            #     f.write(line)
+
+            # tk.messagebox.showinfo(
+            #     title=self.master.language["result"],
+            #     message=f"{self.master.language["total_time"]} {total:.1f}s"
+            # )
+            self.focus_force()
+
+
+class WindowGentec(Window):
+    def __init__(self, master):
+        super().__init__(master)
+        self.player_name = ""
+
+        fn = "1up.ttf", "Jersey10-Regular.ttf"
+        self.fonts = [ImageFont.truetype(f"src/fonts/{font}", x) for font, x in [(fn[0], 35), (fn[1], 35), (fn[1], 30)]]
+
+        self.grid_rowconfigure(0, weight=1, uniform="fred")
+        self.grid_rowconfigure(1, weight=2, uniform="fred")
+        self.grid_rowconfigure(2, weight=1, uniform="fred")
+        self.grid_columnconfigure(0, weight=2, uniform="fred")
+        self.grid_columnconfigure(1, weight=3, uniform="fred")
+        self.grid_columnconfigure(2, weight=2, uniform="fred")
+
+        self.high_scores_title, self._high_scores_title_photo = self.create_custom_font_label(
+            "HIGH SCORES", self.fonts[0], (0, 255, 0), 319, 40
+        )
+        self.high_scores_title.grid(column=1, row=0)
+
+        self.high_scores_list_names, self._high_scores_list_names_photo = None, None
+        self.high_scores_list_times, self._high_scores_list_times_photo = None, None
+
+        self.player_name_label, self._player_name_label_photo = self.create_custom_font_label(
+            "PLAYER NAME:", self.fonts[1], (0, 255, 0), 165, 25, text_vertical_offset=-7
+        )
+        self.player_name_label.grid(column=0, row=2, padx=(100,0))
+
+        self.player_name_entry = tk.Entry(
+            self, font=("Courier", 20), bg="white", fg="black", justify="left", width=70, validate="key",
+            validatecommand=(self.master.register(WindowGentec.validate_player_name_entry), "%P")
+        )
+        self.player_name_entry.grid(column=1, row=2, padx=(10, 10), pady=(10, 10))
+
+        self.start_button = tk.Button(self, text="START", font=("menlo", 35), bg="white", fg="black",
+                                      command=self.start)
+        self.start_button.grid(column=2, row=2, padx=(10, 10), pady=(10, 10))
+
+    def create_custom_font_label(
+            self,
+            text: str,
+            font: ImageFont.FreeTypeFont,
+            color: tuple[int, int, int],
+            width: int,
+            height: int,
+            text_horizontal_offset: int=0,
+            text_vertical_offset: int=0,
+    ) -> tuple[tk.Label, ImageTk.PhotoImage]:
+        # The returned type is a tuple as the PhotoImage must be assigned to a variable to prevent garbage collection
+        image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image)
+        draw.text((text_horizontal_offset, text_vertical_offset), text, font=font, fill=color)
+        
+        # Convert PIL Image to Tkinter PhotoImage
+        photo = ImageTk.PhotoImage(image)
+
+        # Use the photo as the label's image
+        return tk.Label(self, image=photo, bg="black"), photo
+
+    def update_high_scores_list(self):
+        score_filename = f"{self.master.score_foldername}/bisbille_scores.csv"
+        if isfile(score_filename):
+            with open(f"{self.master.score_foldername}/bisbille_scores.csv", "r") as f:
+                lines = f.readlines()
+            if len(lines) > 1:
+                lines = [line.strip().split(",") for line in lines[1:]]
+                lines = sorted(lines, key=lambda x: float(x[1]))
+                print(lines)
+
+                # Only show the top 10 scores
+                names = [f"{f"{i}."} {line[0]}" for i, line in enumerate(lines[:10], start=1)]
+                times = [f"{float(line[1]):.2f} s" for line in lines[:10]]
+                self.high_scores_list_names, self.high_scores_list_names_photo = self.create_custom_font_label(
+                    "\n".join(names), self.fonts[2], (250, 0, 250), 350, len(names) * 29
+                )
+                self.high_scores_list_times, self.high_scores_list_times_photo = self.create_custom_font_label(
+                    "\n".join(times), self.fonts[2], (250, 0, 250), 70, len(names) * 29, text_horizontal_offset=0
+                )
+                self.high_scores_list_names.grid(column=1, row=1, sticky="w")
+                self.high_scores_list_times.grid(column=1, row=1, sticky="e")
+
+    @staticmethod
+    def validate_player_name_entry(value):
+        if len(value) <= 35 or len(value) == 0:
+            return True
+        else:
+            return False
+
+    def start(self):
+        if self.master.beamage_filename == "":
+            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_beamage"])
+        elif self.master.score_foldername == "":
+            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_score"])
+        elif self.player_name_entry.get() == "":
+            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_player"])
+        else:
+            score_filename = f"{self.master.score_foldername}/bisbille_scores.csv"
+            if not isfile(score_filename):
+                with open(score_filename, "w") as f:
+                    f.write("player name,time (s),game started at\n")
+
+            engine = Engine(
+                beamage_filename=self.master.beamage_filename,
+                dev_mode=True,#False,
+                material_loader=self.master.material_loader
+            )
+            start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            engine.set_world(self.master.worlds())
+            start = time.time()
+            engine.run()
+            stop = time.time()
+
+            total = stop - start
+            engine.quit()
             with open(score_filename, "a") as f:
-                total = sum(total_time)
-                line = \
-                    f"{self.team_number.get()},{self.n_players},{total:.2f},{total/self.n_players:.2f},{start_time}\n"
+                line = f"{self.player_name_entry.get()},{total:.2f},{start_time}\n"
                 print(line, end="")
                 f.write(line)
 
             tk.messagebox.showinfo(
                 title=self.master.language["result"],
-                message=f"{self.master.language["total_time"]} {total:.1f}s"
+                message=f"{self.master.language["total_time"]} {total:.2f}s"
             )
             self.focus_force()
+            self.update_high_scores_list()
 
 
-# class AppGentec(App):
-#     def __init__(self):
-#         super().__init__()
-#         self.menubar.entryconfig(0, label="File")
+class AppJeuxPhotoniques(App):
+    def __init__(self):
+        super().__init__(language="fr")
+        self.material_loader = MaterialLoader()
+        self.worlds = available_worlds
+        self.frame = WindowJeuxPhotoniques(self)
+        self.frame.grid(column=0, row=0, sticky="nsew")
+
+
+class AppGentec(App):
+    def __init__(self, world_index: int):
+        super().__init__(language="en")
+        self.material_loader = MaterialLoader(world_index)
+        self.worlds = available_worlds[world_index]
+        self.frame = WindowGentec(self)
+        self.frame.grid(column=0, row=0, sticky="nsew")
+
+    def select_score_folder(self):
+        super().select_score_folder()
+        self.frame.update_high_scores_list()

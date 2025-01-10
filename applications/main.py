@@ -1,6 +1,7 @@
-from src.app import App
+from src.app import AppJeuxPhotoniques, AppGentec
 
 
 if __name__ == "__main__":
-    app = App()
+    # app = AppJeuxPhotoniques()
+    app = AppGentec(0)
     app.mainloop()
