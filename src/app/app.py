@@ -19,7 +19,7 @@ from src.app.language import localization
 class App(tk.Tk):
     def __init__(self, language: Literal["fr"] | Literal["en"]="fr"):
         tk.Tk.__init__(self)
-        self.minsize(1072, 603)
+        self.minsize(1248, 702)
         self.title("Bisbille des Galaxies")
         self.grid_propagate(False)
         self.columnconfigure(0, weight=1)
@@ -309,13 +309,13 @@ class WindowGentec(Window):
                 names = [f"{f'{i}.'} {line[0]}" for i, line in enumerate(lines[:10], start=1)]
                 times = [f"{float(line[1]):.2f} s" for line in lines[:10]]
                 self.high_scores_list_names, self.high_scores_list_names_photo = self.create_custom_font_label(
-                    "\n".join(names), self.fonts[2], (255, 0, 255), 350, len(names) * 29
+                    "\n".join(names), self.fonts[2], (213, 52, 235), 450, len(names) * 29
                 )
                 self.high_scores_list_times, self.high_scores_list_times_photo = self.create_custom_font_label(
-                    "\n".join(times), self.fonts[2], (255, 0, 255), 70, len(names) * 29, text_horizontal_offset=0
+                    "\n".join(times), self.fonts[2], (213, 52, 235), 70, len(names) * 29, text_horizontal_offset=0
                 )
-                self.high_scores_list_names.grid(column=1, row=1, sticky="w")
-                self.high_scores_list_times.grid(column=1, row=1, sticky="e")
+                self.high_scores_list_names.grid(column=1, row=1, sticky="w", padx=(10,0))
+                self.high_scores_list_times.grid(column=1, row=1, sticky="e", padx=(0,10))
 
     @staticmethod
     def validate_player_name_entry(value):
