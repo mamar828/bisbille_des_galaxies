@@ -8,6 +8,7 @@ from src.worlds.ais import *
 
 class World:
     def __init__(self, health_bar_rate: float=20):
+        health_bar_rate = 100
         self.health_bar = Object(
             texture="red",
             model=Cube,
@@ -110,12 +111,12 @@ class Test(World):
         )
 
 available_worlds = [
+    Hoth,
     Coruscant,
     Yavin4,
-    Hoth,
     Dathomir,
-    Umbara,
+    Kashyyyk,
     Naboo,
     Kamino,
-    Kashyyyk,
+    Umbara,
 ]
