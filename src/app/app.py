@@ -3,7 +3,7 @@ import numpy as np
 from datetime import datetime
 import tkinter as tk
 from PIL import ImageTk, Image, ImageFont, ImageDraw
-from tkinter import filedialog, Canvas
+from tkinter import filedialog
 from datetime import datetime
 from random import sample
 from os.path import isfile
@@ -13,56 +13,7 @@ from typing import Literal
 from src.engine.engine import Engine
 from src.worlds.world import available_worlds
 from src.engine.material_loader import MaterialLoader
-
-
-localization = {
-    "fr": {
-        "file_menu": "Fichier",
-        "select_beamage": "Sélectionner fichier Beamage",
-        "show_beamage": "Afficher fichier Beamage",
-        "select_score_folder": "Sélectionner dossier score",
-        "show_score_folder": "Afficher dossier score",
-        "beamage_file": "Fichier beamage",
-        "score_folder": "Dossier score",
-        "about_menu": "À propos",
-        "version_info": "Bisbille des galaxies - version 1.1\n\nMathieu Marquis\nJanvier 2025",
-        "thanks": "Contributions et remerciements",
-        "thanks_info": "Mathieu Marquis\nDéveloppement principal\n\n"
-                       "Félix Desroches\nCréation des trajectoires de plusieurs vaisseaux\n\n"
-                       "Anabelle Dompierre Dauphin\nCréation des arrière-plans\n\n"
-                       "Félix Olivier\nCréation de l'arrière-plan du menu principal\n\n"
-                       "Merci à Gentec-EO pour le matériel !",
-        "error_no_beamage": "Aucun fichier Beamage n'a été donné.",
-        "error_no_score": "Aucun fichier score n'a été donné.",
-        "error_no_team": "Aucun numéro d'équipe n'a été donné.",
-        "error_no_player": "Aucun nom de joueur n'a été donné.",
-        "result": "Résultat",
-        "total_time": "Temps total :",
-    },
-    "en": {
-        "file_menu": "File",
-        "select_beamage": "Select Beamage File",
-        "show_beamage": "Show Beamage File",
-        "select_score_folder": "Select Score Folder",
-        "show_score_folder": "Show Score Folder",
-        "beamage_file": "Beamage file",
-        "score_folder": "Score folder",
-        "about_menu": "About",
-        "version_info": "Bisbille des galaxies - version 1.1\n\nMathieu Marquis\nJanuary 2025",
-        "thanks": "Credits and Acknowledgments",
-        "thanks_info": "Mathieu Marquis\nLead Developer\n\n"
-                       "Félix Desroches\nTrajectory creation for several ships\n\n"
-                       "Anabelle Dompierre Dauphin\nBackground creation\n\n"
-                       "Félix Olivier\nMain menu background creation\n\n"
-                       "Thanks to Gentec-EO for the equipment!",
-        "error_no_beamage": "No Beamage file provided.",
-        "error_no_score": "No score folder provided.",
-        "error_no_team": "No team number provided.",
-        "error_no_player": "No player name provided.",
-        "result": "Result",
-        "total_time": "Total time:",
-    }
-}
+from src.app.language import localization
 
 
 class App(tk.Tk):
@@ -237,18 +188,17 @@ class WindowJeuxPhotoniques(Window):
         self.n_players_label.config(text=self.n_players)
 
     def start(self):
-        # if self.master.beamage_filename == "":
-        #     tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_beamage"])
-        # elif self.master.score_foldername == "":
-        #     tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_score"])
-        # elif self.team_number.get() == "":
-        #     tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_team"])
-        if False: pass
+        if self.master.beamage_filename == "":
+            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_beamage"])
+        elif self.master.score_foldername == "":
+            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_score"])
+        elif self.team_number.get() == "":
+            tk.messagebox.showwarning(title="Error", message=self.master.language["error_no_team"])
         else:
-            # score_filename = f"{self.master.score_foldername}/bisbille_scores.csv"
-            # if not isfile(score_filename):
-            #     with open(score_filename, "w") as f:
-            #         f.write("equipe,nombre de joueurs,temps total (s),temps par joueur (s),temps de debut\n")
+            score_filename = f"{self.master.score_foldername}/bisbille_scores.csv"
+            if not isfile(score_filename):
+                with open(score_filename, "w") as f:
+                    f.write("equipe,nombre de joueurs,temps total (s),temps par joueur (s),temps de debut\n")
 
             engine = Engine(
                 beamage_filename=self.master.beamage_filename,
@@ -266,17 +216,17 @@ class WindowJeuxPhotoniques(Window):
                 total_time.append(stop - start)
 
             engine.quit()
-            # with open(score_filename, "a") as f:
-            #     total = sum(total_time)
-            #     line = \
-            #         f"{self.team_number.get()},{self.n_players},{total:.2f},{total/self.n_players:.2f},{start_time}\n"
-            #     print(line, end="")
-            #     f.write(line)
+            with open(score_filename, "a") as f:
+                total = sum(total_time)
+                line = \
+                    f"{self.team_number.get()},{self.n_players},{total:.2f},{total/self.n_players:.2f},{start_time}\n"
+                print(line, end="")
+                f.write(line)
 
-            # tk.messagebox.showinfo(
-            #     title=self.master.language["result"],
-            #     message=f"{self.master.language["total_time"]} {total:.1f}s"
-            # )
+            tk.messagebox.showinfo(
+                title=self.master.language["result"],
+                message=f"{self.master.language["total_time"]} {total:.1f}s"
+            )
             self.focus_force()
 
 
@@ -285,8 +235,9 @@ class WindowGentec(Window):
         super().__init__(master)
         self.player_name = ""
 
-        fn = "1up.ttf", "Jersey10-Regular.ttf"
-        self.fonts = [ImageFont.truetype(f"src/fonts/{font}", x) for font, x in [(fn[0], 35), (fn[1], 35), (fn[1], 30)]]
+        fonts = "1up.ttf", "Jersey10-Regular.ttf"
+        self.fonts = [ImageFont.truetype(f"src/app/fonts/{font}", x)
+                      for font, x in [(fonts[0], 45), (fonts[1], 35), (fonts[1], 30)]]
 
         self.grid_rowconfigure(0, weight=1, uniform="fred")
         self.grid_rowconfigure(1, weight=2, uniform="fred")
@@ -296,7 +247,7 @@ class WindowGentec(Window):
         self.grid_columnconfigure(2, weight=2, uniform="fred")
 
         self.high_scores_title, self._high_scores_title_photo = self.create_custom_font_label(
-            "HIGH SCORES", self.fonts[0], (0, 255, 0), 319, 40
+            "HIGH SCORES", self.fonts[0], (0, 255, 0), 400, 60
         )
         self.high_scores_title.grid(column=1, row=0)
 
@@ -317,6 +268,12 @@ class WindowGentec(Window):
         self.start_button = tk.Button(self, text="START", font=("menlo", 35), bg="white", fg="black",
                                       command=self.start)
         self.start_button.grid(column=2, row=2, padx=(10, 10), pady=(10, 10))
+
+        # Load JP logo
+        logo_image = ImageTk.PhotoImage(Image.open("src/app/images/jp_logo.png").resize((240,125)))
+        label = tk.Label(self, image=logo_image, bg="black")
+        label.image = logo_image                # keep a reference!
+        label.grid(column=2, row=0, sticky="ne", padx=(0,30), pady=(30,0))
 
     def create_custom_font_label(
             self,
@@ -347,7 +304,6 @@ class WindowGentec(Window):
             if len(lines) > 1:
                 lines = [line.strip().split(",") for line in lines[1:]]
                 lines = sorted(lines, key=lambda x: float(x[1]))
-                print(lines)
 
                 # Only show the top 10 scores
                 names = [f"{f"{i}."} {line[0]}" for i, line in enumerate(lines[:10], start=1)]
@@ -405,6 +361,7 @@ class WindowGentec(Window):
             )
             self.focus_force()
             self.update_high_scores_list()
+            self.player_name_entry.delete(0, "end")
 
 
 class AppJeuxPhotoniques(App):

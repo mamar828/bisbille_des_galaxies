@@ -1,4 +1,4 @@
-from src.app import AppJeuxPhotoniques, AppGentec
+from src.app.app import AppJeuxPhotoniques, AppGentec
 
 
 if __name__ == "__main__":
