@@ -225,7 +225,7 @@ class WindowJeuxPhotoniques(Window):
 
             tk.messagebox.showinfo(
                 title=self.master.language["result"],
-                message=f"{self.master.language["total_time"]} {total:.1f}s"
+                message=f"{self.master.language['total_time']} {total:.1f}s"
             )
             self.focus_force()
 
