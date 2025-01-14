@@ -237,7 +237,7 @@ class WindowGentec(Window):
 
         fonts = "1up.ttf", "Jersey10-Regular.ttf"
         self.fonts = [ImageFont.truetype(f"src/app/fonts/{font}", x)
-                      for font, x in [(fonts[0], 45), (fonts[1], 35), (fonts[1], 30)]]
+                      for font, x in [(fonts[0], 45), (fonts[1], 45), (fonts[1], 30)]]
 
         self.grid_rowconfigure(0, weight=1, uniform="fred")
         self.grid_rowconfigure(1, weight=2, uniform="fred")
@@ -255,9 +255,9 @@ class WindowGentec(Window):
         self.high_scores_list_times, self._high_scores_list_times_photo = None, None
 
         self.player_name_label, self._player_name_label_photo = self.create_custom_font_label(
-            "PLAYER NAME:", self.fonts[1], (0, 255, 0), 165, 25, text_vertical_offset=-7
+            "PLAYER NAME:", self.fonts[1], (0, 255, 0), 211, 30, text_vertical_offset=-10
         )
-        self.player_name_label.grid(column=0, row=2, padx=(100,0))
+        self.player_name_label.grid(column=0, row=2, padx=(80,0))
 
         self.player_name_entry = tk.Entry(
             self, font=("Courier", 20), bg="white", fg="black", justify="left", width=70, validate="key",
@@ -309,10 +309,10 @@ class WindowGentec(Window):
                 names = [f"{f'{i}.'} {line[0]}" for i, line in enumerate(lines[:10], start=1)]
                 times = [f"{float(line[1]):.2f} s" for line in lines[:10]]
                 self.high_scores_list_names, self.high_scores_list_names_photo = self.create_custom_font_label(
-                    "\n".join(names), self.fonts[2], (250, 0, 250), 350, len(names) * 29
+                    "\n".join(names), self.fonts[2], (255, 0, 255), 350, len(names) * 29
                 )
                 self.high_scores_list_times, self.high_scores_list_times_photo = self.create_custom_font_label(
-                    "\n".join(times), self.fonts[2], (250, 0, 250), 70, len(names) * 29, text_horizontal_offset=0
+                    "\n".join(times), self.fonts[2], (255, 0, 255), 70, len(names) * 29, text_horizontal_offset=0
                 )
                 self.high_scores_list_names.grid(column=1, row=1, sticky="w")
                 self.high_scores_list_times.grid(column=1, row=1, sticky="e")
