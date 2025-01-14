@@ -357,7 +357,7 @@ class WindowGentec(Window):
 
             tk.messagebox.showinfo(
                 title=self.master.language["result"],
-                message=f"{self.master.language["total_time"]} {total:.2f}s"
+                message=f"{self.master.language['total_time']} {total:.2f}s"
             )
             self.focus_force()
             self.update_high_scores_list()
