@@ -306,7 +306,7 @@ class WindowGentec(Window):
                 lines = sorted(lines, key=lambda x: float(x[1]))
 
                 # Only show the top 10 scores
-                names = [f"{f"{i}."} {line[0]}" for i, line in enumerate(lines[:10], start=1)]
+                names = [f"{f'{i}.'} {line[0]}" for i, line in enumerate(lines[:10], start=1)]
                 times = [f"{float(line[1]):.2f} s" for line in lines[:10]]
                 self.high_scores_list_names, self.high_scores_list_names_photo = self.create_custom_font_label(
                     "\n".join(names), self.fonts[2], (250, 0, 250), 350, len(names) * 29
