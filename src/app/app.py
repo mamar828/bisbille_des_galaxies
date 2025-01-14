@@ -257,7 +257,7 @@ class WindowGentec(Window):
         self.player_name_label, self._player_name_label_photo = self.create_custom_font_label(
             "PLAYER NAME:", self.fonts[1], (0, 255, 0), 211, 30, text_vertical_offset=-10
         )
-        self.player_name_label.grid(column=0, row=2, padx=(80,0))
+        self.player_name_label.grid(column=0, row=2, padx=(0,0), sticky="e")
 
         self.player_name_entry = tk.Entry(
             self, font=("Courier", 20), bg="white", fg="black", justify="left", width=70, validate="key",
