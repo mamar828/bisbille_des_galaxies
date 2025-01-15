@@ -202,7 +202,7 @@ class WindowJeuxPhotoniques(Window):
 
             engine = Engine(
                 beamage_filename=self.master.beamage_filename,
-                dev_mode=True,#False,
+                dev_mode=False,
                 material_loader=self.master.material_loader
             )
             chosen_worlds = sample(self.master.worlds, self.n_players)
@@ -339,7 +339,7 @@ class WindowGentec(Window):
 
             engine = Engine(
                 beamage_filename=self.master.beamage_filename,
-                dev_mode=True,#False,
+                dev_mode=False,
                 material_loader=self.master.material_loader
             )
             start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

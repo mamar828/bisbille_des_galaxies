@@ -1,6 +1,3 @@
-import numpy as np
-from glm import vec3
-
 from src.engine.elements import *
 from src.engine.models import *
 from src.worlds.ais import *
@@ -8,7 +5,6 @@ from src.worlds.ais import *
 
 class World:
     def __init__(self, health_bar_rate: float=20):
-        health_bar_rate = 100
         self.health_bar = Object(
             texture="red",
             model=Cube,
