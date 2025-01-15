@@ -45,5 +45,14 @@ Dernière modification par Mathieu Marquis le 27 novembre 2024
 - Appuyer sur START
 - Après la partie, les scores sont automatiquement enregistrés dans le dossier indiqué et il ne suffit que de changer le nombre de joueurs et le numéro de la prochaine équipe participante
 
+# Versions
+Le jeu est offert sous deux versions.
+
+### AppJeuxPhotoniques
+Cette version est utilisée lors des Jeux Photoniques et permet de faire jouer une équipe de 1-8 joueurs contre des vaisseaux différents. Cette version est en français.
+
+### AppGentec
+Cette version est utilisée par Gentec-EO lors des démonstrations avec le jeu et comporte une liste de highscores et une sélection du nom du joueur. Cette version est en anglais. Le vaisseau utilisé est le même pour tous les joueurs et doit être sélectionné par l'argument `world_index` dans l'initialisation de l'application.
+
 # Notes
 La méthode de communication avec la caméra actuelle est assez rudimentaire et il serait certainement bénéfique de trouver une alternative, mais mes recherches n'ont pas trouvé de moyen simple d'effectuer le lien.
