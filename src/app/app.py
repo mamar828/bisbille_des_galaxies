@@ -350,15 +350,16 @@ class WindowGentec(Window):
 
             total = stop - start
             engine.quit()
-            with open(score_filename, "a") as f:
-                line = f"{self.player_name_entry.get()},{total:.2f},{start_time}\n"
-                print(line, end="")
-                f.write(line)
+            if engine.world.health_bar.instance.empty:
+                with open(score_filename, "a") as f:
+                    line = f"{self.player_name_entry.get()},{total:.2f},{start_time}\n"
+                    print(line, end="")
+                    f.write(line)
 
-            tk.messagebox.showinfo(
-                title=self.master.language["result"],
-                message=f"{self.master.language['total_time']} {total:.2f}s"
-            )
+                tk.messagebox.showinfo(
+                    title=self.master.language["result"],
+                    message=f"{self.master.language['total_time']} {total:.2f}s"
+                )
             self.focus_force()
             self.update_high_scores_list()
             self.player_name_entry.delete(0, "end")
