@@ -10,6 +10,7 @@ class Beamage:
         self.master_input = master_input
         self.filename = filename
         self.position = [0,0]
+        self.peak_saturation_threshold = 90
 
     def get_position(self):
         try:
@@ -19,7 +20,8 @@ class Beamage:
                 if len(lines) > 100:
                     with open(self.filename, "w") as f:
                         f.write("NOTHING\n")
-                if float(infos[5]) < 90:   # peak saturation
+
+                if float(infos[11]) > self.peak_saturation_threshold:   # peak saturation limit
                     x = (float(infos[7]) + 5500) / 11000
                     y = (float(infos[8]) + 5500) / 11000
                     # x and y seem to range from ~-5500 to ~5500
