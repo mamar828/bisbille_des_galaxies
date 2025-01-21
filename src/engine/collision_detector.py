@@ -20,13 +20,13 @@ class CollisionDetector:
     def update(self):
         if self.app.dev_mode:
             cursor_x, cursor_y = mouse.get_pos()
-        if not self.app.dev_mode:
+        else:
             beamage_pos = self.app.input.beamage.get_position()
             if beamage_pos is not None:
                 cursor_x, cursor_y = beamage_pos
                 cursor_y = self.app.window_size[1] - cursor_y
                 mouse.set_pos(cursor_x, cursor_y)
-        
+
         if cursor_x is not None and cursor_y is not None:
             cursor_y = self.app.window_size[1] - cursor_y
             # Define the viewport to read a block of pixels around the cursor

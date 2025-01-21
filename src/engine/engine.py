@@ -154,7 +154,7 @@ class Engine:
         self.mesh = Mesh(self)
         self.scene = Scene(self)
         self.scene_renderer = SceneRenderer(self)
-        self.input.beamage.position = [0, 0]
+        self.input.beamage.position = [1, 1]
 
     def quit(self):
         self.scene.destroy()
