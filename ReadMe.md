@@ -10,7 +10,7 @@ Dernière modification par Mathieu Marquis le 15 janvier 2025
 
 # Protocole
 ### Préparation de l'environnement
-- Cloner le repository (`git clone https://github.com/mamar828/bisbille_des_galaxies.git`)
+- Cloner le repository : `git clone https://github.com/mamar828/bisbille_des_galaxies.git`
 - Installer les modules requis : `pip install -r requirements.txt`
 - Télécharger le dossier : https://drive.google.com/drive/folders/1HpwH1RNlUmcR1B5gHtB0RaP4ZLxdS0TR?usp=sharing
 - Placer le dossier dans src/engine (le nom du dossier devrait être « objects » et le dossier devrait contenir 10 sous-dossiers)
@@ -28,6 +28,7 @@ Dernière modification par Mathieu Marquis le 15 janvier 2025
 - Appuyer sur « Connect » afin de connecter la caméra (bouton rond en haut à gauche)
 - Si la connection ne fonctionne pas, débrancher la caméra, fermer l'application, attendre quelques secondes, brancher la caméra et relancer l'application
 - Dans la fenêtre du programme, sous l'onglet « Setup », dans « Pixel Addressing » cocher « Decimate 2x2 » et dans « ADC Level » cocher « 10 bit »
+- En haut à gauche, sélectionner un temps d'exposition fixe de 4 (l'unité correspond à des ms) et s'assurer que la case auto n'est pas cochée
 - Dans l'onglet « Data Acquisition », s'assurer que le mode « Measurements only (.TXT) » est sélectionné, entrer une grande durée (1 Day est suffisant) et sélectionner un « sampling rate » de 1 / 1 Image(s)
 - Sélectionner ensuite un chemin de fichier qui pourra facilement être retrouvé par la suite
 - Appuyer sur « Start Capture »
