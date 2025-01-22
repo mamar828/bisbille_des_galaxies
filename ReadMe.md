@@ -1,6 +1,6 @@
 Document de transition - Défi bisbille des galaxies (Défi Gentec-EO) - Jeux photoniques - Édition 2024
 
-Dernière modification par Mathieu Marquis le 15 janvier 2025
+Dernière modification par Mathieu Marquis le 21 janvier 2025
 
 # Matériel
 - Ordinateur sur Windows avec prise USB-3.0 (important pour un mouvement du laser plus fluide)

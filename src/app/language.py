@@ -8,7 +8,7 @@ localization = {
         "beamage_file": "Fichier beamage",
         "score_folder": "Dossier score",
         "about_menu": "À propos",
-        "version_info": "Bisbille des galaxies - version 1.1\n\nMathieu Marquis\nJanvier 2025",
+        "version_info": "Bisbille des galaxies - version 1.2\n\nMathieu Marquis\nJanvier 2025",
         "thanks": "Contributions et remerciements",
         "thanks_info": "Mathieu Marquis\nDéveloppeur\n\n"
                        "Félix Desroches\nCréation des trajectoires de plusieurs vaisseaux\n\n"
@@ -31,7 +31,7 @@ localization = {
         "beamage_file": "Beamage file",
         "score_folder": "Score folder",
         "about_menu": "About",
-        "version_info": "Bisbille des galaxies - version 1.1\n\nMathieu Marquis\nJanuary 2025",
+        "version_info": "Bisbille des galaxies - version 1.2\n\nMathieu Marquis\nJanuary 2025",
         "thanks": "Credits and Acknowledgments",
         "thanks_info": "Mathieu Marquis\nDeveloper\n\n"
                        "Félix Desroches\nTrajectory creation for several ships\n\n"
