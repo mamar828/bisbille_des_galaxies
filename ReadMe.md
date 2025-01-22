@@ -57,3 +57,24 @@ Cette version est utilisée par Gentec-EO lors des démonstrations avec le jeu e
 
 # Notes
 La méthode de communication avec la caméra actuelle est assez rudimentaire et il serait certainement bénéfique de trouver une alternative, mais mes recherches n'ont pas trouvé de moyen simple d'effectuer le lien.
+
+# Références
+### Scènes
+Coruscant : https://es.pinterest.com/pin/591660469831014591/
+Dathomir : https://starwars.fandom.com/wiki/Dathomir
+Hoth : https://www.reddit.com/r/StarWars/comments/1d45mm0/which_sw_planetmoon_does_your_home_environment/
+Kamino : https://star-wars-extended-universe.fandom.com/wiki/Kamino
+Naboo : https://www.swcombine.com/rules/?Small&ID=437
+Kaskyyyk : https://fr.wikipedia.org/wiki/Kashyyyk
+Umbara : https://www.reddit.com/r/TheCloneWars/comments/vqtro8/umbara_transparent_hd_planet/
+Yavin4 : https://starwars.fandom.com/wiki/Yavin_4
+
+### Modèles 3D
+A-wing : https://sketchfab.com/3d-models/a-wing-starfighter-95b9162b139047b0a17b2359561a6ebd
+Corvette : https://www.cgtrader.com/items/3436198/download-page
+Imperial Shuttle : https://www.cgtrader.com/items/2188914/download-page
+Malevolence : https://sketchfab.com/3d-models/the-malevolence-die-cast-d48949c425704a8dafbe7e65d6dcd8c1
+Millenium Falcon : https://free3d.com/3d-model/star-wars-falcon-95795.html
+Royal Starship : https://www.cgtrader.com/items/4145971/download-page
+Star Destroyer : https://www.cgtrader.com/items/2560667/download-page
+Tie Fighter : https://www.cgtrader.com/items/2195979/download-page
