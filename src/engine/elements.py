@@ -1,5 +1,6 @@
 from glm import vec3
 
+from config import health_bar_depletion_hit_rate, health_bar_depletion_default_rate
 from src.engine.models import *
 
 
@@ -43,12 +44,13 @@ class Object:
 
 
 class HealthBar:
-    def __init__(self, health: float=100, rate: float=10):
+    def __init__(self, health: float=100):
         self.health = health
         self.update_visual_health_parameters()
         self.rotation = vec3(0,0,0)
         self.count = 0
-        self.rate = rate
+        self.depletion_hit_rate = health_bar_depletion_hit_rate
+        self.depletion_default_rate = health_bar_depletion_default_rate
         self.empty = False
 
     def update_visual_health_parameters(self):
@@ -62,6 +64,9 @@ class HealthBar:
     def update(self, app):
         if self.empty:          # update first to allow the health bar to completely deplete (visually)
             app.running = False
+        if self.depletion_default_rate != 0:
+            self.health -= self.depletion_default_rate * app.delta_time
+            self.update_visual_health_parameters()
         if app.collision_detector.collision:
-            self.health -= self.rate*app.delta_time
+            self.health -= self.depletion_hit_rate * app.delta_time
             self.update_visual_health_parameters()

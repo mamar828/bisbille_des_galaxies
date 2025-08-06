@@ -1,6 +1,8 @@
 from numpy import frombuffer, uint8, array_equal, array
 from pygame import mouse
 
+from config import collision_radius
+
 
 class CollisionDetector:
     def __init__(self, app):
@@ -11,7 +13,6 @@ class CollisionDetector:
         )
         self.collision = False
         self.background_color = array([33,64,92])   # random background color
-        self.collision_radius = 10
 
     def clear(self):
         self.off_screen_frame_buffer_object.use()
@@ -30,7 +31,7 @@ class CollisionDetector:
         if cursor_x is not None and cursor_y is not None:
             cursor_y = self.app.window_size[1] - cursor_y
             # Define the viewport to read a block of pixels around the cursor
-            radius = self.collision_radius
+            radius = collision_radius
             min_x = max(0, cursor_x - radius)
             min_y = max(0, cursor_y - radius)
             width = min(self.app.window_size[0], cursor_x + radius + 1) - min_x
@@ -40,7 +41,7 @@ class CollisionDetector:
             pixel_data = frombuffer(self.off_screen_frame_buffer_object.read(
                 viewport=(min_x, min_y, width, height)), dtype=uint8
             ).reshape((height, width, 3))
-            
+
             # Check each pixel in the block
             self.collision = any(
                 not array_equal(pixel_data[dy, dx, :3], self.background_color)

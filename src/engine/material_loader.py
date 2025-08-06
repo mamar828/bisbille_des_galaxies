@@ -63,7 +63,7 @@ class MaterialLoader:
                 for materials in imap_iterator:
                     material_results.append(materials)
                     progressbar.update(1)
-            
+
             for name, material_result in zip(objects_names, material_results):
                 self.object_materials[name] = material_result
 

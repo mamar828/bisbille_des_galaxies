@@ -4,11 +4,11 @@ from src.worlds.ais import *
 
 
 class World:
-    def __init__(self, health_bar_rate: float=20):
+    def __init__(self):
         self.health_bar = Object(
             texture="red",
             model=Cube,
-            instance=HealthBar(rate=health_bar_rate),
+            instance=HealthBar(),
             saturated=True
         )
 

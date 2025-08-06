@@ -10,6 +10,7 @@ from os.path import isfile
 from itertools import cycle
 from typing import Literal
 
+from config import default_beamage_file, default_score_folder
 from src.engine.engine import Engine
 from src.worlds.world import available_worlds
 from src.engine.material_loader import MaterialLoader
@@ -26,27 +27,29 @@ class App(tk.Tk):
         self.rowconfigure(0, weight=1)
         self.language = localization[language]
 
-        self.beamage_filename = ""
-        self.score_foldername = ""
+        self.beamage_filename = default_beamage_file
+        self.score_foldername = default_score_folder
         self.menubar = tk.Menu(self)
         self.config(menu=self.menubar)
         self.mode_menu = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label=self.language["file_menu"], menu=self.mode_menu)
         self.mode_menu.add_command(label=self.language["select_beamage"], command=self.select_beamage_file)
         self.mode_menu.add_command(label=self.language["show_beamage"], command=self.print_beamage_file)
-        self.mode_menu.entryconfig(self.language["show_beamage"], state=tk.DISABLED)
+        self.mode_menu.entryconfig(self.language["show_beamage"],
+                                   state=tk.DISABLED if self.beamage_filename == "" else tk.NORMAL)
         self.mode_menu.add_command(label=self.language["select_score_folder"], command=self.select_score_folder)
         self.mode_menu.add_command(label=self.language["show_score_folder"], command=self.print_score_folder)
-        self.mode_menu.entryconfig(self.language["show_score_folder"], state=tk.DISABLED)
+        self.mode_menu.entryconfig(self.language["show_score_folder"],
+                                   state=tk.DISABLED if self.score_foldername == "" else tk.NORMAL)
 
         info_menu = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label=self.language["about_menu"], menu=info_menu)
-        info_menu.add_command(label="Version", command=lambda: tk.messagebox.showinfo(title="Version", 
+        info_menu.add_command(label="Version", command=lambda: tk.messagebox.showinfo(title="Version",
                 message=self.language["version_info"]))
         info_menu.add_command(
             label=self.language["thanks"],
             command=lambda: tk.messagebox.showinfo(
-                title=self.language["thanks"], 
+                title=self.language["thanks"],
                 message=self.language["thanks_info"]
             )
         )
@@ -79,7 +82,7 @@ class Window(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.master = master
-        self.images = [Image.open(f"src/engine/textures/title_screen_{i}.png") for i in [1,2]] 
+        self.images = [Image.open(f"src/engine/textures/title_screen_{i}.png") for i in [1,2]]
         self.image_iter = cycle(self.images)
         # Initialize with the first image
         self.image_label = tk.Label(self, bg="black")
@@ -146,19 +149,19 @@ class WindowJeuxPhotoniques(Window):
             button_frame, text="-", font=("menlo", 35), bg="white", fg="black", command=self.decrease_players
         )
         self.decrease_button.grid(column=0, row=0, sticky="nsew", padx=(10, 10), pady=(10, 10))
-        
+
         self.increase_button = tk.Button(
             button_frame, text="+", font=("menlo", 35), bg="white", fg="black", command=self.increase_players
         )
         self.increase_button.grid(column=2, row=0, sticky="nsew", padx=(10, 10), pady=(10, 10))
-        
+
         self.n_players_label = tk.Label(button_frame, text=self.n_players, font=("menlo", 35), bg="white", fg="black")
         self.n_players_label.grid(column=1, row=0, sticky="nsew", padx=(10, 10), pady=(10, 10))
-        
+
         self.start_button = tk.Button(button_frame, text="START", font=("menlo", 35), bg="white", fg="black",
                                       command=self.start)
         self.start_button.grid(column=0, row=1, columnspan=3, sticky="nsew", padx=(10, 10), pady=(10, 10))
-        
+
         self.team_number_label = tk.Label(button_frame, text="Équipe #", font=("menlo", 35), bg="white", fg="black")
         self.team_number_label.grid(column=0, row=2, columnspan=2, sticky="nsew", padx=(10, 10), pady=(10, 10))
 
@@ -289,7 +292,7 @@ class WindowGentec(Window):
         image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
         draw = ImageDraw.Draw(image)
         draw.text((text_horizontal_offset, text_vertical_offset), text, font=font, fill=color)
-        
+
         # Convert PIL Image to Tkinter PhotoImage
         photo = ImageTk.PhotoImage(image)
 
