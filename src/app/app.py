@@ -208,7 +208,8 @@ class WindowJeuxPhotoniques(Window):
                 dev_mode=False,
                 material_loader=self.master.material_loader
             )
-            chosen_worlds = sample(self.master.worlds, self.n_players)
+            # chosen_worlds = sample(self.master.worlds, self.n_players)  # random worlds
+            chosen_worlds = self.master.worlds[:self.n_players]  # fixed world order
             start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             total_time = []
             for world in chosen_worlds:
@@ -277,6 +278,8 @@ class WindowGentec(Window):
         label = tk.Label(self, image=logo_image, bg="black")
         label.image = logo_image                # keep a reference!
         label.grid(column=2, row=0, sticky="ne", padx=(0,30), pady=(30,0))
+
+        self.update_high_scores_list()
 
     def create_custom_font_label(
             self,

@@ -33,12 +33,12 @@ Dernière modification par Mathieu Marquis le 21 janvier 2025
 - Sélectionner ensuite un chemin de fichier qui pourra facilement être retrouvé par la suite
 - Appuyer sur « Start Capture »
 - Pointer le laser dans la caméra afin de vérifier que l'aquisition fonctionne (un pic d'intensité devrait apparaître à l'écran)
-- Appuyer sur « Start Data Acquisition »
- 
+- Appuyer sur « Start Data Acquisition » en haut
+
 ### Jouer
 - Run le fichier applications/main.py
 - Il se peut que le chargement de l'application prenne quelques minutes (les modèles 3D doivent tous être chargés)
-- Une fois que le menu principal apparaît, sélectionner dans la barre de menus Fichier -> Sélectionner fichier Beamage 
+- Une fois que le menu principal apparaît, sélectionner dans la barre de menus Fichier -> Sélectionner fichier Beamage
 - Sélectionner le fichier texte de l'acquisition de données avec PC-Beamage, créé à la section précédente.
 - Dans Fichier -> Sélectionner dossier score, sélectionner un dossier dans lequel sera enregistré les pointages des équipes (le fichier créé sera nommé « bisbilles_scores.csv », et les scores seront ajoutés au fichier s'il existe déjà)
 - Sélectionner le nombre de joueurs

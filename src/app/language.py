@@ -8,12 +8,12 @@ localization = {
         "beamage_file": "Fichier beamage",
         "score_folder": "Dossier score",
         "about_menu": "À propos",
-        "version_info": "Bisbille des galaxies - version 1.2\n\nMathieu Marquis\nJanvier 2025",
+        "version_info": "Bisbille des galaxies - version 1.3\n\nMathieu Marquis\nAoût 2025",
         "thanks": "Contributions et remerciements",
         "thanks_info": "Mathieu Marquis\nDéveloppeur\n\n"
                        "Félix Desroches\nCréation des trajectoires de plusieurs vaisseaux\n\n"
                        "Anabelle Dompierre Dauphin\nCréation des arrière-plans\n\n"
-                       "Félix Olivier\nCréation de l'arrière-plan du menu principal\n\n"
+                       "Mai Olivier\nCréation de l'arrière-plan du menu principal\n\n"
                        "Merci à Gentec-EO pour le matériel !",
         "error_no_beamage": "Aucun fichier Beamage n'a été donné.",
         "error_no_score": "Aucun fichier score n'a été donné.",
@@ -31,12 +31,12 @@ localization = {
         "beamage_file": "Beamage file",
         "score_folder": "Score folder",
         "about_menu": "About",
-        "version_info": "Bisbille des galaxies - version 1.2\n\nMathieu Marquis\nJanuary 2025",
+        "version_info": "Bisbille des galaxies - version 1.3\n\nMathieu Marquis\nAugust 2025",
         "thanks": "Credits and Acknowledgments",
         "thanks_info": "Mathieu Marquis\nDeveloper\n\n"
                        "Félix Desroches\nTrajectory creation for several ships\n\n"
                        "Anabelle Dompierre Dauphin\nBackground creation\n\n"
-                       "Félix Olivier\nMain menu background creation\n\n"
+                       "Mai Olivier\nMain menu background creation\n\n"
                        "Thanks to Gentec-EO for the equipment!",
         "error_no_beamage": "No Beamage file provided.",
         "error_no_score": "No score folder provided.",
