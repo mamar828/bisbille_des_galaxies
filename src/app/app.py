@@ -10,7 +10,7 @@ from os.path import isfile
 from itertools import cycle
 from typing import Literal
 
-from config import default_beamage_file, default_score_folder
+from config import default_beamage_file, default_score_folder, jeux_photoniques_random_world_order
 from src.engine.engine import Engine
 from src.worlds.world import available_worlds
 from src.engine.material_loader import MaterialLoader
@@ -208,8 +208,10 @@ class WindowJeuxPhotoniques(Window):
                 dev_mode=False,
                 material_loader=self.master.material_loader
             )
-            # chosen_worlds = sample(self.master.worlds, self.n_players)  # random worlds
-            chosen_worlds = self.master.worlds[:self.n_players]  # fixed world order
+            if jeux_photoniques_random_world_order:
+                chosen_worlds = sample(self.master.worlds, self.n_players)  # random worlds
+            else:
+                chosen_worlds = self.master.worlds[:self.n_players]  # fixed world order
             start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             total_time = []
             for world in chosen_worlds:
@@ -229,7 +231,8 @@ class WindowJeuxPhotoniques(Window):
 
             tk.messagebox.showinfo(
                 title=self.master.language["result"],
-                message=f"{self.master.language['total_time']} {total:.1f}s"
+                message=(f"{self.master.language['total_time']} {total:.1f}s\n"
+                         f"{self.master.language['time_per_player']} {total/self.n_players:.1f}s")
             )
             self.focus_force()
 

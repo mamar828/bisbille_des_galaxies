@@ -23,24 +23,24 @@ class MaterialLoader:
     def __init__(self, world_index: int=slice(None, None, None)):
         self.object_materials = {}
         objects_names = [
-            "millenium_falcon",
             "star_destroyer",
-            "tie_fighter",
             "malevolence",
+            "millenium_falcon",
             "corvette",
+            "a_wing",
             "royal_starship",
             "imperial_shuttle",
-            "a_wing",
+            "tie_fighter",
         ][world_index]
         object_filenames = [
-            "Star Wars FALCON centered.obj",
             "StarDestroyer.obj",
-            "processed_tie.obj",
             "emship_hq.obj",
+            "Star Wars FALCON centered.obj",
             "CR90_New.obj",
+            "a_wing.obj",
             "model.obj",
             "imperial_shuttle_ver1.obj",
-            "a_wing.obj",
+            "processed_tie.obj",
         ][world_index]
 
         if isinstance(world_index, int):

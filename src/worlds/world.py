@@ -107,12 +107,12 @@ class Test(World):
         )
 
 available_worlds = [
-    Hoth,
     Coruscant,
-    Yavin4,
     Dathomir,
+    Hoth,
     Kashyyyk,
+    Umbara,
     Naboo,
     Kamino,
-    Umbara,
+    Yavin4,
 ]

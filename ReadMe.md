@@ -28,6 +28,7 @@ Dernière modification par Mathieu Marquis le 21 janvier 2025
 - Appuyer sur « Connect » afin de connecter la caméra (bouton rond en haut à gauche)
 - Si la connection ne fonctionne pas, débrancher la caméra, fermer l'application, attendre quelques secondes, brancher la caméra et relancer l'application
 - Dans la fenêtre du programme, sous l'onglet « Setup », dans « Pixel Addressing » cocher « Decimate 2x2 » et dans « ADC Level » cocher « 10 bit »
+- S'assurer que la résolution du capteur est de 1024 x 1024
 - En haut à gauche, sélectionner un temps d'exposition fixe de 4 (l'unité correspond à des ms) et s'assurer que la case auto n'est pas cochée
 - Dans l'onglet « Data Acquisition », s'assurer que le mode « Measurements only (.TXT) » est sélectionné, entrer une grande durée (1 Day est suffisant) et sélectionner un « sampling rate » de 1 / 1 Image(s)
 - Sélectionner ensuite un chemin de fichier qui pourra facilement être retrouvé par la suite
@@ -36,15 +37,16 @@ Dernière modification par Mathieu Marquis le 21 janvier 2025
 - Appuyer sur « Start Data Acquisition » en haut
 
 ### Jouer
-- Run le fichier applications/main.py
+- Run le fichier `main.py`
 - Il se peut que le chargement de l'application prenne quelques minutes (les modèles 3D doivent tous être chargés)
 - Une fois que le menu principal apparaît, sélectionner dans la barre de menus Fichier -> Sélectionner fichier Beamage
 - Sélectionner le fichier texte de l'acquisition de données avec PC-Beamage, créé à la section précédente.
-- Dans Fichier -> Sélectionner dossier score, sélectionner un dossier dans lequel sera enregistré les pointages des équipes (le fichier créé sera nommé « bisbilles_scores.csv », et les scores seront ajoutés au fichier s'il existe déjà)
+- Dans Fichier -> Sélectionner dossier score, sélectionner un dossier dans lequel sera enregistré les pointages des équipes (le fichier créé sera nommé « `bisbilles_scores.csv` », et les scores seront ajoutés au fichier s'il existe déjà)
 - Sélectionner le nombre de joueurs
 - Sélectionner le numéro d'équipe
 - Appuyer sur START
 - Après la partie, les scores sont automatiquement enregistrés dans le dossier indiqué et il ne suffit que de changer le nombre de joueurs et le numéro de la prochaine équipe participante
+- Le fichier `config.py` permet de modifier certains paramètres du jeu comme le taux de déplétion de la barre de vie
 
 # Versions
 Le jeu est offert sous deux versions.

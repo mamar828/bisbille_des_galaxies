@@ -21,6 +21,7 @@ localization = {
         "error_no_player": "Aucun nom de joueur n'a été donné.",
         "result": "Résultat",
         "total_time": "Temps total :",
+        "time_per_player": "Temps par joueur :",
     },
     "en": {
         "file_menu": "File",
@@ -44,5 +45,6 @@ localization = {
         "error_no_player": "No player name provided.",
         "result": "Result",
         "total_time": "Total time:",
+        "time_per_player": "Time per player:",
     }
 }
